@@ -47,7 +47,7 @@ function SignIn() {
                                             ? 'border border-gray-300 w-full h-[40px] pl-[12px]'
                                             : 'border border-red-300 w-full h-[40px] pl-[12px] focus:outline-none bg-[#fff6f7]'
                                     }
-                                    placeholder="Email/Số điện thoại/Tên đăng nhập"
+                                    placeholder="Email/Số điện thoại"
                                 />
                                 {checkName ? (
                                     <p></p>

@@ -42,7 +42,7 @@ function SignUp() {
                                             ? 'border border-gray-300 w-full h-[40px] pl-[12px]'
                                             : 'border border-red-300 w-full h-[40px] pl-[12px] focus:outline-none bg-[#fff6f7]'
                                     }
-                                    placeholder="Số điện thoại"
+                                    placeholder="Email/Số điện thoại"
                                 />
                                 {firstInput ? (
                                     <p></p>
@@ -67,8 +67,8 @@ function SignUp() {
                             <p class="text-center text-[13px] mt-6 text-black">Bằng việc đăng kí, bạn đã đồng ý về</p>
                             <div className="flex justify-center">
                                 <a className="text-[#e84040] text-[13px]">Điều khoản dịch vụ </a>
-                                <span className="text-[12px]"> & </span>
-                                <a className="text-[#e84040] text-[13px]">Điều khoản dịch vụ </a>
+                                <span className="text-[12px] mx-1 mt-[1.5px]"> & </span>
+                                <a className="text-[#e84040] text-[13px]">Chính sách bảo mật</a>
                             </div>
                         </div>
                     </div>

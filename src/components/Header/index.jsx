@@ -16,22 +16,22 @@ function Header() {
                 <Link to="/" className="text-white text-[30px] pb-3">
                     Shopping Online
                 </Link>
-                <div className="flex-1 flex flex-col justify-center">
-                    <form className="flex bg-white p-1 rounded-sm shadow-sm h-[36px]">
+                <div className="mx-20 w-150 flex flex-col justify-center">
+                    <form className="flex bg-white p-1 rounded-full shadow-sm h-[36px]">
                         <input
                             type="text"
                             placeholder="Tìm kiếm ..."
                             className="flex-1 px-4 outline-none text-black text-sm"
                         />
-                        <button className="bg-[#f53d2d] w-[50px] flex items-center justify-center rounded-sm hover:opacity-70 transition-opacity cursor-pointer">
-                            <i className="fa-solid fa-magnifying-glass text-white"></i>
+                        <button className="  flex items-center w-10  justify-center rounded-full hover:bg-gray-100 transition-opacity cursor-pointer">
+                            <i className="fa-solid fa-magnifying-glass text-red-500"></i>
                         </button>
                     </form>
                 </div>
 
                 {/* Giỏ hàng */}
                 <div className="w-[180px] flex justify-center">
-                    <i className="fa-solid fa-cart-shopping text-white text-[30px] pr-[100px] cursor-pointer"></i>
+                    <i className="fa-solid fa-bag-shopping text-white text-[30px] pr-[100px] cursor-pointer"></i>
                 </div>
             </div>
         </header>

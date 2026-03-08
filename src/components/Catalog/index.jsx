@@ -41,7 +41,7 @@ const catalogs = [
 
 function ProductCatalog() {
     return (
-        <div className="p-6 bg-gray-50 mt-10">
+        <div className="p-6 bg-gray-100 mt-10">
             <div className="max-w-6xl mx-auto">
                 <div className="mb-6">
                     <h2 className="text-2xl text-gray-800">DANH MỤC</h2>

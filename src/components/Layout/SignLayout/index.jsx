@@ -11,7 +11,6 @@ function SignLayout({ children }) {
                             Shoping Online
                         </Link>
                     </div>
-
                     <div className="ml-auto">
                         <a href="help" target="_blank" className="text-[16px] text-white">
                             Bạn cần giúp đỡ?
