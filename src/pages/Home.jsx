@@ -9,7 +9,7 @@ function Home() {
             <Header />
             <ProductCatalog />
             <div className="mt-10">
-                <h1 className="ml-[130px] text-[25px]">Một số sản phẩm nổi bật</h1>
+                <h1 className="ml-[130px] text-[25px]">Một số sản phẩm </h1>
                 <ProductList />
             </div>
             <Footer />
