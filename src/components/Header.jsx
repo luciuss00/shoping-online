@@ -1,6 +1,6 @@
-import { Link, NavLink } from 'react-router-dom';
-import RightMenu from '../Menu/RightMenu';
-import LeftMenu from '../Menu/LeftMenu';
+import { Link } from 'react-router-dom';
+import RightMenu from './RightMenu';
+import LeftMenu from './LeftMenu';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Header() {

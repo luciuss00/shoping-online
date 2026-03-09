@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import SignLayout from '../../components/Layout/SignLayout';
+import SignLayout from '../components/SignLayout';
 
 function SignUp() {
     const [phone, setPhone] = useState('');

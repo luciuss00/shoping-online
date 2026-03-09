@@ -1,7 +1,7 @@
-import Header from '../../components/Header';
-import ProductCatalog from '../../components/Catalog';
-import ProductList from '../ProductList';
-import Footer from '../../components/Footer';
+import Header from '../components/Header';
+import ProductCatalog from '../components/Catalog';
+import ProductList from './ProductList';
+import Footer from '../components/Footer';
 
 function Home() {
     return (
