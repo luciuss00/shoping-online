@@ -16,7 +16,6 @@ function ProductDetail() {
             setQuantity('');
         }
     };
-    console.log(product);
 
     return (
         <div className="bg-gray-100 min-h-screen">

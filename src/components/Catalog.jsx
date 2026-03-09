@@ -37,11 +37,18 @@ const catalogs = [
         icon: <i className="fa-solid fa-book"></i>,
         color: 'bg-red-100 text-red-600',
     },
+    {
+        id: 6,
+        name: 'Âm thanh',
+        link: '/speaker',
+        icon: <i className="fa-solid fa-volume"></i>,
+        color: 'bg-purple-100 text-purple-600',
+    },
 ];
 
 function ProductCatalog() {
     return (
-        <div className="p-6 bg-gray-100 mt-10">
+        <div className="py-14 bg-gray-100">
             <div className="max-w-6xl mx-auto">
                 <div className="mb-6">
                     <h2 className="text-2xl text-gray-800">DANH MỤC</h2>
@@ -51,7 +58,7 @@ function ProductCatalog() {
                 <div className="grid grid-cols-2 md:grid-cols-6">
                     {catalogs.map((cat) => (
                         <Link
-                            to={cat.link}
+                            to={`/catalog/${cat.link}`}
                             key={cat.id}
                             className=" h-[180px] w-[180px] bg-white p-6 rounded-xl shadow-sm flex flex-col items-center text-center hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer group"
                         >
