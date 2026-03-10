@@ -2,6 +2,7 @@ import Header from '../components/Header';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Footer from '../components/Footer';
+
 function ProductDetail() {
     const location = useLocation();
     const product = location.state;
@@ -30,8 +31,6 @@ function ProductDetail() {
 
     const handleInputChange = (e) => {
         const value = e.target.value;
-
-        // Regex này kiểm tra: Nếu là chuỗi rỗng HOẶC chỉ chứa các chữ số
         if (value === '' || /^[0-9\b]+$/.test(value)) {
             setQuantityPurchased(value);
         }
@@ -92,7 +91,6 @@ function ProductDetail() {
                     {/* BUTTON */}
                     <div className="flex gap-4 mt-12">
                         <button className="border border-red-500 text-red-500 px-6 py-3">Thêm Vào Giỏ Hàng</button>
-
                         <button className="bg-red-500 text-white px-8 py-3">Mua Ngay</button>
                     </div>
                 </div>

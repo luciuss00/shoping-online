@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Book from './pages/Catalog/Book';
 import Speaker from './pages/Catalog/Speaker';
+import Device from './pages/Catalog/Device';
+import Accessory from './pages/Catalog/Accessory';
 import ProductDetail from './pages/ProductDetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -17,6 +19,8 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/catalog/book" element={<Book />} />
                         <Route path="/catalog/speaker" element={<Speaker />} />
+                        <Route path="/catalog/device" element={<Device />} />
+                        <Route path="/catalog/accessory" element={<Accessory />} />
                         <Route path="/detail" element={<ProductDetail />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/signin" element={<SignIn />} />

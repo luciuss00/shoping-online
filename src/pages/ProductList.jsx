@@ -32,6 +32,7 @@ function ProductList({ filterType }) {
                             type={product.categoryProduct}
                             cost={product.priceProduct}
                             quantity={product.quantity}
+                            img={product.imageLink}
                         />
                     ))
                 ) : (

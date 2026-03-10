@@ -25,26 +25,18 @@ function Footer() {
                     {/* Cột 2: Chính sách */}
                     <div>
                         <h3 className="text-gray-800 font-semibold text-lg mb-4">Hỗ trợ khách hàng</h3>
-                        <ul className="space-y-3 text-gray-600">
+                        <ul className="space-y-3 text-gray-600 [&>li>a]:hover:text-red-500">
                             <li>
-                                <a href="#" className="hover:text-red-600 transition-colors">
-                                    Hướng dẫn mua hàng
-                                </a>
+                                <a href="#">Hướng dẫn mua hàng</a>
                             </li>
                             <li>
-                                <a href="#" className="hover:text-red-600 transition-colors">
-                                    Chính sách bảo hành
-                                </a>
+                                <a href="#">Chính sách bảo hành</a>
                             </li>
                             <li>
-                                <a href="#" className="hover:text-red-600 transition-colors">
-                                    Chính sách đổi trả
-                                </a>
+                                <a href="#">Chính sách đổi trả</a>
                             </li>
                             <li>
-                                <a href="#" className="hover:text-red-600 transition-colors">
-                                    Vận chuyển & Giao hàng
-                                </a>
+                                <a href="#">Vận chuyển & Giao hàng</a>
                             </li>
                         </ul>
                     </div>

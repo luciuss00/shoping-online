@@ -6,7 +6,6 @@ const ProductContext = createContext();
 export const ProductProvider = ({ children }) => {
     const [products, setProducts] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
-
     const fetchProductsOnce = async () => {
         if (isLoaded) return;
         try {

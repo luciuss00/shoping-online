@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 
-function ProductCard({ id, name, description, type, cost, quantity }) {
+function ProductCard({ id, name, description, type, cost, quantity, img }) {
     return (
         <Link
             key={id}
             to="/detail"
-            state={{ id, name, description, type, cost, quantity }}
+            state={{ id, name, description, type, cost, quantity, img }}
             className="w-[200px] h-[300px] mt-1 bg-white border border-gray-400 rounded-lg p-2 hover:border-red-500 transition block"
         >
             <img className="w-[188px] h-[188px] object-cover mb-2" alt={name} />
