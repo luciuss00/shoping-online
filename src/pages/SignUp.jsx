@@ -1,79 +1,136 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import SignLayout from '../components/SignLayout';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignUp() {
     const [phone, setPhone] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
     const [errorValid, setErrorValid] = useState(false);
     const [firstInput, setFirstInput] = useState(true);
 
     const validatePhone = (phone) => {
         const regex = /^(0[3|5|7|8|9])([0-9]{8})$/;
-        if (!regex.test(phone)) {
-            setErrorValid(false);
-            setFirstInput(false);
-        } else {
-            setErrorValid(true);
-            setFirstInput(true);
-        }
+        const isValid = regex.test(phone);
+        setErrorValid(isValid);
+        setFirstInput(isValid || phone === '');
         setPhone(phone);
     };
+
+    // Kiểm tra xem mật khẩu có khớp và số điện thoại có hợp lệ không
+    const isPasswordMatch = password === confirmPassword;
+    const canSubmit = errorValid && isPasswordMatch && password.length > 0;
 
     return (
         <>
             <SignLayout name="Đăng ký">
-                <div className="w-[500px] h-[325px] bg-white rounded-[5px] shadow-xl border-t-3 border-red-100">
-                    <div className="flex items-center h-[80px]">
-                        <div className="flex items-center h-[68px] px-[30px] mx-auto">
-                            <h2 className="text-[22px]">Đăng ký</h2>
-                        </div>
+                <div className="w-[500px] min-h-[450px] py-6 bg-white rounded-[5px] shadow-xl border-t-3 border-gray-100">
+                    <div className="flex items-center h-[60px] px-[30px] justify-center">
+                        <h2 className="text-[22px]">Đăng ký</h2>
                     </div>
 
-                    <div>
-                        {/* Form đăng ký */}
-                        <div className="px-[80px]">
-                            <form action="">
+                    <div className="px-[80px]">
+                        <form onSubmit={(e) => e.preventDefault()}>
+                            {/* Số điện thoại */}
+                            <div className="mb-5 relative">
                                 <input
                                     type="text"
                                     value={phone}
                                     onChange={(e) => validatePhone(e.target.value)}
-                                    className={
+                                    className={`w-full h-[40px] pl-[12px] border ${
                                         firstInput
-                                            ? 'border border-gray-300 w-full h-[40px] pl-[12px]'
-                                            : 'border border-red-300 w-full h-[40px] pl-[12px] focus:outline-none bg-[#fff6f7]'
-                                    }
-                                    placeholder="Email/Số điện thoại"
-                                />
-                                {firstInput ? (
-                                    <p></p>
-                                ) : (
-                                    <p className="text-[13px] absolute text-red-500">Số điện thoại không hợp lệ</p>
-                                )}
-
-                                <button
-                                    disabled={!errorValid}
-                                    className={`mt-8 w-full h-[40px] text-white font-medium transition-colors duration-300 ${
-                                        errorValid
-                                            ? 'bg-[#e84040] cursor-pointer opacity-100'
-                                            : 'bg-[#e1514e] cursor-not-allowed opacity-70'
+                                            ? 'border-gray-300'
+                                            : 'border-red-500 bg-[#fff6f7] focus:outline-none'
                                     }`}
-                                >
-                                    TIẾP THEO
-                                </button>
-                            </form>
-                        </div>
-
-                        <div>
-                            <p class="text-center text-[13px] mt-6 text-black">Bằng việc đăng kí, bạn đã đồng ý về</p>
-                            <div className="flex justify-center">
-                                <a className="text-[#e84040] text-[13px]">Điều khoản dịch vụ </a>
-                                <span className="text-[12px] mx-1 mt-[1.5px]"> & </span>
-                                <a className="text-[#e84040] text-[13px]">Chính sách bảo mật</a>
+                                    placeholder="Số điện thoại"
+                                />
+                                {!firstInput && (
+                                    <p className="text-[12px] text-red-500 absolute mt-[1px]">
+                                        Số điện thoại không hợp lệ
+                                    </p>
+                                )}
                             </div>
+
+                            {/* Mật khẩu */}
+                            <div className="mb-5 relative">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="border border-gray-300 w-full h-[40px] pl-[12px] pr-[40px]"
+                                    placeholder="Mật khẩu"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-2.5 text-gray-400"
+                                >
+                                    {showPassword ? (
+                                        <i className="fa-solid fa-eye"></i>
+                                    ) : (
+                                        <i className="fa-solid fa-eye-slash"></i>
+                                    )}
+                                </button>
+                            </div>
+
+                            {/* Nhập lại mật khẩu */}
+                            <div className="mb-1 relative">
+                                <input
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className={`w-full h-[40px] pl-[12px] pr-[40px] border ${
+                                        !isPasswordMatch && confirmPassword !== ''
+                                            ? 'border-red-500 bg-[#fff6f7] focus:outline-none'
+                                            : 'border-gray-300'
+                                    }`}
+                                    placeholder="Nhập lại mật khẩu"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    className="absolute right-3 top-2.5 text-gray-400"
+                                >
+                                    {showConfirmPassword ? (
+                                        <i className="fa-solid fa-eye"></i>
+                                    ) : (
+                                        <i className="fa-solid fa-eye-slash"></i>
+                                    )}
+                                </button>
+                                {!isPasswordMatch && confirmPassword !== '' && (
+                                    <p className="text-[12px] text-red-500 absolute mt-1">Mật khẩu không khớp</p>
+                                )}
+                            </div>
+
+                            <button
+                                disabled={!canSubmit}
+                                className={`mt-8 w-full h-[40px] text-white font-medium transition-colors duration-300 ${
+                                    canSubmit
+                                        ? 'bg-[#e84040] cursor-pointer opacity-100'
+                                        : 'bg-[#e1514e] cursor-not-allowed opacity-70'
+                                }`}
+                            >
+                                TIẾP THEO
+                            </button>
+                        </form>
+                    </div>
+
+                    <div className="mt-6">
+                        <p className="text-center text-[13px] text-black">Bằng việc đăng kí, bạn đã đồng ý về</p>
+                        <div className="flex justify-center">
+                            <a className="text-[#e84040] text-[13px] cursor-pointer">Điều khoản dịch vụ </a>
+                            <span className="text-[12px] mx-1 mt-[1.5px]"> & </span>
+                            <a className="text-[#e84040] text-[13px] cursor-pointer">Chính sách bảo mật</a>
                         </div>
                     </div>
+
                     <div className="flex justify-center mt-4">
-                        <p className="mt-0 mr-1 text-[#00000042]">Bạn đã có tài khoản?</p>
+                        <p className="mr-1 text-[#00000042]">Bạn đã có tài khoản?</p>
                         <Link to="/signin" className="text-[#e84040]">
                             Đăng nhập
                         </Link>

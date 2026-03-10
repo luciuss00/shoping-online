@@ -1,22 +1,41 @@
 import Header from '../components/Header';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-
+import Footer from '../components/Footer';
 function ProductDetail() {
     const location = useLocation();
     const product = location.state;
 
-    const [quantity, setQuantity] = useState(1);
+    const [quantityPurchased, setQuantityPurchased] = useState();
+
+    const [ratingData, setRatingData] = useState({ stars: 5, reviews: 0 });
+
+    useEffect(() => {
+        if (product?.id) {
+            const storageKey = `product_rating_${product.id}`;
+            const savedData = localStorage.getItem(storageKey);
+
+            if (savedData) {
+                setRatingData(JSON.parse(savedData));
+            } else {
+                const newStars = Math.floor(Math.random() * 2) + 3;
+                const newReviews = Math.floor(Math.random() * 400) + 50;
+                const newData = { stars: newStars, reviews: newReviews };
+
+                localStorage.setItem(storageKey, JSON.stringify(newData));
+                setRatingData(newData);
+            }
+        }
+    }, [product?.id]);
 
     const handleInputChange = (e) => {
-        const value = parseInt(e.target.value);
-        if (!isNaN(value) && value > 0) {
-            setQuantity(value);
-        } else if (e.target.value === '') {
-            setQuantity('');
+        const value = e.target.value;
+
+        // Regex này kiểm tra: Nếu là chuỗi rỗng HOẶC chỉ chứa các chữ số
+        if (value === '' || /^[0-9\b]+$/.test(value)) {
+            setQuantityPurchased(value);
         }
     };
-
     return (
         <div className="bg-gray-100 min-h-screen">
             <Header />
@@ -29,68 +48,56 @@ function ProductDetail() {
                 </div>
 
                 <div className="flex-1">
-                    <h1 className="text-[22px] font-semibold">{product.name}</h1>
+                    <h1 className="text-[26px] font-semibold">{product.name}</h1>
 
                     <div className="flex items-center gap-4 mt-2 text-sm">
-                        <span className="text-yellow-500">★★★★★</span>
-                        <span className="text-gray-500">25 Đánh giá</span>
+                        <span className="text-yellow-500">
+                            {'★'.repeat(ratingData.stars)}
+                            {'☆'.repeat(5 - ratingData.stars)}
+                        </span>
+                        <span className="text-gray-500">{ratingData.reviews} Đánh giá</span>
                     </div>
+
+                    <p className="mt-2 text-[14px] text-gray-500">
+                        Thể loại: <span>{product.type}</span>
+                    </p>
+
+                    <p className="mt-2 text-[14px] text-gray-500">
+                        Mô tả: <span>{product.description}</span>
+                    </p>
 
                     {/* PRICE */}
-                    <div className="bg-gray-100 mt-4 p-4">
-                        <span className="text-red-500 text-[32px] font-bold">{product.cost}₫</span>
+                    <h1 className="mt-2 font-bold text-[24px]">GIÁ: </h1>
+                    <div className="bg-gray-100 p-4">
+                        <span className="text-red-500 text-[32px] font-bold">
+                            {Number(product.cost).toLocaleString('vi-VN')}₫
+                        </span>
                     </div>
 
-                    <div>
-                        <h1 className="text-[22px] font-semibold">{product.description}</h1>
-                    </div>
+                    <p className="mt-2 text-[14px] text-gray-500">
+                        Kho còn: <span>{product.quantity} </span>
+                    </p>
 
-                    {/* SIZE */}
-                    <div className="mt-6">
-                        <p className="text-gray-500 mb-2">Kích Thước</p>
-                        <div className="flex gap-3">
-                            <button className="border px-4 py-2 hover:border-red-500">17cm</button>
-                            <button className="border px-4 py-2 hover:border-red-500">19cm</button>
-                        </div>
-                    </div>
+                    <div className="mt-4 flex items-center gap-2">
+                        <span>Số lượng mua: </span>
 
-                    {/* QUANTITY */}
-                    <div className="mt-6 flex items-center gap-4">
-                        <span className="text-gray-500">Số lượng</span>
-
-                        <div className="flex border items-center">
-                            <button
-                                onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-                                className="px-3 py-1 border-r hover:bg-gray-100"
-                            >
-                                -
-                            </button>
-                            <input
-                                type="text"
-                                value={quantity}
-                                onChange={handleInputChange}
-                                onBlur={() => {
-                                    if (quantity === '') setQuantity(1);
-                                }} // Nếu để trống thì reset về 1
-                                className="w-[50px] text-center outline-none"
-                            />
-                            <button
-                                onClick={() => setQuantity((prev) => prev + 1)}
-                                className="px-3 py-1 border-l hover:bg-gray-100"
-                            >
-                                +
-                            </button>
-                        </div>
+                        <input
+                            value={quantityPurchased}
+                            onChange={handleInputChange}
+                            type="text"
+                            className="mt-[2px] text-center w-[30px] border-1 border-gray-500   "
+                        />
                     </div>
 
                     {/* BUTTON */}
-                    <div className="flex gap-4 mt-8">
+                    <div className="flex gap-4 mt-12">
                         <button className="border border-red-500 text-red-500 px-6 py-3">Thêm Vào Giỏ Hàng</button>
 
                         <button className="bg-red-500 text-white px-8 py-3">Mua Ngay</button>
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

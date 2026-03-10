@@ -31,10 +31,11 @@ function ProductList({ filterType }) {
                             description={product.descriptionProduct}
                             type={product.categoryProduct}
                             cost={product.priceProduct}
+                            quantity={product.quantity}
                         />
                     ))
                 ) : (
-                    <p className="col-span-full text-center py-10">Không tìm thấy sản phẩm thuộc loại "{filterType}"</p>
+                    <p className="col-span-full text-center py-10">Đang tải . . . </p>
                 )}
             </div>
 
