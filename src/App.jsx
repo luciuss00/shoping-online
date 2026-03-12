@@ -1,9 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Home from './pages/Home';
-import Book from './pages/Catalog/Book';
-import Speaker from './pages/Catalog/Speaker';
-import Device from './pages/Catalog/Device';
-import Accessory from './pages/Catalog/Accessory';
+// CatalogItem
+import Shirt from './pages/CatalogItem/Shirt';
+import Speaker from './pages/CatalogItem/Speaker';
+import Technology from './pages/CatalogItem/Technology';
+import SchoolSupply from './pages/CatalogItem/SchoolSuply';
+import Food from './pages/CatalogItem/Food';
+import Belonging from './pages/CatalogItem/Belonging';
+import Gaming from './pages/CatalogItem/Gaming';
+import Household from './pages/CatalogItem/Household';
+import Shoe from './pages/CatalogItem/Shoe';
+import Hat from './pages/CatalogItem/Hat';
+import Interior from './pages/CatalogItem/Interior';
+import Accessory from './pages/CatalogItem/Accessory';
+import Trouser from './pages/CatalogItem/Trouser';
+import Sport from './pages/CatalogItem/Sport';
+import Device from './pages/CatalogItem/Device';
+import Ultity from './pages/CatalogItem/Ultity';
+import Jewelry from './pages/CatalogItem/Jewelry';
+//
 import ProductDetail from './pages/ProductDetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
@@ -17,10 +33,25 @@ function App() {
                 <div className="App">
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/catalog/book" element={<Book />} />
+
+                        <Route path="/catalog/shirt" element={<Shirt />} />
                         <Route path="/catalog/speaker" element={<Speaker />} />
-                        <Route path="/catalog/device" element={<Device />} />
+                        <Route path="/catalog/technology" element={<Technology />} />
+                        <Route path="/catalog/school-supply" element={<SchoolSupply />} />
+                        <Route path="/catalog/food" element={<Food />} />
+                        <Route path="/catalog/belonging" element={<Belonging />} />
+                        <Route path="/catalog/gaming" element={<Gaming />} />
+                        <Route path="/catalog/household" element={<Household />} />
+                        <Route path="/catalog/shoe" element={<Shoe />} />
+                        <Route path="/catalog/hat" element={<Hat />} />
+                        <Route path="/catalog/interior" element={<Interior />} />
                         <Route path="/catalog/accessory" element={<Accessory />} />
+                        <Route path="/catalog/trouser" element={<Trouser />} />
+                        <Route path="/catalog/sport" element={<Sport />} />
+                        <Route path="/catalog/device" element={<Device />} />
+                        <Route path="/catalog/ultity" element={<Ultity />} />
+                        <Route path="/catalog/jewelry" element={<Jewelry />} />
+
                         <Route path="/detail" element={<ProductDetail />} />
                         <Route path="/signup" element={<SignUp />} />
                         <Route path="/signin" element={<SignIn />} />

@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import ProductCatalog from '../components/Catalog';
+import ProductCatalog from '../components/Catalog/Catalog';
 import ProductList from './ProductList';
 import Footer from '../components/Footer';
 

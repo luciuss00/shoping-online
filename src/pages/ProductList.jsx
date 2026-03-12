@@ -30,6 +30,7 @@ function ProductList({ filterType }) {
                             name={product.nameProduct}
                             description={product.descriptionProduct}
                             type={product.categoryProduct}
+                            subType={product.subCategoryProduct}
                             cost={product.priceProduct}
                             quantity={product.quantity}
                             img={product.imageLink}
