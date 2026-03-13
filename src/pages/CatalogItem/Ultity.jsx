@@ -1,15 +1,17 @@
 import Header from '../../components/Header';
-import SideBar from '../../components/Sidebar';
-import ProductList from '../ProductList';
+import TitleCatalog from '../../components/TitleCatalog';
+import SideBar from '../../components/Sidebar/Sidebar';
+import ProductListInCatalog from '../../components/ProductListInCatalog';
 
 function Ultity() {
     return (
         <div>
             <Header />
+            <TitleCatalog name="Tiện ich" />
             <div className="flex">
-                <SideBar />
+                <SideBar name="Tiện ích" />
                 <div className="flex-1">
-                    <ProductList filterType="Tiện ích" />
+                    <ProductListInCatalog filterType="Tiện ích" />
                 </div>
             </div>
         </div>

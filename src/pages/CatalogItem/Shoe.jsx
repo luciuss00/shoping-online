@@ -1,15 +1,17 @@
 import Header from '../../components/Header';
-import SideBar from '../../components/Sidebar';
-import ProductList from '../ProductList';
+import TitleCatalog from '../../components/TitleCatalog';
+import SideBar from '../../components/Sidebar/Sidebar';
+import ProductListInCatalog from '../../components/ProductListInCatalog';
 
 function Shoe() {
     return (
         <div>
             <Header />
+            <TitleCatalog name="Giày" />
             <div className="flex">
-                <SideBar />
+                <SideBar name="Giày" />
                 <div className="flex-1">
-                    <ProductList filterType="Giày" />
+                    <ProductListInCatalog filterType="Giày" />
                 </div>
             </div>
         </div>

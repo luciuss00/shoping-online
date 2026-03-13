@@ -1,15 +1,17 @@
 import Header from '../../components/Header';
-import SideBar from '../../components/Sidebar';
-import ProductList from '../ProductList';
+import TitleCatalog from '../../components/TitleCatalog';
+import SideBar from '../../components/Sidebar/Sidebar';
+import ProductListInCatalog from '../../components/ProductListInCatalog';
 
 function Technology() {
     return (
         <div>
             <Header />
+            <TitleCatalog name="Công nghệ" />
             <div className="flex">
-                <SideBar />
+                <SideBar name="Công nghệ" />
                 <div className="flex-1">
-                    <ProductList filterType="Công nghệ" />
+                    <ProductListInCatalog filterType="Công nghệ" />
                 </div>
             </div>
         </div>

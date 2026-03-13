@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'; // Thêm useState
 import { useProducts } from '../context/ProductContext';
-import ProductCard from '../components/ProductCard';
+import ProductCard from './ProductCard';
 
 function ProductList({ filterType }) {
     const { products, fetchProductsOnce } = useProducts();

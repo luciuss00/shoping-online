@@ -3,19 +3,19 @@ import TitleCatalog from '../../components/TitleCatalog';
 import SideBar from '../../components/Sidebar/Sidebar';
 import ProductListInCatalog from '../../components/ProductListInCatalog';
 
-function Jewelry() {
+function Office() {
     return (
         <div>
             <Header />
-            <TitleCatalog name="Đồ trang sức" />
+            <TitleCatalog name="Văn phòng" />
             <div className="flex">
-                <SideBar name="Trang sức" />
+                <SideBar name="Văn phòng" />
                 <div className="flex-1">
-                    <ProductListInCatalog filterType="Trang sức" />
+                    <ProductListInCatalog filterType="Văn phòng" />
                 </div>
             </div>
         </div>
     );
 }
 
-export default Jewelry;
+export default Office;

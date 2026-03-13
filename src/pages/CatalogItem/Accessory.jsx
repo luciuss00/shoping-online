@@ -1,15 +1,17 @@
 import Header from '../../components/Header';
-import SideBar from '../../components/Sidebar';
-import ProductList from '../ProductList';
+import TitleCatalog from '../../components/TitleCatalog';
+import SideBar from '../../components/Sidebar/Sidebar';
+import ProductListInCatalog from '../../components/ProductListInCatalog';
 
 function Accessory() {
     return (
         <div>
             <Header />
+            <TitleCatalog name="Phụ kiện" />
             <div className="flex">
-                <SideBar />
+                <SideBar name="Phụ kiện" />
                 <div className="flex-1">
-                    <ProductList filterType="Phụ kiện" />
+                    <ProductListInCatalog filterType="Phụ kiện" />
                 </div>
             </div>
         </div>

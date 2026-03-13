@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
 import Technology from './pages/CatalogItem/Technology';
-import SchoolSupply from './pages/CatalogItem/SchoolSuply';
+import SchoolSupply from './pages/CatalogItem/SchoolSupply';
 import Food from './pages/CatalogItem/Food';
 import Belonging from './pages/CatalogItem/Belonging';
 import Gaming from './pages/CatalogItem/Gaming';
@@ -19,6 +19,8 @@ import Sport from './pages/CatalogItem/Sport';
 import Device from './pages/CatalogItem/Device';
 import Ultity from './pages/CatalogItem/Ultity';
 import Jewelry from './pages/CatalogItem/Jewelry';
+import Decoration from './pages/CatalogItem/Decoration';
+import Office from './pages/CatalogItem/Office';
 //
 import ProductDetail from './pages/ProductDetail';
 import SignIn from './pages/SignIn';
@@ -51,6 +53,8 @@ function App() {
                         <Route path="/catalog/device" element={<Device />} />
                         <Route path="/catalog/ultity" element={<Ultity />} />
                         <Route path="/catalog/jewelry" element={<Jewelry />} />
+                        <Route path="/catalog/decoration" element={<Decoration />} />
+                        <Route path="/catalog/office" element={<Office />} />
 
                         <Route path="/detail" element={<ProductDetail />} />
                         <Route path="/signup" element={<SignUp />} />

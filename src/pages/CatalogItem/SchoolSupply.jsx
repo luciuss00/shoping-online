@@ -3,19 +3,19 @@ import TitleCatalog from '../../components/TitleCatalog';
 import SideBar from '../../components/Sidebar/Sidebar';
 import ProductListInCatalog from '../../components/ProductListInCatalog';
 
-function Jewelry() {
+function SchoolSupply() {
     return (
         <div>
             <Header />
-            <TitleCatalog name="Đồ trang sức" />
+            <TitleCatalog name="Dụng cụ học tập" />
             <div className="flex">
-                <SideBar name="Trang sức" />
+                <SideBar name="Học tập" />
                 <div className="flex-1">
-                    <ProductListInCatalog filterType="Trang sức" />
+                    <ProductListInCatalog filterType="Học tập" />
                 </div>
             </div>
         </div>
     );
 }
 
-export default Jewelry;
+export default SchoolSupply;

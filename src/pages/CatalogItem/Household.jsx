@@ -1,15 +1,17 @@
 import Header from '../../components/Header';
-import SideBar from '../../components/Sidebar';
-import ProductList from '../ProductList';
+import TitleCatalog from '../../components/TitleCatalog';
+import SideBar from '../../components/Sidebar/Sidebar';
+import ProductListInCatalog from '../../components/ProductListInCatalog';
 
 function Household() {
     return (
         <div>
             <Header />
+            <TitleCatalog name="Đồ gia dụng" />
             <div className="flex">
-                <SideBar />
+                <SideBar name="Gia dụng" />
                 <div className="flex-1">
-                    <ProductList filterType="Gia dụng" />
+                    <ProductListInCatalog filterType="Gia dụng" />
                 </div>
             </div>
         </div>

@@ -6,10 +6,12 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 function ProductCatalog() {
     const scrollRef = useRef(null);
 
+    // Tính toán khoảng cách cuộn dựa trên chiều rộng của container
     const scroll = (direction) => {
         if (scrollRef.current) {
             const { scrollLeft, clientWidth } = scrollRef.current;
-            const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+            const scrollAmount = clientWidth * 0.8; // Cuộn 80% chiều rộng hiển thị
+            const scrollTo = direction === 'left' ? scrollLeft - scrollAmount : scrollLeft + scrollAmount;
 
             scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
         }
@@ -22,39 +24,45 @@ function ProductCatalog() {
                     <h2 className="text-2xl text-gray-800 uppercase tracking-wider">Danh mục</h2>
                 </div>
 
-                {/* Nút điều hướng - Chỉ hiện khi hover vào vùng chứa */}
+                {/* Nút điều hướng */}
                 <button
                     onClick={() => scroll('left')}
-                    className="absolute -left-3 top-55 -translate-y-1/2 z-10 bg-white w-13 h-13 rounded-full shadow-md transition-all opacity-0 group-hover:opacity-100 hover:bg-red-500 cursor-pointer -left-2"
+                    className="absolute -left-2  top-51 -translate-y-1/2 z-10 bg-white w-10 h-10 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white cursor-pointer flex items-center justify-center"
                 >
                     <i className="fa-solid fa-chevron-left"></i>
                 </button>
 
                 <button
                     onClick={() => scroll('right')}
-                    className="absolute -right-3 top-55 -translate-y-1/2 z-10 bg-white w-13 h-13 rounded-full shadow-md transition-all opacity-0 group-hover:opacity-100 hover:bg-red-500 cursor-pointer -right-2"
+                    className="absolute -right-2 top-51 -translate-y-1/2 z-10 bg-white w-10 h-10 rounded-full shadow-lg transition-all opacity-0 group-hover:opacity-100 hover:bg-red-500 hover:text-white cursor-pointer flex items-center justify-center"
                 >
                     <i className="fa-solid fa-chevron-right"></i>
                 </button>
 
-                {/* Container danh mục với Snap Scroll */}
+                {/* Container 2 hàng với cơ chế cuộn ngang */}
                 <div
                     ref={scrollRef}
-                    className="grid grid-cols-7 scrollbar-hide snap-x snap-mandatory gap-2 pb-4"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    className="flex flex-col flex-wrap h-[340px] overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar gap-2 pb-4"
+                    style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none',
+                        display: 'flex',
+                        flexFlow: 'column wrap', // Quan trọng: Tạo 2 hàng bằng cách bọc cột
+                        alignContent: 'flex-start',
+                    }}
                 >
                     {catalogs.map((cat) => (
                         <Link
                             to={`/catalog${cat.link}`}
                             key={cat.id}
-                            className="min-w-[calc(50%-8px)] md:min-w-[calc(16.666%-14px)] snap-start h-[160px] bg-white rounded-xl shadow-sm flex flex-col items-center justify-center text-center hover:shadow-lg hover:-translate-y-1 transition-all"
+                            className="w-[150px] h-[150px] snap-start bg-white rounded-xl shadow-sm flex flex-col items-center justify-center text-center hover:shadow-lg hover:-translate-y-1 transition-all flex-shrink-0"
                         >
                             <div
-                                className={`text-2xl w-15 h-15 ${cat.color} rounded-full flex items-center justify-center mb-4`}
+                                className={`text-2xl w-14 h-14 ${cat.color} rounded-full flex items-center justify-center mb-3`}
                             >
                                 <i className={cat.icon}></i>
                             </div>
-                            <h3 className="text-[14px] font-medium text-gray-600">{cat.name}</h3>
+                            <h3 className="text-[13px] px-2 font-medium text-gray-600 line-clamp-2">{cat.name}</h3>
                         </Link>
                     ))}
                 </div>

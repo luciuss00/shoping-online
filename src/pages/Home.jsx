@@ -1,6 +1,6 @@
 import Header from '../components/Header';
 import ProductCatalog from '../components/Catalog/Catalog';
-import ProductList from './ProductList';
+import ProductList from '../components/ProductList';
 import Footer from '../components/Footer';
 
 function Home() {

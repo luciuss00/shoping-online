@@ -1,15 +1,17 @@
 import Header from '../../components/Header';
-import SideBar from '../../components/Sidebar';
-import ProductList from '../ProductList';
+import TitleCatalog from '../../components/TitleCatalog';
+import SideBar from '../../components/Sidebar/Sidebar';
+import ProductListInCatalog from '../../components/ProductListInCatalog';
 
 function Food() {
     return (
         <div>
             <Header />
+            <TitleCatalog name="Đồ ăn" />
             <div className="flex">
-                <SideBar />
+                <SideBar name="Đồ ăn" />
                 <div className="flex-1">
-                    <ProductList filterType="Đồ ăn" />
+                    <ProductListInCatalog filterType="Đồ ăn" />
                 </div>
             </div>
         </div>

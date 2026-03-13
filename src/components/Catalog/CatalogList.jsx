@@ -120,6 +120,20 @@ const catalogs = [
         icon: 'fa-regular fa-alarm-clock',
         color: 'bg-blue-100 text-blue-600',
     },
+    {
+        id: 18,
+        name: 'Trang trí',
+        link: '/decoration',
+        icon: 'fa-regular fa-alarm-clock',
+        color: 'bg-blue-100 text-blue-600',
+    },
+    {
+        id: 18,
+        name: 'Văn phòng',
+        link: '/office',
+        icon: 'fa-regular fa-alarm-clock',
+        color: 'bg-blue-100 text-blue-600',
+    },
 ];
 
 export default catalogs;

@@ -1,15 +1,17 @@
 import Header from '../../components/Header';
-import SideBar from '../../components/Sidebar';
-import ProductList from '../ProductList';
+import TitleCatalog from '../../components/TitleCatalog';
+import SideBar from '../../components/Sidebar/Sidebar';
+import ProductListInCatalog from '../../components/ProductListInCatalog';
 
 function Sport() {
     return (
         <div>
             <Header />
+            <TitleCatalog name="Thể thao" />
             <div className="flex">
-                <SideBar />
+                <SideBar name="Thể thao" />
                 <div className="flex-1">
-                    <ProductList filterType="Thể thao" />
+                    <ProductListInCatalog filterType="Thể thao" />
                 </div>
             </div>
         </div>
