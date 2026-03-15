@@ -44,7 +44,7 @@ function ResetPassword() {
                                         ? 'border border-gray-300 w-full h-[40px] pl-[12px]'
                                         : 'border border-red-300 w-full h-[40px] pl-[12px] focus:outline-none bg-[#fff6f7]'
                                 }
-                                placeholder="Số điện thoại"
+                                placeholder="Email"
                             />
                             {firstInput ? (
                                 <p></p>

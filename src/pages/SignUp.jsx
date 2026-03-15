@@ -29,13 +29,20 @@ function SignUp() {
     return (
         <>
             <SignLayout name="Đăng ký">
-                <div className="w-[500px] min-h-[450px] py-6 bg-white rounded-[5px] shadow-xl border-t-3 border-gray-100">
+                <div className="w-[500px] min-h-[450px] mt-10 py-6 bg-white rounded-[5px] shadow-xl border-t-3 border-gray-100">
                     <div className="flex items-center h-[60px] px-[30px] justify-center">
                         <h2 className="text-[22px]">Đăng ký</h2>
                     </div>
 
                     <div className="px-[80px]">
                         <form onSubmit={(e) => e.preventDefault()}>
+                            <input
+                                type={showConfirmPassword ? 'text' : 'password'}
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className="my-5 w-full h-[40px] pl-[12px] pr-[40px] border border-gray-300"
+                                placeholder="Tên tài khoản"
+                            />
                             {/* Số điện thoại */}
                             <div className="mb-5 relative">
                                 <input
@@ -47,7 +54,7 @@ function SignUp() {
                                             ? 'border-gray-300'
                                             : 'border-red-500 bg-[#fff6f7] focus:outline-none'
                                     }`}
-                                    placeholder="Số điện thoại"
+                                    placeholder="Email"
                                 />
                                 {!firstInput && (
                                     <p className="text-[12px] text-red-500 absolute mt-[1px]">
