@@ -1,9 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import AuthService from '../services/authService';
 import SignLayout from '../components/SignLayout';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignIn() {
+    const navigate = useNavigate();
+
     const [nameSignIn, setNameSignIn] = useState('');
     const [checkName, setCheckName] = useState(true);
     const [pass, setPass] = useState('');
@@ -24,6 +27,29 @@ function SignIn() {
 
     const checkAll = checkName && checkPass && nameSignIn !== '' && pass !== '';
 
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const loginData = {
+            email: nameSignIn,
+            password: pass,
+        };
+        try {
+            const response = await AuthService.login(loginData);
+            if (response.status === 200) {
+                console.log('Đăng nhập thành công:', response.data);
+                alert('Đăng nhập thành công!');
+                navigate('/');
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                alert('Tài khoản không tồn tại (Lỗi 404)');
+            } else {
+                alert('Sai email hoặc mật khẩu, vui lòng kiểm tra lại!');
+            }
+            console.error('Lỗi đăng nhập:', error);
+        }
+    };
+
     return (
         <>
             <SignLayout name="Đăng nhập">
@@ -36,7 +62,7 @@ function SignIn() {
 
                     <div className="w-[500px] h-[190px]">
                         <div className=" px-[80px]">
-                            <form action="" onSubmit={(e) => e.preventDefault()}>
+                            <form onSubmit={handleLogin}>
                                 {/* Tên tài khoản */}
                                 <div className="relative mb-8">
                                     <input
