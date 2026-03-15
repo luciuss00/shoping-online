@@ -6,7 +6,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignIn() {
     const navigate = useNavigate();
-
     const [nameSignIn, setNameSignIn] = useState('');
     const [checkName, setCheckName] = useState(true);
     const [pass, setPass] = useState('');
@@ -36,9 +35,12 @@ function SignIn() {
         try {
             const response = await AuthService.login(loginData);
             if (response.status === 200) {
+                const userData = response.data;
+                localStorage.setItem('user', JSON.stringify(userData));
                 console.log('Đăng nhập thành công:', response.data);
                 alert('Đăng nhập thành công!');
                 navigate('/');
+                window.location.reload();
             }
         } catch (error) {
             if (error.response && error.response.status === 404) {

@@ -1,10 +1,20 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function RightMenu() {
+    const [user, setUser] = useState(null);
     const [language, setLanguage] = useState('Tiếng Việt');
-    const [view, setView] = useState('main'); // 'main' hoặc 'language'
+    const [view, setView] = useState('main');
+    const navigate = useNavigate();
+
+    // Kiểm tra thông tin user khi component load
+    useEffect(() => {
+        const savedUser = localStorage.getItem('user');
+        if (savedUser) {
+            setUser(JSON.parse(savedUser));
+        }
+    }, []);
 
     const languages = [
         { label: 'Tiếng Việt', value: 'Tiếng Việt' },
@@ -12,92 +22,130 @@ function RightMenu() {
         { label: 'Japan', value: 'Japan' },
     ];
 
-    // Reset view về main khi người dùng rời chuột khỏi menu
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        setUser(null);
+        navigate('/signin');
+        window.location.reload(); // Đảm bảo trạng thái được làm mới hoàn toàn
+    };
+
     const handleMouseLeave = () => {
         setView('main');
     };
 
     return (
         <div className="flex h-[34px] items-center justify-end px-10 text-white text-[14px]">
-            <div className="group relative flex items-center hover:text-white/70 mx-3">
-                {/* Icon và Chữ */}
+            {/* THÔNG BÁO */}
+            <Link to="/help" className="flex items-center hover:text-white/70 mx-3 py-2 ">
+                <i className="fa-regular fa-circle-question text-[18px] mr-2 mt-[1px]"></i>
+                <p className="text-[14px]">Hỗ trợ</p>
+            </Link>
+
+            <div className="group relative flex items-center hover:text-white/70 mx-3 py-2">
                 <div className="flex mt-[1.2px] cursor-pointer">
-                    <i className="fa-regular fa-bell mr-1.5 text-[20px] "></i>
+                    <i className="fa-regular fa-bell mr-1.5 text-[20px]"></i>
                     <p>Thông Báo</p>
                 </div>
-                {/* Popover Content */}
-                <div className="invisible w-90 h-80 group-hover:visible absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white text-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 z-50">
-                    {/* Khoảng trống */}
-                    <div className="absolute -top-4 left-0 w-full h-4 bg-transparent"></div>
-                    {/* Mũi tên (Optional) */}
-                    <div className="pt-2 absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-t border-l border-gray-200"></div>
-                    <div>
-                        <i className="fa-regular fa-circle-user text-[60px] text-red-500 ml-33 mt-13"></i>
-                        <p className="text-sm text-center mb-4 mt-5 text-[18px]">Đăng nhập để xem thông báo</p>
-                    </div>
 
-                    <div className="flex gap-2 justify-center text-[14px]">
-                        <Link
-                            to="/signup"
-                            className="bg-gray-100 cursor-pointer hover:bg-gray-200 py-2 px-4 rounded transition"
-                        >
-                            Đăng ký
-                        </Link>
-                        <Link
-                            to="/signin"
-                            className="bg-red-500 cursor-pointer hover:bg-red-600 text-white  py-2 px-4 rounded transition"
-                        >
-                            Đăng nhập
-                        </Link>
-                    </div>
+                <div className="invisible group-hover:visible absolute top-full left-1/2 -translate-x-1/2 mt-2 w-80 bg-white text-gray-800 p-4 rounded-sm shadow-xl border border-gray-200 z-50">
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-t border-l border-gray-200"></div>
+
+                    {user ? (
+                        <div className="py-8 text-center">
+                            <i className="fa-solid fa-envelope-open text-[50px] text-gray-200 mb-3"></i>
+                            <p className="text-sm text-gray-500">Chưa có thông báo nào mới</p>
+                        </div>
+                    ) : (
+                        <div>
+                            <div className="flex flex-col items-center py-5">
+                                <i className="fa-regular fa-circle-user text-[60px] text-red-500 mb-4"></i>
+                                <p className="text-sm text-center mb-4">Đăng nhập để xem thông báo</p>
+                            </div>
+                            <div className="flex gap-2 justify-center text-[14px]">
+                                <Link
+                                    to="/signup"
+                                    className="bg-gray-100 hover:bg-gray-200 py-2 px-6 rounded-sm transition"
+                                >
+                                    Đăng ký
+                                </Link>
+                                <Link
+                                    to="/signin"
+                                    className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-sm transition"
+                                >
+                                    Đăng nhập
+                                </Link>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* Icon Người dùng & Popover */}
-            <div className="relative group ml-3 py-2 " onMouseLeave={handleMouseLeave}>
+            {/* TÀI KHOẢN & NGÔN NGỮ */}
+            <div className="relative group ml-3 py-2" onMouseLeave={handleMouseLeave}>
                 <div className="flex items-center hover:text-white/70 cursor-pointer">
-                    <i className="fa-regular fa-user text-[18px] mr-2"></i>
-                    <span>Tài khoản</span>
+                    {user ? (
+                        <img
+                            src={user.avatar || 'https://via.placeholder.com/150'}
+                            className="w-5 h-5 rounded-full mr-2 border border-white"
+                            alt="avatar"
+                        />
+                    ) : (
+                        <i className="fa-regular fa-user text-[18px] mr-2"></i>
+                    )}
+                    <span className="max-w-[100px] truncate">{user ? user.username || user.email : 'Tài khoản'}</span>
                     <i className="fa-solid fa-chevron-down ml-1 text-[10px]"></i>
                 </div>
 
-                {/* Popover Container - Đã sửa để căn giữa */}
                 <div className="absolute top-full left-1/2 -translate-x-1/2 w-[200px] hidden group-hover:block pt-2 z-50">
-                    {/* Lớp đệm cầu nối để di chuột không bị mất hover */}
-                    <div className="absolute -top-2 left-0 w-full h-2 bg-transparent"></div>
-
-                    {/* Mũi tên - Đã sửa để căn giữa */}
                     <div className="absolute top-0.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-t border-l border-gray-200 z-10"></div>
 
-                    <div className="relative bg-white rounded-sm shadow-md border border-gray-100 overflow-hidden text-black min-h-[150px] transition-all">
-                        {/* VIEW CHÍNH */}
+                    <div className="relative bg-white rounded-sm shadow-md border border-gray-100 overflow-hidden text-black min-h-[120px]">
                         {view === 'main' && (
                             <div className="animate-in fade-in slide-in-from-right-1 duration-200">
                                 <div className="flex flex-col border-b border-gray-100">
-                                    <Link
-                                        to="/signup"
-                                        className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
-                                    >
-                                        <i className="fa-solid fa-user-plus mr-2 w-5"></i>
-                                        Đăng ký
-                                    </Link>
-                                    <Link
-                                        to="/signin"
-                                        className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
-                                    >
-                                        <i className="fa-solid fa-arrow-right-to-bracket mr-2 w-5"></i>
-                                        Đăng nhập
-                                    </Link>
+                                    {user ? (
+                                        <>
+                                            <Link
+                                                to="/profile"
+                                                className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
+                                            >
+                                                <i className="fa-regular fa-id-card mr-2 w-5"></i>
+                                                Thông tin tài khoản
+                                            </Link>
+                                            <Link
+                                                to="/orders"
+                                                className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
+                                            >
+                                                <i className="fa-solid fa-box-archive mr-2 w-5"></i>
+                                                Đơn đã mua
+                                            </Link>
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full text-left px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors border-t border-gray-50"
+                                            >
+                                                <i className="fa-solid fa-right-from-bracket mr-2 w-5"></i>
+                                                Đăng xuất
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Link
+                                                to="/signup"
+                                                className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
+                                            >
+                                                <i className="fa-solid fa-user-plus mr-2 w-5"></i>
+                                                Đăng ký
+                                            </Link>
+                                            <Link
+                                                to="/signin"
+                                                className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
+                                            >
+                                                <i className="fa-solid fa-arrow-right-to-bracket mr-2 w-5"></i>
+                                                Đăng nhập
+                                            </Link>
+                                        </>
+                                    )}
                                 </div>
-
-                                <a
-                                    href="/help"
-                                    target="_blank"
-                                    className="flex items-center px-4 py-3 border-b border-gray-100 hover:text-red-500 hover:bg-gray-50 transition-colors"
-                                >
-                                    <i className="fa-regular fa-circle-question mr-2 w-5"></i>
-                                    <span>Hỗ Trợ</span>
-                                </a>
 
                                 <div
                                     onClick={() => setView('language')}
@@ -112,33 +160,29 @@ function RightMenu() {
                             </div>
                         )}
 
-                        {/* VIEW NGÔN NGỮ */}
+                        {/* VIEW NGÔN NGỮ (Giữ nguyên logic của bạn) */}
                         {view === 'language' && (
                             <div className="animate-in fade-in slide-in-from-left-1 duration-200">
                                 <div className="flex items-center px-4 py-3 border-b border-gray-100 font-medium">
                                     <i
                                         className="fa-solid fa-arrow-left mr-3 cursor-pointer hover:text-red-500"
-                                        onClick={(e) => {
-                                            e.stopPropagation(); // Ngăn chặn sự kiện click lan ra ngoài
-                                            setView('main');
-                                        }}
+                                        onClick={() => setView('main')}
                                     ></i>
                                     Chọn ngôn ngữ
                                 </div>
-                                <div className="py-1">
-                                    {languages.map((lang) => (
-                                        <div
-                                            key={lang.value}
-                                            onClick={() => setLanguage(lang.value)}
-                                            className={`px-4 py-3 flex justify-between items-center hover:bg-gray-50 cursor-pointer transition-colors ${
-                                                language === lang.value ? 'bg-red-50 text-red-500 font-medium' : ''
-                                            }`}
-                                        >
-                                            {lang.label}
-                                            {language === lang.value && <i className="fa-solid fa-check"></i>}
-                                        </div>
-                                    ))}
-                                </div>
+                                {languages.map((lang) => (
+                                    <div
+                                        key={lang.value}
+                                        onClick={() => {
+                                            setLanguage(lang.value);
+                                            setView('main');
+                                        }}
+                                        className={`px-4 py-3 flex justify-between items-center hover:bg-gray-50 cursor-pointer ${language === lang.value ? 'text-red-500 font-medium' : ''}`}
+                                    >
+                                        {lang.label}
+                                        {language === lang.value && <i className="fa-solid fa-check"></i>}
+                                    </div>
+                                ))}
                             </div>
                         )}
                     </div>
