@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'; // Thêm useState
 import { useProducts } from '../context/ProductContext';
 import ProductCard from './ProductCard';
 
-function ProductList({ filterType }) {
+function ProductList({ filterType, name = '' }) {
     const { products, fetchProductsOnce } = useProducts();
 
     const [visibleCount, setVisibleCount] = useState(12);
@@ -11,9 +11,10 @@ function ProductList({ filterType }) {
         fetchProductsOnce();
     }, [fetchProductsOnce]);
 
-    const filteredProducts = filterType ? products.filter((p) => p.categoryProduct === filterType) : products;
-
-    const displayProducts = filteredProducts.slice(0, visibleCount);
+    let filterProduct;
+    if (name === '') filterProduct = filterType ? products.filter((p) => p.categoryProduct === filterType) : products;
+    else filterProduct = products.filter((p) => p.nameProduct.toLowerCase().includes(name.toLowerCase()));
+    const displayProducts = filterProduct.slice(0, visibleCount);
 
     const handleLoadMore = () => {
         setVisibleCount((prev) => prev + 12); // Hiện thêm 2 hàng nữa
@@ -41,7 +42,7 @@ function ProductList({ filterType }) {
                 )}
             </div>
 
-            {filteredProducts.length > visibleCount && (
+            {filterProduct.length > visibleCount && (
                 <button
                     onClick={handleLoadMore}
                     className="mt-8 px-8 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer"

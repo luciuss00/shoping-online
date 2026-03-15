@@ -5,22 +5,21 @@ import ProductCard from './ProductCard';
 
 function ProductListInCatalog({ filterType }) {
     const { products, fetchProductsOnce } = useProducts();
-
     const [visibleCount, setVisibleCount] = useState(12);
-
     const [searchParams] = useSearchParams();
     const subCategoryFilter = searchParams.get('subCategory');
+
     useEffect(() => {
         fetchProductsOnce();
     }, [fetchProductsOnce]);
 
-    const filteredProducts = products.filter((p) => {
+    const filterProduct = products.filter((p) => {
         const matchMainCategory = filterType ? p.categoryProduct === filterType : true;
         const matchSubCategory = subCategoryFilter ? p.subCategoryProduct === subCategoryFilter : true;
         return matchMainCategory && matchSubCategory;
     });
 
-    const displayProducts = filteredProducts.slice(0, visibleCount);
+    const displayProducts = filterProduct.slice(0, visibleCount);
 
     const handleLoadMore = () => {
         setVisibleCount((prev) => prev + 12); // Hiện thêm 2 hàng nữa
@@ -48,7 +47,7 @@ function ProductListInCatalog({ filterType }) {
                 )}
             </div>
 
-            {filteredProducts.length > visibleCount && (
+            {filterProduct.length > visibleCount && (
                 <button
                     onClick={handleLoadMore}
                     className="mt-8 px-8 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer"

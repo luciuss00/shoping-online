@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Help from './pages/Help';
+import Search from './pages/Search';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -37,6 +38,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/help" element={<Help />} />
+                        <Route path="/search" element={<Search />} />
 
                         <Route path="/catalog/shirt" element={<Shirt />} />
                         <Route path="/catalog/speaker" element={<Speaker />} />
