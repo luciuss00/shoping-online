@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import AuthService from '../services/authService';
 import SignLayout from '../components/SignLayout';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignUp() {
-    const [phone, setPhone] = useState('');
+    const navigate = useNavigate();
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -14,17 +17,39 @@ function SignUp() {
     const [errorValid, setErrorValid] = useState(false);
     const [firstInput, setFirstInput] = useState(true);
 
-    const validatePhone = (phone) => {
+    const validateEmail = (email) => {
         const regex = /^(0[3|5|7|8|9])([0-9]{8})$/;
-        const isValid = regex.test(phone);
+        const isValid = regex.test(email);
         setErrorValid(isValid);
-        setFirstInput(isValid || phone === '');
-        setPhone(phone);
+        setFirstInput(isValid || email === '');
+        setEmail(email);
     };
 
     // Kiểm tra xem mật khẩu có khớp và số điện thoại có hợp lệ không
     const isPasswordMatch = password === confirmPassword;
     const canSubmit = errorValid && isPasswordMatch && password.length > 0;
+
+    // api
+    const handleRegister = async (e) => {
+        e.preventDefault();
+
+        const userData = {
+            fullname: fullName,
+            email: email,
+            password: password,
+        };
+
+        try {
+            const response = await AuthService.register(userData);
+            const data = response.data;
+            console.log('Nhận về:', data.email, data.password);
+            alert('Đăng ký thành công!');
+            navigate('/signin');
+        } catch (err) {
+            console.error(err);
+            alert('Đăng ký thất bại, vui lòng thử lại.');
+        }
+    };
 
     return (
         <>
@@ -35,11 +60,11 @@ function SignUp() {
                     </div>
 
                     <div className="px-[80px]">
-                        <form onSubmit={(e) => e.preventDefault()}>
+                        <form onSubmit={handleRegister}>
                             <input
                                 type={showConfirmPassword ? 'text' : 'password'}
                                 value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                onChange={(e) => setFullName(e.target.value)}
                                 className="my-5 w-full h-[40px] pl-[12px] pr-[40px] border border-gray-300"
                                 placeholder="Tên tài khoản"
                             />
@@ -47,8 +72,8 @@ function SignUp() {
                             <div className="mb-5 relative">
                                 <input
                                     type="text"
-                                    value={phone}
-                                    onChange={(e) => validatePhone(e.target.value)}
+                                    value={email}
+                                    onChange={(e) => validateEmail(e.target.value)}
                                     className={`w-full h-[40px] pl-[12px] border ${
                                         firstInput
                                             ? 'border-gray-300'
