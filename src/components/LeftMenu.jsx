@@ -16,7 +16,7 @@ function LeftMenu() {
                             <i className="fa-brands fa-facebook"></i>
                         </a>
                         <a
-                            href="https://www.youtube.com/watch?v=cvh0nX08nRw&list=RDcvh0nX08nRw&start_radio=1"
+                            href="https://twemoji.twitter.com/?ref=undesign"
                             target="_blank"
                             className="hover:text-white/70"
                         >

@@ -8,15 +8,29 @@ function ProductListInCatalog({ filterType }) {
     const [visibleCount, setVisibleCount] = useState(12);
     const [searchParams] = useSearchParams();
     const subCategoryFilter = searchParams.get('subCategory');
+    const priceSort = searchParams.get('priceSort');
+    const stockSort = searchParams.get('stockSort');
 
     useEffect(() => {
         fetchProductsOnce();
     }, [fetchProductsOnce]);
 
-    const filterProduct = products.filter((p) => {
+    let filterProduct = products.filter((p) => {
         const matchMainCategory = filterType ? p.categoryProduct === filterType : true;
         const matchSubCategory = subCategoryFilter ? p.subCategoryProduct === subCategoryFilter : true;
         return matchMainCategory && matchSubCategory;
+    });
+
+    filterProduct = [...filterProduct].sort((a, b) => {
+        if (priceSort) {
+            const diff = priceSort === 'asc' ? a.priceProduct - b.priceProduct : b.priceProduct - a.priceProduct;
+            if (diff !== 0) return diff;
+        }
+        if (stockSort) {
+            const diff = stockSort === 'asc' ? a.quantity - b.quantity : b.quantity - a.quantity;
+            if (diff !== 0) return diff;
+        }
+        return 0;
     });
 
     const displayProducts = filterProduct.slice(0, visibleCount);

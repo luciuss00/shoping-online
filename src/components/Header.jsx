@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useProducts } from '../context/ProductContext';
 import RightMenu from './RightMenu';
 import LeftMenu from './LeftMenu';
-import { useProducts } from '../context/ProductContext'; // Import hook của bạn
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Header() {
+    const navigate = useNavigate();
     const { products } = useProducts();
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredResults, setFilteredResults] = useState([]);
@@ -26,13 +27,20 @@ function Header() {
             setIsDropdownOpen(false);
             return;
         }
-        // 3. Thiết lập bộ hẹn giờ mới (2000ms = 2s)
         typingTimeoutRef.current = setTimeout(() => {
-            console.log('Đang tìm kiếm cho:', value); // Kiểm tra logic chạy sau 2s
+            console.log('Đang tìm kiếm cho:', value);
             const results = products.filter((item) => item.nameProduct.toLowerCase().includes(value.toLowerCase()));
-            setFilteredResults(results.slice(0, 6));
+            setFilteredResults(results.slice(0, 5));
             setIsDropdownOpen(true);
         }, 1000);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (searchTerm.trim()) {
+            setIsDropdownOpen(false);
+            navigate(`/search?name=${encodeURIComponent(searchTerm)}`);
+        }
     };
 
     return (
@@ -49,7 +57,7 @@ function Header() {
 
                 {/* Container Thanh Tìm Kiếm */}
                 <div className="mx-20 w-150 flex flex-col justify-center relative">
-                    <form className="flex bg-white p-1 rounded-full shadow-sm h-[36px]">
+                    <form onSubmit={handleSubmit} className="flex bg-white p-1 rounded-full shadow-sm h-[36px]">
                         <input
                             type="text"
                             value={searchTerm}
