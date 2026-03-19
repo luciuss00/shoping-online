@@ -11,44 +11,45 @@ function SignIn() {
     const [pass, setPass] = useState('');
     const [checkPass, setCheckPass] = useState(true);
     const [showPass, setShowPass] = useState(false); // State để ẩn/hiện mật khẩu
+    // lỗi từ API
+    const [apiError, setApiError] = useState('');
 
-    const validateName = (nameSignIn) => {
-        if (nameSignIn === '') setCheckName(false);
+    const validateName = (val) => {
+        setApiError(''); // Xóa lỗi API khi người dùng gõ lại
+        if (val === '') setCheckName(false);
         else setCheckName(true);
-        setNameSignIn(nameSignIn);
+        setNameSignIn(val);
     };
 
-    const validatePass = (pass) => {
-        if (pass === '') setCheckPass(false);
+    const validatePass = (val) => {
+        setApiError(''); // Xóa lỗi API khi người dùng gõ lại
+        if (val === '') setCheckPass(false);
         else setCheckPass(true);
-        setPass(pass);
+        setPass(val);
     };
 
     const checkAll = checkName && checkPass && nameSignIn !== '' && pass !== '';
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const loginData = {
-            email: nameSignIn,
-            password: pass,
-        };
+        const loginData = { email: nameSignIn, password: pass };
+
         try {
             const response = await AuthService.login(loginData);
+            // Kiểm tra status 200 như yêu cầu
             if (response.status === 200) {
-                const userData = response.data;
-                localStorage.setItem('user', JSON.stringify(userData));
-                console.log('Đăng nhập thành công:', response.data);
+                localStorage.setItem('user', JSON.stringify(response.data));
                 alert('Đăng nhập thành công!');
                 navigate('/');
                 window.location.reload();
             }
         } catch (error) {
-            if (error.response && error.response.status === 404) {
-                alert('Tài khoản không tồn tại (Lỗi 404)');
+            const status = error.response?.status;
+            if (status === 400 || status === 404) {
+                setApiError('Sai email hoặc mật khẩu, vui lòng kiểm tra lại!');
             } else {
-                alert('Sai email hoặc mật khẩu, vui lòng kiểm tra lại!');
+                alert('Có lỗi hệ thống xảy ra!');
             }
-            console.error('Lỗi đăng nhập:', error);
         }
     };
 
@@ -72,7 +73,7 @@ function SignIn() {
                                         value={nameSignIn}
                                         onChange={(e) => validateName(e.target.value)}
                                         className={
-                                            checkName
+                                            checkName && !apiError
                                                 ? 'border border-gray-300 w-full h-[40px] pl-[12px]'
                                                 : 'border border-red-300 w-full h-[40px] pl-[12px] focus:outline-none bg-[#fff6f7]'
                                         }
@@ -96,6 +97,11 @@ function SignIn() {
                                         }
                                         placeholder="Mật khẩu"
                                     />
+                                    {apiError && <p className="text-[13px] absolute text-red-500 mt-1">{apiError}</p>}
+                                    {!checkPass && (
+                                        <p className="text-[13px] absolute text-red-500">Vui lòng điền vào mục này</p>
+                                    )}
+
                                     {/* Icon con mắt */}
                                     <button
                                         type="button"

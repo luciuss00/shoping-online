@@ -9,6 +9,7 @@ export default defineConfig({
             '/api': {
                 target: 'https://minimarts-production.up.railway.app',
                 changeOrigin: true,
+                secure: false,
             },
         },
     },

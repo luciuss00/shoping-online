@@ -14,40 +14,27 @@ function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [errorValid, setErrorValid] = useState(false);
-    const [firstInput, setFirstInput] = useState(true);
-
-    const validateEmail = (email) => {
-        const regex = /^(0[3|5|7|8|9])([0-9]{8})$/;
-        const isValid = regex.test(email);
-        setErrorValid(isValid);
-        setFirstInput(isValid || email === '');
-        setEmail(email);
-    };
-
     // Kiểm tra xem mật khẩu có khớp và số điện thoại có hợp lệ không
     const isPasswordMatch = password === confirmPassword;
-    const canSubmit = errorValid && isPasswordMatch && password.length > 0;
+    const canSubmit = isPasswordMatch && fullName.length > 0 && email.length > 0 && password.length > 0;
 
     // api
     const handleRegister = async (e) => {
         e.preventDefault();
-
         const userData = {
             fullname: fullName,
             email: email,
             password: password,
         };
-
         try {
             const response = await AuthService.register(userData);
-            const data = response.data;
-            console.log('Nhận về:', data.email, data.password);
+            console.log('Đăng ký thành công cho:', response.data.email);
             alert('Đăng ký thành công!');
             navigate('/signin');
         } catch (err) {
+            console.log(userData);
             console.error(err);
-            alert('Đăng ký thất bại, vui lòng thử lại.');
+            alert('Đăng ký thất bại, email có thể đã tồn tại.');
         }
     };
 
@@ -62,30 +49,21 @@ function SignUp() {
                     <div className="px-[80px]">
                         <form onSubmit={handleRegister}>
                             <input
-                                type={showConfirmPassword ? 'text' : 'password'}
-                                value={confirmPassword}
+                                type="text"
+                                value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
                                 className="my-5 w-full h-[40px] pl-[12px] pr-[40px] border border-gray-300"
                                 placeholder="Tên tài khoản"
                             />
-                            {/* Số điện thoại */}
+                            {/* Email */}
                             <div className="mb-5 relative">
                                 <input
                                     type="text"
                                     value={email}
-                                    onChange={(e) => validateEmail(e.target.value)}
-                                    className={`w-full h-[40px] pl-[12px] border ${
-                                        firstInput
-                                            ? 'border-gray-300'
-                                            : 'border-red-500 bg-[#fff6f7] focus:outline-none'
-                                    }`}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className={`w-full h-[40px] pl-[12px] border ${'border-gray-300'}`}
                                     placeholder="Email"
                                 />
-                                {!firstInput && (
-                                    <p className="text-[12px] text-red-500 absolute mt-[1px]">
-                                        Số điện thoại không hợp lệ
-                                    </p>
-                                )}
                             </div>
 
                             {/* Mật khẩu */}
@@ -147,7 +125,7 @@ function SignUp() {
                                         : 'bg-[#e1514e] cursor-not-allowed opacity-70'
                                 }`}
                             >
-                                TIẾP THEO
+                                ĐĂNG KÝ
                             </button>
                         </form>
                     </div>
