@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-function RightMenu() {
+function Profile() {
     const [user, setUser] = useState(null);
     const [language, setLanguage] = useState('Tiếng Việt');
     const [view, setView] = useState('main');
@@ -23,7 +23,7 @@ function RightMenu() {
     ];
 
     const handleLogout = () => {
-        localStorage.removeItem('user');
+        //localStorage.removeItem('user');
         setUser(null);
         navigate('/signin');
         window.location.reload(); // Đảm bảo trạng thái được làm mới hoàn toàn
@@ -84,15 +84,11 @@ function RightMenu() {
             <div className="relative group ml-3 py-2" onMouseLeave={handleMouseLeave}>
                 <div className="flex items-center hover:text-white/70 cursor-pointer">
                     {user ? (
-                        <img
-                            src={user.avatar || 'https://via.placeholder.com/150'}
-                            className="w-5 h-5 rounded-full mr-2 border border-white"
-                            alt="avatar"
-                        />
+                        <img src={user.avatar} className="w-5 h-5 rounded-full mr-2 border border-white" alt="avatar" />
                     ) : (
                         <i className="fa-regular fa-user text-[18px] mr-2"></i>
                     )}
-                    <span className="max-w-[100px] truncate">{user ? user.username || user.email : 'Tài khoản'}</span>
+                    <span className="max-w-[100px] truncate">{user && user.name}</span>
                     <i className="fa-solid fa-chevron-down ml-1 text-[10px]"></i>
                 </div>
 
@@ -192,4 +188,4 @@ function RightMenu() {
     );
 }
 
-export default RightMenu;
+export default Profile;

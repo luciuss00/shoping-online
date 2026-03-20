@@ -28,7 +28,7 @@ function SignUp() {
         };
         try {
             const response = await AuthService.register(userData);
-            console.log('Đăng ký thành công cho:', response.data.email);
+            localStorage.setItem('user', JSON.stringify(response.data));
             alert('Đăng ký thành công!');
             navigate('/signin');
         } catch (err) {

@@ -38,9 +38,7 @@ function SignIn() {
             const response = await AuthService.login(loginData);
             // Kiểm tra status 200 như yêu cầu
             if (response.status === 200) {
-                localStorage.setItem('user', JSON.stringify(response.data));
-                alert('Đăng nhập thành công!');
-                navigate('/');
+                navigate('/', { replace: true });
                 window.location.reload();
             }
         } catch (error) {
