@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useProducts } from '../context/ProductContext';
+import { useCart } from '../context/CartContext';
 import RightMenu from './RightMenu';
 import LeftMenu from './LeftMenu';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -8,11 +9,16 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 function Header() {
     const navigate = useNavigate();
     const { products } = useProducts();
+    const { cartItems, fetchCart } = useCart();
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredResults, setFilteredResults] = useState([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const typingTimeoutRef = useRef(null);
+
+    useEffect(() => {
+        fetchCart(); // Chỉ gọi API nếu chưa có dữ liệu
+    }, []);
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -115,9 +121,14 @@ function Header() {
                     )}
                 </div>
 
-                <div className="w-[180px] flex justify-center">
+                <Link to="/cart" className="relative w-[180px] flex justify-center">
                     <i className="fa-solid fa-bag-shopping text-white text-[30px] pr-[100px] cursor-pointer"></i>
-                </div>
+                    {cartItems.length > 0 && (
+                        <span className="absolute top-[-5px] right-[105px] bg-white text-red-500 text-[11px] font-bold h-5 w-5 flex items-center justify-center rounded-full border border-red-500 shadow-md">
+                            {cartItems.length}
+                        </span>
+                    )}
+                </Link>
             </div>
         </header>
     );

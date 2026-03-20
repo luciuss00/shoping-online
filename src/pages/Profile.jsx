@@ -15,14 +15,15 @@ function Profile() {
     });
 
     useEffect(() => {
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-        if (storedUser) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
             setUserData((prev) => ({
                 ...prev,
-                userName: storedUser.name,
-                email: storedUser.email,
+                userName: user.name,
+                email: user.email,
             }));
         }
+        console.log(user);
     }, []);
 
     const handleChange = (e) => {

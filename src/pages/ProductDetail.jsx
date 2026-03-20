@@ -1,9 +1,13 @@
-import Header from '../components/Header';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useCart } from '../context/CartContext'; //
+import Header from '../components/Header';
+import CartService from '../services/cartService';
 import Footer from '../components/Footer';
 
 function ProductDetail() {
+    const { refreshCart } = useCart();
+
     const location = useLocation();
     const product = location.state;
 
@@ -34,6 +38,34 @@ function ProductDetail() {
         const value = e.target.value;
         if (value === '' || /^[0-9\b]+$/.test(value)) {
             setQuantityPurchased(value);
+        }
+    };
+
+    const handleAddToCart = async () => {
+        try {
+            // Kiểm tra xem đã nhập số lượng chưa
+            if (!quantityPurchased || quantityPurchased <= 0) {
+                alert('Vui lòng nhập số lượng sản phẩm');
+                return;
+            }
+
+            // Lấy user từ localStorage
+            const userStore = localStorage.getItem('user');
+            if (!userStore) {
+                alert('Vui lòng đăng nhập để thêm vào giỏ hàng');
+                return;
+            }
+            const user = JSON.parse(userStore);
+            // 1. Gọi API thêm vào giỏ hàng (Sử dụng Request Param qua CartService)
+            const response = await CartService.addToCart(user.email, product.name, quantityPurchased);
+
+            // 2. QUAN TRỌNG: Gọi refresh để Header cập nhật lại số lượng ngay lập tức
+            await refreshCart();
+
+            alert(response.data || 'Đã thêm vào giỏ hàng thành công!');
+        } catch (error) {
+            console.error('Lỗi thêm giỏ hàng:', error);
+            alert('Không thể thêm vào giỏ hàng. Vui lòng thử lại.');
         }
     };
     return (
@@ -106,7 +138,12 @@ function ProductDetail() {
 
                         {/* BUTTON */}
                         <div className="flex gap-4 mt-8">
-                            <button className="border border-red-500 text-red-500 px-6 py-3">Thêm Vào Giỏ Hàng</button>
+                            <button
+                                onClick={handleAddToCart}
+                                className="border border-red-500 text-red-500 px-6 py-3 cursor-pointer"
+                            >
+                                Thêm Vào Giỏ Hàng
+                            </button>
                             <button className="bg-red-500 text-white px-8 py-3">Mua Ngay</button>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Help from './pages/Help';
 import Search from './pages/Search';
 import Profile from './pages/Profile';
+import Cart from './pages/Cart';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -29,46 +30,51 @@ import ProductDetail from './pages/ProductDetail';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
+// Context
 import { ProductProvider } from './context/ProductContext';
+import { CartProvider } from './context/CartContext';
 
 function App() {
     return (
         <ProductProvider>
-            <Router>
-                <div className="App">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/help" element={<Help />} />
-                        <Route path="/search" element={<Search />} />
-                        <Route path="/profile" element={<Profile />} />
+            <CartProvider>
+                <Router>
+                    <div className="App">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/help" element={<Help />} />
+                            <Route path="/search" element={<Search />} />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route path="/cart" element={<Cart />} />
 
-                        <Route path="/catalog/shirt" element={<Shirt />} />
-                        <Route path="/catalog/speaker" element={<Speaker />} />
-                        <Route path="/catalog/technology" element={<Technology />} />
-                        <Route path="/catalog/school-supply" element={<SchoolSupply />} />
-                        <Route path="/catalog/food" element={<Food />} />
-                        <Route path="/catalog/belonging" element={<Belonging />} />
-                        <Route path="/catalog/gaming" element={<Gaming />} />
-                        <Route path="/catalog/household" element={<Household />} />
-                        <Route path="/catalog/shoe" element={<Shoe />} />
-                        <Route path="/catalog/hat" element={<Hat />} />
-                        <Route path="/catalog/interior" element={<Interior />} />
-                        <Route path="/catalog/accessory" element={<Accessory />} />
-                        <Route path="/catalog/trouser" element={<Trouser />} />
-                        <Route path="/catalog/sport" element={<Sport />} />
-                        <Route path="/catalog/device" element={<Device />} />
-                        <Route path="/catalog/ultity" element={<Ultity />} />
-                        <Route path="/catalog/jewelry" element={<Jewelry />} />
-                        <Route path="/catalog/decoration" element={<Decoration />} />
-                        <Route path="/catalog/office" element={<Office />} />
+                            <Route path="/catalog/shirt" element={<Shirt />} />
+                            <Route path="/catalog/speaker" element={<Speaker />} />
+                            <Route path="/catalog/technology" element={<Technology />} />
+                            <Route path="/catalog/school-supply" element={<SchoolSupply />} />
+                            <Route path="/catalog/food" element={<Food />} />
+                            <Route path="/catalog/belonging" element={<Belonging />} />
+                            <Route path="/catalog/gaming" element={<Gaming />} />
+                            <Route path="/catalog/household" element={<Household />} />
+                            <Route path="/catalog/shoe" element={<Shoe />} />
+                            <Route path="/catalog/hat" element={<Hat />} />
+                            <Route path="/catalog/interior" element={<Interior />} />
+                            <Route path="/catalog/accessory" element={<Accessory />} />
+                            <Route path="/catalog/trouser" element={<Trouser />} />
+                            <Route path="/catalog/sport" element={<Sport />} />
+                            <Route path="/catalog/device" element={<Device />} />
+                            <Route path="/catalog/ultity" element={<Ultity />} />
+                            <Route path="/catalog/jewelry" element={<Jewelry />} />
+                            <Route path="/catalog/decoration" element={<Decoration />} />
+                            <Route path="/catalog/office" element={<Office />} />
 
-                        <Route path="/detail" element={<ProductDetail />} />
-                        <Route path="/signup" element={<SignUp />} />
-                        <Route path="/signin" element={<SignIn />} />
-                        <Route path="/reset-password" element={<ResetPassword />} />
-                    </Routes>
-                </div>
-            </Router>
+                            <Route path="/detail" element={<ProductDetail />} />
+                            <Route path="/signup" element={<SignUp />} />
+                            <Route path="/signin" element={<SignIn />} />
+                            <Route path="/reset-password" element={<ResetPassword />} />
+                        </Routes>
+                    </div>
+                </Router>
+            </CartProvider>
         </ProductProvider>
     );
 }
