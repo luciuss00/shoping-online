@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useCart } from '../context/CartContext'; //
-import Header from '../components/Header';
-import CartService from '../services/cartService';
-import Footer from '../components/Footer';
-import Notification from '../components/Notification/Notification';
+import { useCart } from '../../context/CartContext'; //
+import Header from '../../components/Header';
+import CartService from '../../services/cartService';
+import Footer from '../../components/Footer';
+import Notification from '../../components/Notification/Notification';
 
 function ProductDetail() {
     const { refreshCart } = useCart();
-
     const location = useLocation();
     const product = location.state;
 
-    const [quantityPurchased, setQuantityPurchased] = useState();
     const [isExpanded, setIsExpanded] = useState(false);
 
     const [ratingData, setRatingData] = useState({ stars: 5, reviews: 0 });
@@ -45,33 +43,20 @@ function ProductDetail() {
         setModalConfig({ ...modalConfig, isOpen: false });
     };
 
-    const handleInputChange = (e) => {
-        const value = e.target.value;
-        if (value === '' || /^[0-9\b]+$/.test(value)) {
-            setQuantityPurchased(value);
-        }
-    };
-
-    const handleAddToCart = async () => {
+    const handleDelete = async () => {
+        const user = JSON.parse(localStorage.getItem('user'));
         try {
-            if (!quantityPurchased || quantityPurchased <= 0) {
-                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ'); // Thay alert
-                return;
-            }
+            // Gọi service xóa
+            await CartService.removeToCart(user.email, product.name);
 
-            const userStore = localStorage.getItem('user');
-            if (!userStore) {
-                showModal('Vui lòng đăng nhập'); // Thay alert
-                return;
-            }
+            // Thông báo thành công
+            showModal('Đã xóa sản phẩm khỏi giỏ hàng thành công!');
 
-            const user = JSON.parse(userStore);
-            const response = await CartService.addToCart(user.email, product.name, quantityPurchased);
-
-            await refreshCart();
-            showModal(response.data || 'Đã thêm vào giỏ hàng thành công!'); // Thay alert
+            // Cập nhật lại số lượng giỏ hàng trên Header (Context)
+            if (refreshCart) refreshCart();
         } catch (error) {
-            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', error); // Thay alert
+            console.error('Lỗi khi xóa sản phẩm:', error);
+            showModal('Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại!');
         }
     };
 
@@ -128,28 +113,13 @@ function ProductDetail() {
                             </span>
                         </div>
 
-                        <p className="mt-2 text-[14px] text-gray-500">
-                            Kho còn: <span>{product.quantity} </span>
-                        </p>
-
-                        <div className="mt-3 flex items-center gap-2">
-                            <span>Số lượng mua: </span>
-
-                            <input
-                                value={quantityPurchased}
-                                onChange={handleInputChange}
-                                type="text"
-                                className="mt-[2px] text-center w-[30px] border-1 border-gray-500   "
-                            />
-                        </div>
-
                         {/* BUTTON */}
                         <div className="flex gap-4 mt-8">
                             <button
-                                onClick={handleAddToCart}
+                                onClick={handleDelete}
                                 className="border border-red-500 text-red-500 px-6 py-3 cursor-pointer hover:bg-red-100"
                             >
-                                Thêm Vào Giỏ Hàng
+                                Xóa sản phẩm
                             </button>
                             <button className="bg-red-500 text-white px-8 py-3">Mua Ngay</button>
                         </div>

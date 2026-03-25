@@ -12,6 +12,19 @@ const CartService = {
         });
     },
 
+    removeToCart(email, nameProduct) {
+        const url = '/deleteProductByName';
+        return apiClient.delete(
+            url,
+            { email: email },
+            {
+                params: {
+                    nameProduct: nameProduct,
+                },
+            },
+        );
+    },
+
     getAllProductInCart(email) {
         const url = '/userCheckList';
         return apiClient.post(url, { email: email });

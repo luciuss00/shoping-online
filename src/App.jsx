@@ -26,7 +26,8 @@ import Jewelry from './pages/CatalogItem/Jewelry';
 import Decoration from './pages/CatalogItem/Decoration';
 import Office from './pages/CatalogItem/Office';
 //
-import ProductDetail from './pages/ProductDetail';
+import ProductDetail from './pages/ProductDetail/ProductDetail';
+import ProductDetailInCart from './pages/ProductDetail/ProductDetailInCart';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
@@ -68,6 +69,7 @@ function App() {
                             <Route path="/catalog/office" element={<Office />} />
 
                             <Route path="/detail" element={<ProductDetail />} />
+                            <Route path="/cart/detail" element={<ProductDetailInCart />} />
                             <Route path="/signup" element={<SignUp />} />
                             <Route path="/signin" element={<SignIn />} />
                             <Route path="/reset-password" element={<ResetPassword />} />

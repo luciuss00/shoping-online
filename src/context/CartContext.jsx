@@ -4,20 +4,22 @@ import CartService from '../services/cartService';
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    const [cartItems, setCartItems] = useState([]);
+    const [cartProducts, setCartProducts] = useState([]);
 
     const fetchCart = async () => {
         try {
             const user = JSON.parse(localStorage.getItem('user'));
             const response = await CartService.getAllProductInCart(user.email);
-            setCartItems(response.data);
+            setCartProducts(response.data);
         } catch (error) {
             console.error('Lỗi khi tải giỏ hàng:', error);
         }
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, fetchCart, refreshCart: fetchCart }}>{children}</CartContext.Provider>
+        <CartContext.Provider value={{ cartProducts, fetchCart, refreshCart: fetchCart }}>
+            {children}
+        </CartContext.Provider>
     );
 };
 
