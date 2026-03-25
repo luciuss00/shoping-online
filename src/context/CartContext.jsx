@@ -16,7 +16,9 @@ export const CartProvider = ({ children }) => {
         }
     };
 
-    return <CartContext.Provider value={{ cartItems, fetchCart }}>{children}</CartContext.Provider>;
+    return (
+        <CartContext.Provider value={{ cartItems, fetchCart, refreshCart: fetchCart }}>{children}</CartContext.Provider>
+    );
 };
 
 // Hook để dùng context nhanh hơn

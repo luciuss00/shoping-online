@@ -14,7 +14,7 @@ const CartService = {
 
     getAllProductInCart(email) {
         const url = '/userCheckList';
-        return apiClient.get(url, email);
+        return apiClient.post(url, { email: email });
     },
 };
 
