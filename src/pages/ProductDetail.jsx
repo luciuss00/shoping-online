@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext'; //
 import Header from '../components/Header';
 import CartService from '../services/cartService';
 import Footer from '../components/Footer';
+import Notification from '../components/Notification/Notification';
 
 function ProductDetail() {
     const { refreshCart } = useCart();
@@ -34,6 +35,16 @@ function ProductDetail() {
         }
     }, [product?.id]);
 
+    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
+
+    const showModal = (msg) => {
+        setModalConfig({ isOpen: true, message: msg });
+    };
+
+    const closeModal = () => {
+        setModalConfig({ ...modalConfig, isOpen: false });
+    };
+
     const handleInputChange = (e) => {
         const value = e.target.value;
         if (value === '' || /^[0-9\b]+$/.test(value)) {
@@ -43,31 +54,27 @@ function ProductDetail() {
 
     const handleAddToCart = async () => {
         try {
-            // Kiểm tra xem đã nhập số lượng chưa
             if (!quantityPurchased || quantityPurchased <= 0) {
-                alert('Vui lòng nhập số lượng sản phẩm');
+                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ'); // Thay alert
                 return;
             }
 
-            // Lấy user từ localStorage
             const userStore = localStorage.getItem('user');
             if (!userStore) {
-                alert('Vui lòng đăng nhập để thêm vào giỏ hàng');
+                showModal('Vui lòng đăng nhập'); // Thay alert
                 return;
             }
+
             const user = JSON.parse(userStore);
-            // 1. Gọi API thêm vào giỏ hàng (Sử dụng Request Param qua CartService)
             const response = await CartService.addToCart(user.email, product.name, quantityPurchased);
 
-            // 2. QUAN TRỌNG: Gọi refresh để Header cập nhật lại số lượng ngay lập tức
             await refreshCart();
-
-            alert(response.data || 'Đã thêm vào giỏ hàng thành công!');
+            showModal(response.data || 'Đã thêm vào giỏ hàng thành công!'); // Thay alert
         } catch (error) {
-            console.error('Lỗi thêm giỏ hàng:', error);
-            alert('Không thể thêm vào giỏ hàng. Vui lòng thử lại.');
+            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', error); // Thay alert
         }
     };
+
     return (
         <div className="bg-gray-100 min-h-screen">
             <Header />
@@ -140,7 +147,7 @@ function ProductDetail() {
                         <div className="flex gap-4 mt-8">
                             <button
                                 onClick={handleAddToCart}
-                                className="border border-red-500 text-red-500 px-6 py-3 cursor-pointer"
+                                className="border border-red-500 text-red-500 px-6 py-3 cursor-pointer hover:bg-red-100"
                             >
                                 Thêm Vào Giỏ Hàng
                             </button>
@@ -150,6 +157,7 @@ function ProductDetail() {
                 </div>
             </div>
             <Footer />
+            <Notification isOpen={modalConfig.isOpen} message={modalConfig.message} onClose={closeModal} />
         </div>
     );
 }

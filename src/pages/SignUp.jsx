@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthService from '../services/authService';
 import SignLayout from '../components/SignLayout';
+import NotificationSign from '../components/Notification/NotificationSign';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignUp() {
@@ -14,6 +15,17 @@ function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
+    const [isRegistered, setIsRegistered] = useState(false);
+    const showModal = (msg) => {
+        setModalConfig({ isOpen: true, message: msg });
+    };
+    const closeModal = () => {
+        setModalConfig({ ...modalConfig, isOpen: false });
+        if (isRegistered) {
+            navigate('/signin');
+        }
+    };
     // Kiểm tra xem mật khẩu có khớp và số điện thoại có hợp lệ không
     const isPasswordMatch = password === confirmPassword;
     const canSubmit = isPasswordMatch && fullName.length > 0 && email.length > 0 && password.length > 0;
@@ -29,12 +41,12 @@ function SignUp() {
         try {
             const response = await AuthService.register(userData);
             localStorage.setItem('user', JSON.stringify(response.data));
-            alert('Đăng ký thành công!');
-            navigate('/signin');
+            setIsRegistered(true); // Đánh dấu đã đăng ký xong
+            showModal('Đăng ký thành công!');
         } catch (err) {
             console.log(userData);
             console.error(err);
-            alert('Đăng ký thất bại, email có thể đã tồn tại.');
+            showModal('Đăng ký thất bại, email có thể đã tồn tại.');
         }
     };
 
@@ -147,6 +159,7 @@ function SignUp() {
                     </div>
                 </div>
             </SignLayout>
+            <NotificationSign isOpen={modalConfig.isOpen} message={modalConfig.message} onClose={closeModal} />
         </>
     );
 }

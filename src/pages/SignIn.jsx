@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthService from '../services/authService';
 import SignLayout from '../components/SignLayout';
+import NotificationSign from '../components/Notification/NotificationSign';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignIn() {
@@ -13,6 +14,21 @@ function SignIn() {
     const [showPass, setShowPass] = useState(false); // State để ẩn/hiện mật khẩu
     // lỗi từ API
     const [apiError, setApiError] = useState('');
+
+    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
+    const [isSuccess, setIsSuccess] = useState(false);
+
+    const showModal = (msg) => {
+        setModalConfig({ isOpen: true, message: msg });
+    };
+
+    const closeModal = () => {
+        setModalConfig({ ...modalConfig, isOpen: false });
+        if (isSuccess) {
+            navigate('/', { replace: true });
+            window.location.reload();
+        }
+    };
 
     const validateName = (val) => {
         setApiError(''); // Xóa lỗi API khi người dùng gõ lại
@@ -38,15 +54,15 @@ function SignIn() {
             const response = await AuthService.login(loginData);
             // Kiểm tra status 200 như yêu cầu
             if (response.status === 200) {
-                navigate('/', { replace: true });
-                window.location.reload();
+                setIsSuccess(true); // Đánh dấu thành công
+                showModal('Đăng nhập thành công!');
             }
         } catch (error) {
             const status = error.response?.status;
             if (status === 400 || status === 404) {
                 setApiError('Sai email hoặc mật khẩu, vui lòng kiểm tra lại!');
             } else {
-                alert('Có lỗi hệ thống xảy ra!');
+                showModal('Có lỗi hệ thống xảy ra!');
             }
         }
     };
@@ -170,6 +186,7 @@ function SignIn() {
                     </div>
                 </div>
             </SignLayout>
+            <NotificationSign isOpen={modalConfig.isOpen} message={modalConfig.message} onClose={closeModal} />
         </>
     );
 }
