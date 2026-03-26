@@ -43,10 +43,14 @@ function Footer() {
                         </h3>
                         <ul className="space-y-3 text-gray-600 [&>li>a]:hover:text-red-600 [&>li>a]:transition-colors">
                             <li>
-                                <a href="#">Trung tâm trợ giúp</a>
+                                <a href="/help" target="_blank">
+                                    Trung tâm trợ giúp
+                                </a>
                             </li>
                             <li>
-                                <a href="#">Hướng dẫn mua hàng</a>
+                                <a href="/purchase-guide" target="_blank">
+                                    Hướng dẫn mua hàng
+                                </a>
                             </li>
                             <li>
                                 <a href="#">Chính sách bảo hành</a>

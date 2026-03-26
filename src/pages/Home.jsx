@@ -8,6 +8,7 @@ function Home() {
     return (
         <div>
             <Header />
+            <h1 className="text-center text-[40px] text-red-500 mt-10">Chào mừng bạn đến với Shopping Online!</h1>
             <Banner />
             <ProductCatalog />
             <div className="mt-10">

@@ -36,10 +36,10 @@ function Profile() {
     return (
         <div className="flex h-[34px] items-center justify-end px-10 text-white text-[14px]">
             {/* THÔNG BÁO */}
-            <Link to="/help" className="flex items-center hover:text-white/70 mx-3 py-2 ">
+            <a href="/help" target="_blank" className="flex items-center hover:text-white/70 mx-3 py-2 ">
                 <i className="fa-regular fa-circle-question text-[18px] mr-2 mt-[1px]"></i>
                 <p className="text-[14px]">Hỗ trợ</p>
-            </Link>
+            </a>
 
             <div className="group relative flex items-center hover:text-white/70 mx-3 py-2">
                 <div className="flex mt-[1.2px] cursor-pointer">
