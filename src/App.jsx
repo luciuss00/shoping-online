@@ -5,6 +5,7 @@ import Help from './pages/Help';
 import Search from './pages/Search';
 import Profile from './pages/Profile';
 import Cart from './pages/Cart';
+import Pay from './pages/Pay';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -47,6 +48,7 @@ function App() {
                             <Route path="/search" element={<Search />} />
                             <Route path="/profile" element={<Profile />} />
                             <Route path="/cart" element={<Cart />} />
+                            <Route path="/pay" element={<Pay />} />
 
                             <Route path="/catalog/shirt" element={<Shirt />} />
                             <Route path="/catalog/speaker" element={<Speaker />} />

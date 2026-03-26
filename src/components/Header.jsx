@@ -135,8 +135,8 @@ function Header() {
                 </div>
 
                 {/* Icon Giỏ hàng và Popover */}
-                <div className="relative group w-[180px] flex justify-center py-4">
-                    <Link to="/cart" className="relative mr-[130px]">
+                <div className="relative group w-[40px] flex justify-center py-4">
+                    <Link to="/cart" className="relative">
                         <i className="fa-solid fa-bag-shopping text-white text-[30px] cursor-pointer"></i>
                         {cartProducts.length > 0 && (
                             <span className="absolute top-[-5px] -right-[7px] bg-yellow-300 text-red-500 text-[11px] font-bold h-5 w-5 flex items-center justify-center rounded-full border border-red-500 shadow-md">
@@ -147,11 +147,11 @@ function Header() {
 
                     {/* Popover Giỏ hàng (Hiện khi di chuột vào 'group') */}
                     <div
-                        className="absolute top-full right-[60px] w-[400px] bg-white shadow-2xl rounded-sm border border-gray-100 
+                        className="absolute top-full -right-[128px] w-[400px] bg-white shadow-2xl rounded-sm border border-gray-100 
                     scale-0 group-hover:scale-100 origin-top-right transition-all duration-200 z-[100] opacity-0 group-hover:opacity-100"
                     >
                         {/* Mũi tên nhọn phía trên */}
-                        <div className="absolute -top-2 right-21 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-100"></div>
+                        <div className="absolute -top-2 right-35 w-4 h-4 bg-white rotate-45 border-l border-t border-gray-100"></div>
 
                         <div className="p-3">
                             <h3 className="text-gray-400 text-sm mb-3">Sản phẩm mới thêm gần đây</h3>

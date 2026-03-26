@@ -33,8 +33,8 @@ const CartService = {
     orderSomeItemInCart(email, listProduct) {
         const url = '/orderSomeItemInCart';
         return apiClient.post(url, {
-            email: email,
-            listProduct: listProduct,
+            email,
+            listProduct,
         });
     },
 };

@@ -134,6 +134,15 @@ function Cart() {
                                     />
                                     <Link
                                         to={`/detail?name=${encodeURIComponent(product.nameProduct)}`}
+                                        state={{
+                                            id: product.id,
+                                            name: product.nameProduct,
+                                            description: product.descriptionProduct,
+                                            type: product.categoryProduct,
+                                            cost: product.priceProduct,
+                                            quantity: product.quantity,
+                                            img: product.imageLink,
+                                        }}
                                         className="flex"
                                     >
                                         <img

@@ -93,6 +93,7 @@ function Profile() {
                 </div>
 
                 <div className="absolute top-full left-1/2 -translate-x-1/2 w-[200px] hidden group-hover:block pt-2 z-50">
+                    <div className="absolute top-0 left-0 w-full h-3 bg-transparent"></div>
                     <div className="absolute top-0.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rotate-45 border-t border-l border-gray-200 z-10"></div>
 
                     <div className="relative bg-white rounded-sm shadow-md border border-gray-100 overflow-hidden text-black min-h-[120px]">

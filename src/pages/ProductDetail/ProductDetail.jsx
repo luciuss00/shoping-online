@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext'; //
 import Header from '../../components/Header';
 import CartService from '../../services/cartService';
@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import Notification from '../../components/Notification/Notification';
 
 function ProductDetail() {
+    const navigate = useNavigate();
     const { refreshCart } = useCart();
     const location = useLocation();
     const product = location.state;
@@ -54,13 +55,20 @@ function ProductDetail() {
     const handleAddToCart = async () => {
         try {
             if (!quantityPurchased || quantityPurchased <= 0) {
-                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ'); // Thay alert
+                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ');
                 return;
             }
 
+            // 2. Kiểm tra tồn kho (MỚI)
+            if (Number(quantityPurchased) > product.quantity) {
+                showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`);
+                return;
+            }
+
+            // 3. Kiểm tra đăng nhập
             const userStore = localStorage.getItem('user');
             if (!userStore) {
-                showModal('Vui lòng đăng nhập'); // Thay alert
+                showModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
                 return;
             }
 
@@ -72,6 +80,37 @@ function ProductDetail() {
         } catch (error) {
             showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', error); // Thay alert
         }
+    };
+
+    const handleBuyNow = () => {
+        if (!quantityPurchased || quantityPurchased <= 0) {
+            showModal('Vui lòng nhập số lượng sản phẩm hợp lệ');
+            return;
+        }
+
+        // 2. Kiểm tra tồn kho (MỚI)
+        if (Number(quantityPurchased) > product.quantity) {
+            showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`);
+            return;
+        }
+
+        // 3. Kiểm tra đăng nhập
+        const userStore = localStorage.getItem('user');
+        if (!userStore) {
+            showModal('Vui lòng đăng nhập để mua hàng');
+            return;
+        }
+
+        navigate('/pay', {
+            state: {
+                checkoutItems: [
+                    {
+                        ...product,
+                        quantityPurchased: Number(quantityPurchased),
+                    },
+                ],
+            },
+        });
     };
 
     return (
@@ -150,7 +189,12 @@ function ProductDetail() {
                             >
                                 Thêm Vào Giỏ Hàng
                             </button>
-                            <button className="bg-red-500 text-white px-8 py-3">Mua Ngay</button>
+                            <button
+                                onClick={handleBuyNow}
+                                className="bg-red-500 text-white px-8 py-3 hover:bg-red-600 cursor-pointer"
+                            >
+                                Mua Ngay
+                            </button>
                         </div>
                     </div>
                 </div>

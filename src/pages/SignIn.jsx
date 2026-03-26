@@ -52,6 +52,7 @@ function SignIn() {
 
         try {
             const response = await AuthService.login(loginData);
+            localStorage.setItem('user', JSON.stringify(response.data));
             // Kiểm tra status 200 như yêu cầu
             if (response.status === 200) {
                 setIsSuccess(true); // Đánh dấu thành công
