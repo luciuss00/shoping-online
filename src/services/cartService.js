@@ -29,6 +29,14 @@ const CartService = {
         const url = '/userCheckList';
         return apiClient.post(url, { email: email });
     },
+
+    orderSomeItemInCart(email, listProduct) {
+        const url = '/orderSomeItemInCart';
+        return apiClient.post(url, {
+            email: email,
+            listProduct: listProduct,
+        });
+    },
 };
 
 export default CartService;
