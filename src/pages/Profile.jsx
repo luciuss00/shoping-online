@@ -2,33 +2,74 @@ import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import SideBarProfile from '../components/Sidebar/SidebarProfile';
 import Footer from '../components/Footer';
+import Notification from '../components/Notification/Notification';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Profile() {
     const [userData, setUserData] = useState({
-        userName: '',
-        fullName: '',
+        name: '',
+        realName: '',
         email: '',
         phone: '',
+        address: '',
         gender: '',
         birthDate: { day: '', month: '', year: '' },
     });
+
+    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             setUserData((prev) => ({
                 ...prev,
-                userName: user.name,
-                email: user.email,
+                name: user.name || '',
+                realName: user.realName || '',
+                email: user.email || '',
+                phone: user.phone || '',
+                address: user.address || '',
+                gender: user.gender || '',
+                birthDate: user.birthDate,
             }));
         }
-        console.log(user);
     }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUserData({ ...userData, [name]: value });
+    };
+
+    const handleBirthDateChange = (e) => {
+        const { name, value } = e.target;
+        setUserData((prev) => ({
+            ...prev,
+            birthDate: {
+                ...prev.birthDate,
+                [name]: value,
+            },
+        }));
+    };
+
+    const handleSave = (e) => {
+        e.preventDefault();
+
+        const currentUser = JSON.parse(localStorage.getItem('user')) || {};
+
+        const updatedUser = {
+            ...currentUser,
+            realName: userData.realName,
+            phone: userData.phone,
+            address: userData.address,
+            gender: userData.gender,
+            birthDate: userData.birthDate,
+        };
+
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+
+        setModalConfig({
+            isOpen: true,
+            message: 'Cập nhật thành công!',
+        });
     };
 
     return (
@@ -49,27 +90,27 @@ function Profile() {
                         <form className="flex-1 space-y-6 pr-12">
                             {/* Tên đăng nhập */}
                             <div className="flex items-center">
-                                <label className="w-1/4 text-right pr-6 text-gray-500 text-[14px]">Tên đăng nhập</label>
+                                <label className="w-1/4 text-right pr-6 text-gray-500 text-[14px]">
+                                    Tên tài khoản<noframes></noframes>
+                                </label>
                                 <div className="w-3/4">
                                     <input
                                         type="text"
-                                        value={userData.userName}
+                                        value={userData.name}
                                         readOnly
                                         className="w-full h-10 px-3 border border-gray-200 rounded-sm outline-none bg-white text-gray-800"
                                     />
-                                    <p className="text-[12px] text-gray-400 mt-1">
-                                        Tên Đăng nhập chỉ có thể thay đổi một lần.
-                                    </p>
+                                    <p className="text-[12px] text-gray-400 mt-1">Tên Tài Khoản không thể thay đổi</p>
                                 </div>
                             </div>
 
                             {/* Tên */}
                             <div className="flex items-center">
-                                <label className="w-1/4 text-right pr-6 text-gray-500 text-[14px]">Tên</label>
+                                <label className="w-1/4 text-right pr-6 text-gray-500 text-[14px]">Họ Tên</label>
                                 <input
                                     type="text"
-                                    name="fullName"
-                                    value={userData.fullName}
+                                    name="realName"
+                                    value={userData.realName}
                                     onChange={handleChange}
                                     className="w-3/4 h-10 px-3 border border-gray-300 rounded-sm focus:border-gray-400 outline-none"
                                 />
@@ -89,9 +130,24 @@ function Profile() {
                             {/* Số điện thoại */}
                             <div className="flex items-center">
                                 <label className="w-1/4 text-right pr-6 text-gray-500 text-[14px]">Số điện thoại</label>
-                                <button type="button" className="text-blue-500 underline text-sm">
-                                    Thêm
-                                </button>
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={userData.phone}
+                                    onChange={handleChange}
+                                    className="w-3/4 h-10 px-3 border border-gray-300 rounded-sm focus:border-gray-400 outline-none"
+                                />
+                            </div>
+
+                            <div className="flex items-center">
+                                <label className="w-1/4 text-right pr-6 text-gray-500 text-[14px]">Địa chỉ</label>
+                                <input
+                                    type="text"
+                                    name="address"
+                                    value={userData.address}
+                                    onChange={handleChange}
+                                    className="w-3/4 h-10 px-3 border border-gray-300 rounded-sm focus:border-gray-400 outline-none"
+                                />
                             </div>
 
                             {/* Giới tính */}
@@ -106,7 +162,7 @@ function Profile() {
                                                 value={item}
                                                 checked={userData.gender === item}
                                                 onChange={handleChange}
-                                                className="w-4 h-4 accent-[#ee4d2d]"
+                                                className="w-4 h-4 accent-red-500"
                                             />
                                             <span className="ml-2 text-sm text-gray-700">{item}</span>
                                         </label>
@@ -118,22 +174,48 @@ function Profile() {
                             <div className="flex items-center">
                                 <label className="w-1/4 text-right pr-6 text-gray-500 text-[14px]">Ngày sinh</label>
                                 <div className="w-3/4 flex gap-2">
-                                    <select className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none appearance-none bg-white">
-                                        <option>Ngày</option>
+                                    {/* Chọn Ngày */}
+                                    <select
+                                        name="day"
+                                        value={userData.birthDate.day}
+                                        onChange={handleBirthDateChange}
+                                        className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none bg-white"
+                                    >
+                                        <option value="">Ngày</option>
                                         {[...Array(31)].map((_, i) => (
-                                            <option key={i + 1}>{i + 1}</option>
+                                            <option key={i + 1} value={i + 1}>
+                                                {i + 1}
+                                            </option>
                                         ))}
                                     </select>
-                                    <select className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none appearance-none bg-white">
-                                        <option>Tháng</option>
+
+                                    {/* Chọn Tháng */}
+                                    <select
+                                        name="month"
+                                        value={userData.birthDate.month}
+                                        onChange={handleBirthDateChange}
+                                        className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none bg-white"
+                                    >
+                                        <option value="">Tháng</option>
                                         {[...Array(12)].map((_, i) => (
-                                            <option key={i + 1}>Tháng {i + 1}</option>
+                                            <option key={i + 1} value={i + 1}>
+                                                Tháng {i + 1}
+                                            </option>
                                         ))}
                                     </select>
-                                    <select className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none appearance-none bg-white">
-                                        <option>Năm</option>
+
+                                    {/* Chọn Năm */}
+                                    <select
+                                        name="year"
+                                        value={userData.birthDate.year}
+                                        onChange={handleBirthDateChange}
+                                        className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none bg-white"
+                                    >
+                                        <option value="">Năm</option>
                                         {[...Array(100)].map((_, i) => (
-                                            <option key={2026 - i}>{2026 - i}</option>
+                                            <option key={2026 - i} value={2026 - i}>
+                                                {2026 - i}
+                                            </option>
                                         ))}
                                     </select>
                                 </div>
@@ -143,8 +225,8 @@ function Profile() {
                             <div className="flex items-center pt-2">
                                 <div className="w-1/4"></div>
                                 <button
-                                    type="submit"
-                                    className="bg-[#ee4d2d] text-white px-7 py-[10px] rounded-[2px] text-sm hover:opacity-90 min-w-[70px]"
+                                    onClick={handleSave}
+                                    className="bg-red-500 text-white px-7 py-[10px] rounded-[2px] text-sm hover:bg-red-600 min-w-[70px] cursor-pointer"
                                 >
                                     Lưu
                                 </button>
@@ -168,6 +250,11 @@ function Profile() {
                 </div>
             </div>
             <Footer />
+            <Notification
+                isOpen={modalConfig.isOpen}
+                message={modalConfig.message}
+                onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
+            />
         </div>
     );
 }

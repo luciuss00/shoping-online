@@ -28,7 +28,7 @@ function Pay() {
     }, []);
 
     const [addressInfo, setAddressInfo] = useState({
-        name: user.name,
+        name: user.realName || '',
         phone: user.phone || '',
         address: user.address || '',
     });
@@ -94,7 +94,7 @@ function Pay() {
         }
 
         const newAddressData = {
-            name: tempAddress.name,
+            realName: tempAddress.name,
             phone: tempAddress.phone,
             address: tempAddress.address,
         };
@@ -249,7 +249,7 @@ function Pay() {
                             <div className="relative">
                                 <input
                                     type="text"
-                                    placeholder="Họ và tên"
+                                    placeholder="Họ tên"
                                     className="w-full border border-gray-300 p-3 outline-none focus:border-red-500 focus:shadow-[inset_0_1px_1px_rgba(0,0,0,0.075)] transition-all"
                                     value={tempAddress.name}
                                     onChange={(e) => setTempAddress({ ...tempAddress, name: e.target.value })}
