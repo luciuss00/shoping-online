@@ -29,7 +29,7 @@ const WarrantyPolicy = () => {
     return (
         <div className="min-h-screen bg-gray-50 font-sans">
             {/* Hero Section */}
-            <div className="bg-red-600 py-16 px-4">
+            <div className="bg-red-500 py-14 px-4">
                 <div className="max-w-5xl mx-auto text-center">
                     <ShieldCheck className="w-16 h-16 text-white mx-auto mb-4 opacity-90" />
                     <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Chính Sách Bảo Hành</h1>

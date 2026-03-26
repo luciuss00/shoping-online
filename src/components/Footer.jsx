@@ -53,13 +53,19 @@ function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="/warranty-policy">Chính sách bảo hành</a>
+                                <a href="/warranty-policy" target="_blank">
+                                    Chính sách bảo hành
+                                </a>
                             </li>
                             <li>
-                                <a href="#">Chính sách đổi trả</a>
+                                <a href="/return-policy" target="_blank">
+                                    Chính sách đổi trả
+                                </a>
                             </li>
                             <li>
-                                <a href="#">Vận chuyển & Giao hàng</a>
+                                <a href="#" target="_blank">
+                                    Vận chuyển & Giao hàng
+                                </a>
                             </li>
                         </ul>
                     </div>
