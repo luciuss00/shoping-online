@@ -63,7 +63,7 @@ function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank">
+                                <a href="/shipping-policy" target="_blank">
                                     Vận chuyển & Giao hàng
                                 </a>
                             </li>

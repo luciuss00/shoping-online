@@ -26,7 +26,7 @@ const ReturnPolicy = () => {
                     <div className="inline-flex p-3 bg-white/20 rounded-2xl backdrop-blur-sm mb-6">
                         <RotateCcw className="w-10 h-10 text-white" />
                     </div>
-                    <h1 className="text-3xl font-bold text-white mb-4 tracking-tight">CHÍNH SÁCH ĐỔI TRẢ</h1>
+                    <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">CHÍNH SÁCH ĐỔI TRẢ</h1>
                     <p className="text-red-50  opacity-90">
                         Mua sắm không lo âu với chính sách đổi trả linh hoạt tại Shopping Online.
                     </p>
