@@ -14,6 +14,7 @@ function Hat() {
                     <ProductListInCatalog filterType="Mũ" />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

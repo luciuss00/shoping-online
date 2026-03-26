@@ -76,7 +76,7 @@ function SideBar({ name }) {
         </svg>
     );
     return (
-        <div className="pl-[140px] pr-[55px] py-4">
+        <div className="pl-[140px] pr-[40px] py-4">
             <h3 className="font-bold mb-4 text-lg">Sắp xếp sản phẩm:</h3>
             <div className="mb-4">
                 <span className="text-sm font-medium text-gray-600 block mb-2">Giá sản phẩm</span>

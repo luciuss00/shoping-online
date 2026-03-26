@@ -2,7 +2,7 @@ import Header from '../../components/Header';
 import TitleCatalog from '../../components/TitleCatalog';
 import SideBar from '../../components/Sidebar/Sidebar';
 import ProductListInCatalog from '../../components/ProductListInCatalog';
-
+import Footer from '../../components/Footer';
 function Ultity() {
     return (
         <div>
@@ -14,6 +14,7 @@ function Ultity() {
                     <ProductListInCatalog filterType="Tiện ích" />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

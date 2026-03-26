@@ -2,7 +2,7 @@ import Header from '../../components/Header';
 import TitleCatalog from '../../components/TitleCatalog';
 import SideBar from '../../components/Sidebar/Sidebar';
 import ProductListInCatalog from '../../components/ProductListInCatalog';
-
+import Footer from '../../components/Footer';
 function SchoolSupply() {
     return (
         <div>
@@ -14,6 +14,7 @@ function SchoolSupply() {
                     <ProductListInCatalog filterType="Học tập" />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

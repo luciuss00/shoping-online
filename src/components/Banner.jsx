@@ -2,13 +2,7 @@ import { useState, useEffect } from 'react';
 
 function Banner() {
     const [currentPage, setCurrentPage] = useState(0);
-    const banners = [
-        './img/1.png',
-        '../img/IMG_1774421214125_1774433376397.jpg',
-        '../img/IMG_1774421214125_1774433376520.jpg',
-        '../img/IMG_1774421214125_1774433376605.jpg',
-        '../img/IMG_1774421214125_1774433376694.jpg',
-    ];
+    const banners = ['../img/1.png', '../img/2.png', '../img/3.png', '../img/4.png', '../img/5.png'];
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -21,7 +15,7 @@ function Banner() {
     return (
         <div className="flex justify-center px-[130px] bg-white py-10">
             <div className="flex mx-auto gap-2">
-                <div className="relative w-[1100px] h-[235px] overflow-hidden rounded-sm group">
+                <div className="relative w-[890px] h-[235px] overflow-hidden rounded-sm group">
                     <div className="w-full h-full object-cover transition-opacity duration-500">
                         <img src={banners[currentPage]} alt="" />
                     </div>

@@ -2,7 +2,7 @@ import Header from '../../components/Header';
 import TitleCatalog from '../../components/TitleCatalog';
 import SideBar from '../../components/Sidebar/Sidebar';
 import ProductListInCatalog from '../../components/ProductListInCatalog';
-
+import Footer from '../../components/Footer';
 function Trouser() {
     return (
         <div>
@@ -14,6 +14,7 @@ function Trouser() {
                     <ProductListInCatalog filterType="Quần" />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }

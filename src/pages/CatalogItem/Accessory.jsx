@@ -2,6 +2,7 @@ import Header from '../../components/Header';
 import TitleCatalog from '../../components/TitleCatalog';
 import SideBar from '../../components/Sidebar/Sidebar';
 import ProductListInCatalog from '../../components/ProductListInCatalog';
+import Footer from '../../components/Footer';
 
 function Accessory() {
     return (
@@ -14,6 +15,7 @@ function Accessory() {
                     <ProductListInCatalog filterType="Phụ kiện" />
                 </div>
             </div>
+            <Footer />
         </div>
     );
 }
