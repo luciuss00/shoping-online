@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Cart from './pages/Cart';
 import Pay from './pages/Pay';
 import PurchaseGuide from './pages/PurchaseGuide';
+import WarrantyPolicy from './pages/WarrantyPolicy';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -51,6 +52,7 @@ function App() {
                             <Route path="/cart" element={<Cart />} />
                             <Route path="/pay" element={<Pay />} />
                             <Route path="/purchase-guide" element={<PurchaseGuide />} />
+                            <Route path="/warranty-policy" element={<WarrantyPolicy />} />
 
                             <Route path="/catalog/shirt" element={<Shirt />} />
                             <Route path="/catalog/speaker" element={<Speaker />} />

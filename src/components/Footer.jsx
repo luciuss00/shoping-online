@@ -53,7 +53,7 @@ function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="#">Chính sách bảo hành</a>
+                                <a href="/warranty-policy">Chính sách bảo hành</a>
                             </li>
                             <li>
                                 <a href="#">Chính sách đổi trả</a>
