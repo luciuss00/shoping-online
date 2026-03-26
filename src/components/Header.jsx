@@ -160,7 +160,7 @@ function Header() {
                             <div className="max-h-[300px] overflow-y-auto">
                                 {groupedCart.slice(0, 4).map((product, index) => (
                                     <Link
-                                        to={`/cart/detail?name=${encodeURIComponent(product.nameProduct)}`}
+                                        to={`/detail?name=${encodeURIComponent(product.nameProduct)}`}
                                         key={product.id || index} // Dùng id làm key sẽ tốt hơn
                                         state={{
                                             id: product.id,

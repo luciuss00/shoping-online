@@ -19,7 +19,7 @@ const CartService = {
             { email: email },
             {
                 params: {
-                    nameProduct: nameProduct,
+                    name: nameProduct,
                 },
             },
         );
