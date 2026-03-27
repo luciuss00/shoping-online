@@ -77,19 +77,24 @@ function Footer() {
                         </h3>
                         <ul className="space-y-3 text-gray-600 [&>li>a]:hover:text-red-600 [&>li>a]:transition-colors">
                             <li>
-                                <a href="#">Giới thiệu công ty</a>
+                                <a href="/about-us" target="_blank">
+                                    Giới thiệu{' '}
+                                </a>
                             </li>
                             <li>
-                                <a href="#">Tuyển dụng</a>
+                                <a href="#" target="_blank">
+                                    Tuyển dụng
+                                </a>
                             </li>
                             <li>
-                                <a href="#">Điều khoản sử dụng</a>
+                                <a href="#" target="_blank">
+                                    Điều khoản sử dụng
+                                </a>
                             </li>
                             <li>
-                                <a href="#">Chính sách bảo mật</a>
-                            </li>
-                            <li>
-                                <a href="#">Đối tác</a>
+                                <a href="#" target="_blank">
+                                    Chính sách bảo mật
+                                </a>
                             </li>
                         </ul>
                     </div>

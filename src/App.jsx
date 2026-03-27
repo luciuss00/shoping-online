@@ -10,6 +10,7 @@ import PurchaseGuide from './pages/PurchaseGuide';
 import WarrantyPolicy from './pages/WarrantyPolicy';
 import ReturnPolicy from './pages/ReturnPolicy';
 import ShippingPolicy from './pages/ShippingPolicy';
+import AboutUs from './pages/AboutUs';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -57,6 +58,10 @@ function App() {
                             <Route path="/warranty-policy" element={<WarrantyPolicy />} />
                             <Route path="/return-policy" element={<ReturnPolicy />} />
                             <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                            <Route path="/about-us" element={<AboutUs />} />
+                            <Route path="/about-us" element={<ShippingPolicy />} />
+                            <Route path="/about-us" element={<ShippingPolicy />} />
+                            <Route path="/about-us" element={<ShippingPolicy />} />
 
                             <Route path="/catalog/shirt" element={<Shirt />} />
                             <Route path="/catalog/speaker" element={<Speaker />} />
