@@ -29,7 +29,7 @@ function Profile() {
                 phone: user.phone || '',
                 address: user.address || '',
                 gender: user.gender || '',
-                birthDate: user.birthDate,
+                birthDate: user.birthDate || { day: '', month: '', year: '' },
             }));
         }
     }, []);

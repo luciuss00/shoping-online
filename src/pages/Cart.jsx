@@ -31,17 +31,25 @@ function Cart() {
         }
     };
 
-    const groupedCart = cartProducts.reduce((acc, current) => {
-        const existingProduct = acc.find((item) => item.nameProduct === current.nameProduct);
-        if (existingProduct) {
-            // Nếu đã tồn tại, tăng thuộc tính số lượng (giả sử là cartQuantity)
-            existingProduct.displayQuantity = (existingProduct.displayQuantity || 1) + 1;
-        } else {
-            // Nếu chưa có, thêm mới vào mảng tạm và gán số lượng hiển thị là 1
-            acc.push({ ...current, displayQuantity: 1 });
-        }
-        return acc;
-    }, []);
+    const groupedCart = useMemo(() => {
+        return cartProducts.reduce((acc, current) => {
+            // Tìm xem sản phẩm này đã tồn tại trong mảng gộp chưa
+            const existingProduct = acc.find((item) => item.nameProduct === current.nameProduct);
+
+            if (existingProduct) {
+                // Nếu đã tồn tại, cộng dồn số lượng thực tế từ server trả về (current.quantity)
+                // Lưu ý: Kiểm tra tên trường số lượng của bạn là 'quantity' hay gì đó tương tự
+                existingProduct.displayQuantity += current.quantity || 1;
+            } else {
+                // Nếu chưa có, thêm mới và lấy số lượng gốc làm số lượng hiển thị ban đầu
+                acc.push({
+                    ...current,
+                    displayQuantity: current.quantity || 1,
+                });
+            }
+            return acc;
+        }, []);
+    }, [cartProducts]);
 
     const totalPrice = useMemo(() => {
         return groupedCart

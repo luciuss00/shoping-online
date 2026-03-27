@@ -82,10 +82,10 @@ const PrivacyPolicy = () => {
                                 </div>
                             </div>
 
-                            <div className="bg-slate-900 text-slate-300 p-6 rounded-3xl relative overflow-hidden">
+                            <div className="bg-red-500 text-slate-300 p-6 rounded-3xl relative overflow-hidden">
                                 <EyeOff className="absolute -right-4 -bottom-4 w-24 h-24 text-white/5" />
                                 <h4 className="text-white font-bold mb-3 flex items-center gap-2">Quyền của bạn</h4>
-                                <ul className="text-sm space-y-2">
+                                <ul className="text-sm space-y-2 text-gray-100">
                                     <li className="flex items-center gap-2">• Yêu cầu xóa dữ liệu vĩnh viễn</li>
                                     <li className="flex items-center gap-2">
                                         • Thay đổi thông tin cá nhân bất cứ lúc nào
@@ -110,7 +110,7 @@ const PrivacyPolicy = () => {
                                 </p>
                             </div>
                         </div>
-                        <button className="w-full md:w-auto px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                        <button className="w-full md:w-auto px-8 py-4 bg-red-500 text-white rounded-2xl font-bold hover:bg-red-700 transition-all flex items-center justify-center gap-2">
                             <Bell className="w-4 h-4" /> Báo cáo vi phạm
                         </button>
                     </div>

@@ -3,26 +3,19 @@ import apiClient from '../api/productApi';
 const CartService = {
     addToCart(email, nameProduct, quantity) {
         const url = '/addProductToCart';
-        return apiClient.get(url, {
-            params: {
-                user: email,
-                nameProduct: nameProduct,
-                quantity: quantity,
-            },
+        return apiClient.post(url, {
+            email: email,
+            nameProduct: nameProduct,
+            quantity: quantity,
         });
     },
 
     removeToCart(email, nameProduct) {
         const url = '/deleteProductByName';
-        return apiClient.delete(
-            url,
-            { email: email },
-            {
-                params: {
-                    name: nameProduct,
-                },
-            },
-        );
+        return apiClient.post(url, {
+            email: email,
+            nameProduct: nameProduct,
+        });
     },
 
     getAllProductInCart(email) {
