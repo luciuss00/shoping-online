@@ -12,6 +12,7 @@ import ReturnPolicy from './pages/ReturnPolicy';
 import ShippingPolicy from './pages/ShippingPolicy';
 import AboutUs from './pages/AboutUs';
 import Careers from './pages/Career';
+import TermsOfService from './pages/TermOfService';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -61,8 +62,8 @@ function App() {
                             <Route path="/shipping-policy" element={<ShippingPolicy />} />
                             <Route path="/about-us" element={<AboutUs />} />
                             <Route path="/career" element={<Careers />} />
-                            <Route path="/about-us" element={<ShippingPolicy />} />
-                            <Route path="/about-us" element={<ShippingPolicy />} />
+                            <Route path="/term-of-service" element={<TermsOfService />} />
+                            <Route path="/about-us" element={<TermsOfService />} />
 
                             <Route path="/catalog/shirt" element={<Shirt />} />
                             <Route path="/catalog/speaker" element={<Speaker />} />
