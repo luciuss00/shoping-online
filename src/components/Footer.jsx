@@ -82,7 +82,7 @@ function Footer() {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" target="_blank">
+                                <a href="/career" target="_blank">
                                     Tuyển dụng
                                 </a>
                             </li>

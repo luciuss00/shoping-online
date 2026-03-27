@@ -11,6 +11,7 @@ import WarrantyPolicy from './pages/WarrantyPolicy';
 import ReturnPolicy from './pages/ReturnPolicy';
 import ShippingPolicy from './pages/ShippingPolicy';
 import AboutUs from './pages/AboutUs';
+import Careers from './pages/Career';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -59,7 +60,7 @@ function App() {
                             <Route path="/return-policy" element={<ReturnPolicy />} />
                             <Route path="/shipping-policy" element={<ShippingPolicy />} />
                             <Route path="/about-us" element={<AboutUs />} />
-                            <Route path="/about-us" element={<ShippingPolicy />} />
+                            <Route path="/career" element={<Careers />} />
                             <Route path="/about-us" element={<ShippingPolicy />} />
                             <Route path="/about-us" element={<ShippingPolicy />} />
 
