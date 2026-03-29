@@ -3,22 +3,29 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import Header from '../components/Header';
 import CartService from '../services/cartService'; //
-import Notification from '../components/Notification/Notification';
+import Notification from '../components/Notification';
 
 function Cart() {
     const { cartProducts, refreshCart } = useCart(); //
     const [selectedIds, setSelectedIds] = useState([]);
 
-    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
+    const [modalConfig, setModalConfig] = useState({
+        isOpen: false,
+        message: '',
+        isSuccess: false,
+    });
 
-    const showModal = (msg) => {
-        setModalConfig({ isOpen: true, message: msg });
+    const showModal = (msg, success = false) => {
+        setModalConfig({
+            isOpen: true,
+            message: msg,
+            isSuccess: success,
+        });
     };
 
     const closeModal = () => {
         setModalConfig({ ...modalConfig, isOpen: false });
     };
-
     const handleCheckItem = (id) => {
         setSelectedIds((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
     };

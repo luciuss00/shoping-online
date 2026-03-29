@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import SideBarProfile from '../components/Sidebar/SidebarProfile';
 import Footer from '../components/Footer';
-import Notification from '../components/Notification/Notification';
+import Notification from '../components/Notification';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Profile() {
@@ -16,7 +16,11 @@ function Profile() {
         birthDate: { day: '', month: '', year: '' },
     });
 
-    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
+    const [modalConfig, setModalConfig] = useState({
+        isOpen: false,
+        message: '',
+        isSuccess: false,
+    });
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -69,6 +73,7 @@ function Profile() {
         setModalConfig({
             isOpen: true,
             message: 'Cập nhật thành công!',
+            isSuccess: true,
         });
     };
 
@@ -254,6 +259,7 @@ function Profile() {
                 isOpen={modalConfig.isOpen}
                 message={modalConfig.message}
                 onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
+                check={modalConfig.isSuccess}
             />
         </div>
     );

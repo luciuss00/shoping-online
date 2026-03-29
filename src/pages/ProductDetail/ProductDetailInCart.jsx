@@ -4,7 +4,7 @@ import { useCart } from '../../context/CartContext'; //
 import Header from '../../components/Header';
 import CartService from '../../services/cartService';
 import Footer from '../../components/Footer';
-import Notification from '../../components/Notification/Notification';
+import Notification from '../../components/Notification';
 
 function ProductDetail() {
     const { refreshCart } = useCart();

@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import ProductList from '../components/ProductList';
 import Footer from '../components/Footer';
 import CartService from '../services/cartService';
-import Notification from '../components/Notification/Notification';
+import Notification from '../components/Notification';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Pay() {
