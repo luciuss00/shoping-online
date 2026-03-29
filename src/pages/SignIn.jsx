@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthService from '../services/authService';
 import SignLayout from '../components/SignLayout';
-import NotificationSign from '../components/Notification/NotificationSign';
+import Notification from '../components/Notification';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignIn() {
@@ -15,16 +15,25 @@ function SignIn() {
     // lỗi từ API
     const [apiError, setApiError] = useState('');
 
-    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
-    const [isSuccess, setIsSuccess] = useState(false);
+    const [modalConfig, setModalConfig] = useState({
+        isOpen: false,
+        message: '',
+        isSuccess: false,
+    });
 
-    const showModal = (msg) => {
-        setModalConfig({ isOpen: true, message: msg });
+    const showModal = (msg, success = false) => {
+        setModalConfig({
+            isOpen: true,
+            message: msg,
+            isSuccess: success,
+        });
     };
 
     const closeModal = () => {
+        const wasSuccess = modalConfig.isSuccess;
         setModalConfig({ ...modalConfig, isOpen: false });
-        if (isSuccess) {
+
+        if (wasSuccess) {
             navigate('/', { replace: true });
             window.location.reload();
         }
@@ -52,18 +61,18 @@ function SignIn() {
 
         try {
             const response = await AuthService.login(loginData);
-            localStorage.setItem('user', JSON.stringify(response.data));
-            // Kiểm tra status 200 như yêu cầu
             if (response.status === 200) {
-                setIsSuccess(true); // Đánh dấu thành công
-                showModal('Đăng nhập thành công!');
+                localStorage.setItem('user', JSON.stringify(response.data));
+                // Gọi với true khi thành công
+                showModal('Đăng nhập thành công!', true);
             }
         } catch (error) {
             const status = error.response?.status;
             if (status === 400 || status === 404) {
                 setApiError('Sai email hoặc mật khẩu, vui lòng kiểm tra lại!');
             } else {
-                showModal('Có lỗi hệ thống xảy ra!');
+                // Gọi với false khi lỗi hệ thống
+                showModal('Có lỗi hệ thống xảy ra!', false);
             }
         }
     };
@@ -187,7 +196,12 @@ function SignIn() {
                     </div>
                 </div>
             </SignLayout>
-            <NotificationSign isOpen={modalConfig.isOpen} message={modalConfig.message} onClose={closeModal} />
+            <Notification
+                isOpen={modalConfig.isOpen}
+                message={modalConfig.message}
+                onClose={closeModal}
+                check={modalConfig.isSuccess}
+            />
         </>
     );
 }

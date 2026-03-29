@@ -4,7 +4,7 @@ import { useCart } from '../../context/CartContext'; //
 import Header from '../../components/Header';
 import CartService from '../../services/cartService';
 import Footer from '../../components/Footer';
-import Notification from '../../components/Notification/Notification';
+import Notification from '../../components/Notification';
 
 function ProductDetail() {
     const navigate = useNavigate();
@@ -35,10 +35,14 @@ function ProductDetail() {
         }
     }, [product?.id]);
 
-    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
+    const [modalConfig, setModalConfig] = useState({
+        isOpen: false,
+        message: '',
+        isSuccess: false, // Thêm field quản lý trạng thái
+    });
 
-    const showModal = (msg) => {
-        setModalConfig({ isOpen: true, message: msg });
+    const showModal = (msg, success = false) => {
+        setModalConfig({ isOpen: true, message: msg, isSuccess: success });
     };
 
     const closeModal = () => {
@@ -57,50 +61,46 @@ function ProductDetail() {
             const quantity = parseInt(quantityPurchased, 10);
 
             if (isNaN(quantity) || quantity <= 0) {
-                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ');
+                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false); // Thất bại
                 return;
             }
 
             if (quantity > product.quantity) {
-                showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`);
+                showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false); // Thất bại
                 return;
             }
 
             const userStore = localStorage.getItem('user');
             if (!userStore) {
-                showModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+                showModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng', false); // Thất bại
                 return;
             }
 
             const user = JSON.parse(userStore);
             await CartService.addToCart(user.email, product.name, quantity);
-
             await refreshCart();
+            setQuantityPurchased('');
 
-            setQuantityPurchased(''); // Xóa trắng ô input
-
-            showModal('Đã thêm vào giỏ hàng thành công!');
+            showModal('Đã thêm vào giỏ hàng thành công!', true); // Thành công
         } catch (error) {
-            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', false); // Thất bại
         }
     };
 
     const handleBuyNow = () => {
         if (!quantityPurchased || quantityPurchased <= 0) {
-            showModal('Vui lòng nhập số lượng sản phẩm hợp lệ');
+            showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false); // Thất bại
             return;
         }
 
-        // 2. Kiểm tra tồn kho (MỚI)
         if (Number(quantityPurchased) > product.quantity) {
-            showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`);
+            showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false); // Thất bại
             return;
         }
 
-        // 3. Kiểm tra đăng nhập
         const userStore = localStorage.getItem('user');
         if (!userStore) {
-            showModal('Vui lòng đăng nhập để mua hàng');
+            showModal('Vui lòng đăng nhập để mua hàng', false); // Thất bại
             return;
         }
 
@@ -119,7 +119,6 @@ function ProductDetail() {
     return (
         <div className="bg-gray-100 min-h-screen">
             <Header />
-
             <div className="max-w-[1200px] h-[630px] mx-auto mt-10 bg-white pt-3 px-6">
                 <h1 className="text-center text-[30px] my-3 text-red-500">Thông tin chi tiết sản phẩm</h1>
                 <div className=" flex gap-10">
@@ -203,7 +202,12 @@ function ProductDetail() {
                 </div>
             </div>
             <Footer />
-            <Notification isOpen={modalConfig.isOpen} message={modalConfig.message} onClose={closeModal} />
+            <Notification
+                isOpen={modalConfig.isOpen}
+                message={modalConfig.message}
+                onClose={closeModal}
+                check={modalConfig.isSuccess}
+            />
         </div>
     );
 }

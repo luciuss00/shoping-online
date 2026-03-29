@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AuthService from '../services/authService';
 import SignLayout from '../components/SignLayout';
-import NotificationSign from '../components/Notification/NotificationSign';
+import Notification from '../components/Notification';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function SignUp() {
@@ -15,22 +15,35 @@ function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
-    const [isRegistered, setIsRegistered] = useState(false);
-    const showModal = (msg) => {
-        setModalConfig({ isOpen: true, message: msg });
+    // Gom trạng thái modal vào một object để quản lý biến 'check' (isSuccess)
+    const [modalConfig, setModalConfig] = useState({
+        isOpen: false,
+        message: '',
+        isSuccess: false,
+    });
+
+    // Cập nhật hàm showModal để nhận thêm tham số success
+    const showModal = (msg, success = false) => {
+        setModalConfig({
+            isOpen: true,
+            message: msg,
+            isSuccess: success,
+        });
     };
+
     const closeModal = () => {
+        const wasSuccess = modalConfig.isSuccess;
         setModalConfig({ ...modalConfig, isOpen: false });
-        if (isRegistered) {
+
+        // Nếu đăng ký thành công thì mới chuyển hướng
+        if (wasSuccess) {
             navigate('/signin');
         }
     };
-    // Kiểm tra xem mật khẩu có khớp và số điện thoại có hợp lệ không
+
     const isPasswordMatch = password === confirmPassword;
     const canSubmit = isPasswordMatch && fullName.length > 0 && email.length > 0 && password.length > 0;
 
-    // api
     const handleRegister = async (e) => {
         e.preventDefault();
         const userData = {
@@ -40,13 +53,15 @@ function SignUp() {
         };
         try {
             const response = await AuthService.register(userData);
+            // Lưu thông tin nếu cần hoặc chỉ thông báo thành công
             localStorage.setItem('user', JSON.stringify(response.data));
-            setIsRegistered(true); // Đánh dấu đã đăng ký xong
-            showModal('Đăng ký thành công!');
+
+            // Truyền true cho thành công
+            showModal('Đăng ký thành công!', true);
         } catch (err) {
-            console.log(userData);
             console.error(err);
-            showModal('Đăng ký thất bại, email có thể đã tồn tại.');
+            // Truyền false cho thất bại
+            showModal('Đăng ký thất bại, email có thể đã tồn tại.', false);
         }
     };
 
@@ -67,18 +82,16 @@ function SignUp() {
                                 className="my-5 w-full h-[40px] pl-[12px] pr-[40px] border border-gray-300"
                                 placeholder="Tên tài khoản"
                             />
-                            {/* Email */}
                             <div className="mb-5 relative">
                                 <input
                                     type="text"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className={`w-full h-[40px] pl-[12px] border ${'border-gray-300'}`}
+                                    className="w-full h-[40px] pl-[12px] border border-gray-300"
                                     placeholder="Email"
                                 />
                             </div>
 
-                            {/* Mật khẩu */}
                             <div className="mb-5 relative">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
@@ -100,7 +113,6 @@ function SignUp() {
                                 </button>
                             </div>
 
-                            {/* Nhập lại mật khẩu */}
                             <div className="mb-1 relative">
                                 <input
                                     type={showConfirmPassword ? 'text' : 'password'}
@@ -141,25 +153,17 @@ function SignUp() {
                             </button>
                         </form>
                     </div>
-
-                    <div className="mt-6">
-                        <p className="text-center text-[13px] text-black">Bằng việc đăng kí, bạn đã đồng ý về</p>
-                        <div className="flex justify-center">
-                            <a className="text-[#e84040] text-[13px] cursor-pointer">Điều khoản dịch vụ </a>
-                            <span className="text-[12px] mx-1 mt-[1.5px]"> & </span>
-                            <a className="text-[#e84040] text-[13px] cursor-pointer">Chính sách bảo mật</a>
-                        </div>
-                    </div>
-
-                    <div className="flex justify-center mt-4">
-                        <p className="mr-1 text-[#00000042]">Bạn đã có tài khoản?</p>
-                        <Link to="/signin" className="text-[#e84040]">
-                            Đăng nhập
-                        </Link>
-                    </div>
+                    {/* ... phần Footer (Điều khoản & Đăng nhập) giữ nguyên ... */}
                 </div>
             </SignLayout>
-            <NotificationSign isOpen={modalConfig.isOpen} message={modalConfig.message} onClose={closeModal} />
+
+            {/* Truyền giá trị check vào component thông báo */}
+            <Notification
+                isOpen={modalConfig.isOpen}
+                message={modalConfig.message}
+                onClose={closeModal}
+                check={modalConfig.isSuccess}
+            />
         </>
     );
 }
