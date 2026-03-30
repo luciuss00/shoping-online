@@ -116,7 +116,7 @@ function Profile() {
                                                 Thông tin tài khoản
                                             </Link>
                                             <Link
-                                                to="/orders"
+                                                to="/order"
                                                 className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
                                             >
                                                 <i className="fa-solid fa-box-archive mr-2 w-5"></i>

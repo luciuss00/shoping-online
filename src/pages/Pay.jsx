@@ -14,7 +14,6 @@ function Pay() {
     const navigate = useNavigate();
     const location = useLocation();
     const { checkoutItems } = location.state || { checkoutItems: [] };
-    console.log(checkoutItems);
 
     const [modalConfig, setModalConfig] = useState({
         isOpen: false,
@@ -193,7 +192,7 @@ function Pay() {
                                 <div className="mt-2 flex flex-col gap-1">
                                     {/* Giá tiền của 1 sản phẩm */}
                                     <div className="text-sm text-gray-600">
-                                        Đơn giá: ₫{item.cost?.toLocaleString('vi-VN')}
+                                        Đơn giá: {item.cost?.toLocaleString('vi-VN')}₫
                                     </div>
 
                                     {/* Số lượng mua */}

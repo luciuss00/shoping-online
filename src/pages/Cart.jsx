@@ -71,15 +71,15 @@ function Cart() {
             if (product) {
                 // Trường hợp 1: Xóa một sản phẩm cụ thể (bấm nút Xóa ở dòng đó)
                 await CartService.removeToCart(user.email, product.nameProduct);
-            } else {
+                // } else {
                 // Trường hợp 2: Xóa nhiều sản phẩm đã tick
                 // Lấy danh sách tên các sản phẩm dựa trên mảng selectedIds (đang lưu index)
-                const productsToDelete = cartProducts.filter((_, idx) => selectedIds.includes(idx));
+                // const productsToDelete = cartProducts.filter((_, idx) => selectedIds.includes(idx));
 
                 // Sử dụng Promise.all để chạy song song các request xóa (tối ưu hiệu năng)
-                await Promise.all(
-                    productsToDelete.map((product) => CartService.removeToCart(user.email, product.nameProduct)),
-                );
+                // await Promise.all(
+                //     productsToDelete.map((product) => CartService.removeToCart(user.email, product.nameProduct)),
+                // );
 
                 // Sau khi xóa nhiều, reset lại mảng chọn
                 setSelectedIds([]);
@@ -88,8 +88,7 @@ function Cart() {
             showModal('Đã cập nhật giỏ hàng thành công!');
             if (refreshCart) refreshCart();
         } catch (error) {
-            console.error('Lỗi khi xóa sản phẩm:', error);
-            showModal('Có lỗi xảy ra. Vui lòng thử lại!');
+            showModal('Có lỗi xảy ra. Vui lòng thử lại!', error);
         }
     };
 
@@ -137,13 +136,13 @@ function Cart() {
                         groupedCart.map((product, idx) => (
                             <div
                                 key={idx}
-                                className={`grid grid-cols-12 items-center p-4 border-b border-gray-100 ${selectedIds.includes(idx) ? 'bg-orange-50/30' : ''}`}
+                                className={`grid grid-cols-12 items-center p-4 border-b border-gray-100 ${selectedIds.includes(idx) ? 'bg-red-50/30' : ''}`}
                             >
                                 {/* Cột Sản Phẩm */}
                                 <div className="col-span-5 flex items-center gap-4">
                                     <input
                                         type="checkbox"
-                                        className="w-4 h-4 accent-orange-500 cursor-pointer"
+                                        className="w-4 h-4 accent-red-500 cursor-pointer"
                                         checked={selectedIds.includes(idx)}
                                         onChange={() => handleCheckItem(idx)}
                                     />
@@ -201,12 +200,15 @@ function Cart() {
                                     </div>
                                 </div>
 
-                                <div className="col-span-2 text-center text-orange-500 font-medium">
+                                <div className="col-span-2 text-center text-red-500 font-medium">
                                     {(product.priceProduct * product.displayQuantity).toLocaleString()}₫
                                 </div>
 
                                 <div className="col-span-1 text-center text-sm">
-                                    <button onClick={() => handleDelete(product)} className="hover:text-orange-500">
+                                    <button
+                                        onClick={() => handleDelete(product)}
+                                        className="hover:text-red-500 cursor-pointer"
+                                    >
                                         Xóa
                                     </button>
                                 </div>
@@ -222,7 +224,7 @@ function Cart() {
                             <div className="flex items-center gap-4">
                                 <input
                                     type="checkbox"
-                                    className="w-4 h-4 accent-orange-500"
+                                    className="w-4 h-4 accent-red-500"
                                     onChange={handleCheckAll}
                                     checked={selectedIds.length === cartProducts.length && cartProducts.length > 0}
                                 />
@@ -233,7 +235,7 @@ function Cart() {
                             {selectedIds.length > 0 && (
                                 <button
                                     onClick={() => handleDelete()}
-                                    className="text-red-500 hover:underline text-sm font-medium"
+                                    className="text-red-500 hover:underline text-sm font-medium cursor-pointer"
                                 >
                                     Xóa mục đã chọn ({selectedIds.length})
                                 </button>
@@ -243,14 +245,12 @@ function Cart() {
                         <div className="flex items-center gap-8">
                             <div className="text-right">
                                 <span className="text-sm mr-2">Tổng thanh toán ({selectedIds.length} sản phẩm):</span>
-                                <span className="text-2xl text-orange-600 font-bold">
-                                    {totalPrice.toLocaleString()}₫
-                                </span>
+                                <span className="text-2xl text-red-600 font-bold">{totalPrice.toLocaleString()}₫</span>
                             </div>
                             <button
                                 className={`px-12 py-3 rounded-sm font-medium transition-colors ${
                                     selectedIds.length > 0
-                                        ? 'bg-orange-600 text-white hover:bg-orange-700'
+                                        ? 'bg-red-600 text-white hover:bg-red-700'
                                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                 }`}
                             >

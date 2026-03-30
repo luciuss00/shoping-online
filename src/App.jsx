@@ -14,6 +14,7 @@ import AboutUs from './pages/AboutUs';
 import Careers from './pages/Career';
 import TermsOfService from './pages/TermOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Order from './pages/Order';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -55,6 +56,7 @@ function App() {
                             <Route path="/help" element={<Help />} />
                             <Route path="/search" element={<Search />} />
                             <Route path="/profile" element={<Profile />} />
+                            <Route path="/order" element={<Order />} />
                             <Route path="/cart" element={<Cart />} />
                             <Route path="/pay" element={<Pay />} />
                             <Route path="/purchase-guide" element={<PurchaseGuide />} />

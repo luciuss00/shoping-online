@@ -114,9 +114,9 @@ function Profile() {
     return (
         <div className="bg-[#f5f5f5] min-h-screen">
             <Header />
-            <div className="max-w-[1200px] mx-auto py-5 flex gap-5">
+            <div className="max-w-[1200px] mx-auto py-10 flex gap-5">
                 {/* SIDEBAR BÊN TRÁI */}
-                <SideBarProfile name={userData.name} image={userData.image} />
+                <SideBarProfile />
 
                 {/* NỘI DUNG HỒ SƠ BÊN PHẢI */}
                 <div className="flex-1 bg-white rounded-sm shadow-sm p-8">
