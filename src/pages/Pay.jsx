@@ -16,7 +16,11 @@ function Pay() {
     const { checkoutItems } = location.state || { checkoutItems: [] };
     console.log(checkoutItems);
 
-    const [modalConfig, setModalConfig] = useState({ isOpen: false, message: '' });
+    const [modalConfig, setModalConfig] = useState({
+        isOpen: false,
+        message: '',
+        check: false,
+    });
 
     const [addressError, setAddressError] = useState('');
     const [popupOpen, setPopupOpen] = useState(false);
@@ -46,9 +50,11 @@ function Pay() {
             setModalConfig({
                 isOpen: true,
                 message: 'Hãy điền đầy đủ thông tin địa chỉ!',
+                check: false, // Hiển thị dấu chấm than cảnh báo
             });
             return;
         }
+
         try {
             const listProduct = checkoutItems.map((product) => ({
                 id: product.id,
@@ -66,6 +72,7 @@ function Pay() {
             setModalConfig({
                 isOpen: true,
                 message: `Đặt hàng thành công! Tổng tiền: ${response.data.totalAmount?.toLocaleString('vi-VN')}₫`,
+                check: true, // Hiển thị dấu tick xanh khi thành công
             });
 
             setTimeout(() => navigate('/'), 2000);
@@ -73,7 +80,8 @@ function Pay() {
             console.error('Order failed:', error); // Log lỗi để debug
             setModalConfig({
                 isOpen: true,
-                message: 'Đặt hàng thất bại. Vui lòng kiểm tra lại kết nối hoặc thử lại sau.',
+                message: 'Đặt hàng thất bại. Vui lòng thử lại sau.',
+                check: false, // Hiển thị dấu chấm than khi lỗi
             });
         }
     };
@@ -305,6 +313,7 @@ function Pay() {
             <Notification
                 isOpen={modalConfig.isOpen}
                 message={modalConfig.message}
+                check={modalConfig.check} // Truyền prop check
                 onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
             />
         </div>

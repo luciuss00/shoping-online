@@ -260,7 +260,12 @@ function Cart() {
                     </div>
                 </div>
             </div>
-            <Notification isOpen={modalConfig.isOpen} message={modalConfig.message} onClose={closeModal} />
+            <Notification
+                isOpen={modalConfig.isOpen}
+                message={modalConfig.message}
+                check={modalConfig.check} // Truyền prop check vào đây
+                onClose={closeModal}
+            />
         </div>
     );
 }
