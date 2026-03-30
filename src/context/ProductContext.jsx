@@ -17,7 +17,21 @@ export const ProductProvider = ({ children }) => {
         }
     };
 
-    return <ProductContext.Provider value={{ products, fetchProductsOnce }}>{children}</ProductContext.Provider>;
+    const refreshProduct = async () => {
+        try {
+            const response = await ProductService.getAllProduct();
+            setProducts(response.data);
+            setIsLoaded(true);
+        } catch (error) {
+            console.error('Lỗi khi tải sản phẩm:', error);
+        }
+    };
+
+    return (
+        <ProductContext.Provider value={{ products, fetchProductsOnce, refreshProduct }}>
+            {children}
+        </ProductContext.Provider>
+    );
 };
 
 // Hook để dùng context nhanh hơn

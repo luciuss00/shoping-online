@@ -33,6 +33,8 @@ function Profile() {
         setView('main');
     };
 
+    const userData = JSON.parse(localStorage.getItem('user'));
+
     return (
         <div className="flex h-[34px] items-center justify-end px-10 text-white text-[14px]">
             {/* THÔNG BÁO */}
@@ -84,7 +86,11 @@ function Profile() {
             <div className="relative group ml-3 py-2" onMouseLeave={handleMouseLeave}>
                 <div className="flex items-center hover:text-white/70 cursor-pointer">
                     {user ? (
-                        <img src={user.avatar} className="w-5 h-5 rounded-full mr-2 border border-white" alt="avatar" />
+                        <img
+                            src={userData.image}
+                            className="w-5 h-5 rounded-full mr-2 border border-white"
+                            alt="avatar"
+                        />
                     ) : (
                         <i className="fa-regular fa-user text-[18px] mr-2"></i>
                     )}

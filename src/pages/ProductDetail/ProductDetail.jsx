@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext'; //
+import { useProducts } from '../../context/ProductContext';
 import Header from '../../components/Header';
 import CartService from '../../services/cartService';
 import Footer from '../../components/Footer';
@@ -9,6 +10,7 @@ import Notification from '../../components/Notification';
 function ProductDetail() {
     const navigate = useNavigate();
     const { refreshCart } = useCart();
+    const { refreshProduct } = useProducts();
     const location = useLocation();
     const product = location.state;
 
@@ -83,7 +85,7 @@ function ProductDetail() {
 
             showModal('Đã thêm vào giỏ hàng thành công!', true); // Thành công
         } catch (error) {
-            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', false); // Thất bại
+            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', false, error); // Thất bại
         }
     };
 

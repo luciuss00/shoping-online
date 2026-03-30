@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import SideBarProfile from '../components/Sidebar/SidebarProfile';
 import Footer from '../components/Footer';
@@ -6,6 +6,8 @@ import Notification from '../components/Notification';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Profile() {
+    const fileInputRef = useRef(null);
+
     const [userData, setUserData] = useState({
         name: '',
         realName: '',
@@ -34,6 +36,7 @@ function Profile() {
                 address: user.address || '',
                 gender: user.gender || '',
                 birthDate: user.birthDate || { day: '', month: '', year: '' },
+                image: user.image || '', // Lấy ảnh từ local (nếu có)
             }));
         }
     }, []);
@@ -54,9 +57,39 @@ function Profile() {
         }));
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Kiểm tra dung lượng (tối đa 1MB)
+        if (file.size > 1024 * 1024) {
+            setModalConfig({
+                isOpen: true,
+                message: 'Dung lượng file quá lớn (tối đa 1MB)!',
+                isSuccess: false,
+            });
+            return;
+        }
+
+        // Kiểm tra định dạng
+        if (!file.type.match('image.*')) {
+            setModalConfig({
+                isOpen: true,
+                message: 'Vui lòng chọn file hình ảnh (.jpg, .png)!',
+                isSuccess: false,
+            });
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setUserData((prev) => ({ ...prev, image: reader.result })); // Lưu Base64 vào state
+        };
+        reader.readAsDataURL(file);
+    };
+
     const handleSave = (e) => {
         e.preventDefault();
-
         const currentUser = JSON.parse(localStorage.getItem('user')) || {};
 
         const updatedUser = {
@@ -66,6 +99,7 @@ function Profile() {
             address: userData.address,
             gender: userData.gender,
             birthDate: userData.birthDate,
+            image: userData.image, // Lưu ảnh vào localStorage
         };
 
         localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -82,7 +116,7 @@ function Profile() {
             <Header />
             <div className="max-w-[1200px] mx-auto py-5 flex gap-5">
                 {/* SIDEBAR BÊN TRÁI */}
-                <SideBarProfile name={userData.userName} />
+                <SideBarProfile name={userData.name} image={userData.image} />
 
                 {/* NỘI DUNG HỒ SƠ BÊN PHẢI */}
                 <div className="flex-1 bg-white rounded-sm shadow-sm p-8">
@@ -241,14 +275,33 @@ function Profile() {
                         {/* Upload ảnh */}
                         <div className="w-[280px] border-l border-gray-100 flex flex-col items-center pt-4">
                             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden border border-gray-100 mb-4">
-                                <i className="fa-solid fa-user text-5xl text-gray-300"></i>
+                                {userData.image ? (
+                                    <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" />
+                                ) : (
+                                    <i className="fa-solid fa-user text-5xl text-gray-300"></i>
+                                )}
                             </div>
-                            <button className="border border-gray-300 px-4 py-2 text-sm text-gray-600 rounded-sm hover:bg-gray-50 shadow-sm">
+
+                            {/* Input file ẩn */}
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleImageChange}
+                                accept=".jpg,.jpeg,.png"
+                                className="hidden"
+                            />
+
+                            <button
+                                type="button"
+                                onClick={() => fileInputRef.current.click()} // Kích hoạt input file
+                                className="border border-gray-300 px-4 py-2 text-sm text-gray-600 rounded-sm hover:bg-gray-200 shadow-sm cursor-pointer"
+                            >
                                 Chọn Ảnh
                             </button>
+
                             <div className="mt-4 text-gray-400 text-[13.5px] text-center leading-relaxed">
                                 <p>Dung lượng file tối đa 1 MB</p>
-                                <p>Định dạng: .JPEG, .PNG</p>
+                                <p>Định dạng: .JPG, .PNG</p>
                             </div>
                         </div>
                     </div>

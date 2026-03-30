@@ -113,16 +113,19 @@ function Header() {
                                                 img: product.imageLink,
                                             }}
                                             to={`/detail?name=${encodeURIComponent(product.nameProduct)}`}
-                                            className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 border-b"
+                                            className="block px-3 py-1 text-sm border border-gray-200 text-gray-800 hover:bg-gray-100 border-b"
                                         >
-                                            {product.nameProduct}
+                                            <div className="flex">
+                                                <img src={product.imageLink} alt="" className="w-7 h-7" />
+                                                <p className="flex items-center ml-3">{product.nameProduct}</p>
+                                            </div>
                                         </Link>
                                     ))}
                                     {/* Nút Xem tất cả */}
                                     <Link
                                         to={`/search?name=${encodeURIComponent(searchTerm)}`}
                                         onClick={() => setIsDropdownOpen(false)}
-                                        className="block w-full text-center py-2 text-blue-600 text-sm font-semibold hover:bg-blue-50 transition-colors"
+                                        className="block w-full text-center py-2  text-blue-600 text-sm font-semibold hover:bg-blue-50 transition-colors"
                                     >
                                         Xem tất cả cho "{searchTerm}"
                                     </Link>
