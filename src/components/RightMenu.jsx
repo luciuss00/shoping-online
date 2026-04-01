@@ -23,7 +23,7 @@ function Profile() {
     ];
 
     const handleLogout = () => {
-        //localStorage.removeItem('user');
+        localStorage.removeItem('user');
         setUser(null);
         navigate('/signin');
         window.location.reload(); // Đảm bảo trạng thái được làm mới hoàn toàn

@@ -9,7 +9,7 @@ import Notification from '../../components/Notification';
 
 function ProductDetail() {
     const navigate = useNavigate();
-    const { refreshCart } = useCart();
+    const { cartProducts, refreshCart } = useCart();
     const { refreshProduct } = useProducts();
     const location = useLocation();
     const product = location.state;
@@ -60,32 +60,53 @@ function ProductDetail() {
 
     const handleAddToCart = async () => {
         try {
-            const quantity = parseInt(quantityPurchased, 10);
+            const quantityToAdd = parseInt(quantityPurchased, 10);
 
-            if (isNaN(quantity) || quantity <= 0) {
-                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false); // Thất bại
+            // 1. Kiểm tra nhập liệu cơ bản
+            if (isNaN(quantityToAdd) || quantityToAdd <= 0) {
+                showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false);
                 return;
             }
 
-            if (quantity > product.quantity) {
-                showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false); // Thất bại
-                return;
-            }
-
+            // 2. Kiểm tra đăng nhập
             const userStore = localStorage.getItem('user');
             if (!userStore) {
-                showModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng', false); // Thất bại
+                showModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng', false);
+                return;
+            }
+            const user = JSON.parse(userStore);
+
+            // 3. LOGIC KIỂM TRA TỔNG SỐ LƯỢNG VỚI KHO
+            // Tìm sản phẩm này trong giỏ hàng hiện tại
+            const productInCart = cartProducts.find((item) => item.nameProduct === product.name);
+
+            // Số lượng hiện có trong giỏ (nếu chưa có thì là 0)
+            const currentCartQuantity = productInCart ? productInCart.quantity : 0;
+
+            // Tổng số lượng sau khi thêm
+            const totalAfterAdding = currentCartQuantity + quantityToAdd;
+
+            if (totalAfterAdding > product.quantity) {
+                if (currentCartQuantity > 0) {
+                    showModal(
+                        `Bạn đã có ${currentCartQuantity} sản phẩm trong giỏ. Không thể thêm ${quantityToAdd} vì vượt quá số lượng kho (${product.quantity})`,
+                        false,
+                    );
+                } else {
+                    showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false);
+                }
                 return;
             }
 
-            const user = JSON.parse(userStore);
-            await CartService.addToCart(user.email, product.name, quantity);
+            // 4. Gọi API thêm vào giỏ
+            await CartService.addToCart(user.email, product.name, quantityToAdd);
             await refreshCart();
             setQuantityPurchased('');
 
-            showModal('Đã thêm vào giỏ hàng thành công!', true); // Thành công
+            showModal('Đã thêm vào giỏ hàng thành công!', true);
         } catch (error) {
-            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', false, error); // Thất bại
+            showModal('Có lỗi xảy ra. Vui lòng thử lại sau.', false);
+            console.log(error);
         }
     };
 

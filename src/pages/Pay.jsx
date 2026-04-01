@@ -43,44 +43,42 @@ function Pay() {
     }, [checkoutItems]);
 
     const handlePay = async () => {
+        // 1. Kiểm tra địa chỉ
         const isAddressValid =
             addressInfo.name.trim() !== '' && addressInfo.phone.trim() !== '' && addressInfo.address.trim() !== '';
+
         if (!isAddressValid) {
             setModalConfig({
                 isOpen: true,
                 message: 'Hãy điền đầy đủ thông tin địa chỉ!',
-                check: false, // Hiển thị dấu chấm than cảnh báo
+                check: false,
             });
             return;
         }
 
         try {
-            const listProduct = checkoutItems.map((product) => ({
-                id: product.id,
-                nameProduct: product.name,
-                descriptionProduct: product.descriptionProduct,
-                quantity: product.quantityPurchased,
-                priceProduct: product.priceProduct,
-                categoryProduct: product.categoryProduct,
-                imageLink: product.imageLink,
-                subCategoryProduct: product.subCategoryProduct,
-            }));
+            // 2. Chuyển đổi checkoutItems thành danh sách TÊN sản phẩm (khớp với DTO backend)
+            // Backend: for (String name : orderRequestDTO.getListProduct())
+            const listProductName = checkoutItems.map((product) => product.name);
 
-            const response = await CartService.orderSomeItemInCart(user.email, listProduct);
+            // 3. Gọi Service với đúng định dạng tham số
+            // API: orderSomeItemInCart(user.email, listProduct)
+            const response = await CartService.orderSomeItemInCart(user.email, listProductName);
 
             setModalConfig({
                 isOpen: true,
-                message: `Đặt hàng thành công! Tổng tiền: ${response.data.totalAmount?.toLocaleString('vi-VN')}₫`,
-                check: true, // Hiển thị dấu tick xanh khi thành công
+                message: `Đặt hàng thành công! Đơn hàng đang được xử lý.`,
+                check: true,
             });
 
+            // Chuyển hướng về trang chủ sau khi thành công
             setTimeout(() => navigate('/'), 2000);
         } catch (error) {
-            console.error('Order failed:', error); // Log lỗi để debug
+            console.error('Order failed:', error);
             setModalConfig({
                 isOpen: true,
-                message: 'Đặt hàng thất bại. Vui lòng thử lại sau.',
-                check: false, // Hiển thị dấu chấm than khi lỗi
+                message: error.response?.data?.message || 'Đặt hàng thất bại. Vui lòng thử lại sau.',
+                check: false,
             });
         }
     };
@@ -202,7 +200,7 @@ function Pay() {
 
                                     {/* Thành tiền của sản phẩm này - Làm nổi bật */}
                                     <div className="text-lg font-bold text-red-500 mt-1 pt-1 border-t border-dashed border-gray-200">
-                                        Thành tiền: ₫{(item.cost * item.quantityPurchased).toLocaleString('vi-VN')}
+                                        Thành tiền: {(item.cost * item.quantityPurchased).toLocaleString('vi-VN')}₫
                                     </div>
                                 </div>
                             </div>
