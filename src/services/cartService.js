@@ -12,9 +12,11 @@ const CartService = {
 
     removeToCart(email, nameProduct) {
         const url = '/deleteProductByName';
-        return apiClient.post(url, {
-            email: email,
-            nameProduct: nameProduct,
+        return apiClient.delete(url, {
+            data: {
+                email: email,
+                nameProduct: nameProduct,
+            },
         });
     },
 

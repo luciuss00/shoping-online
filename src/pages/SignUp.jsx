@@ -47,9 +47,9 @@ function SignUp() {
     const handleRegister = async (e) => {
         e.preventDefault();
         const userData = {
-            fullname: fullName,
             email: email,
             password: password,
+            fullName: fullName,
         };
         try {
             const response = await AuthService.register(userData);

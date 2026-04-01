@@ -4,6 +4,7 @@ import SideBarProfile from '../components/Sidebar/SidebarProfile';
 import Footer from '../components/Footer';
 import Notification from '../components/Notification';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import AuthService from '../services/authService';
 
 function Profile() {
     const fileInputRef = useRef(null);
@@ -16,6 +17,7 @@ function Profile() {
         address: '',
         gender: '',
         birthDate: { day: '', month: '', year: '' },
+        image: '',
     });
 
     const [modalConfig, setModalConfig] = useState({
@@ -61,54 +63,65 @@ function Profile() {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Kiểm tra dung lượng (tối đa 1MB)
+        // Kiểm tra dung lượng (1MB)
         if (file.size > 1024 * 1024) {
-            setModalConfig({
-                isOpen: true,
-                message: 'Dung lượng file quá lớn (tối đa 1MB)!',
-                isSuccess: false,
-            });
-            return;
-        }
-
-        // Kiểm tra định dạng
-        if (!file.type.match('image.*')) {
-            setModalConfig({
-                isOpen: true,
-                message: 'Vui lòng chọn file hình ảnh (.jpg, .png)!',
-                isSuccess: false,
-            });
+            alert('Ảnh quá nặng!');
             return;
         }
 
         const reader = new FileReader();
-        reader.onload = () => {
-            setUserData((prev) => ({ ...prev, image: reader.result })); // Lưu Base64 vào state
+        reader.onloadend = () => {
+            const base64String = reader.result; // Đây là chuỗi "data:image/png;base64,..."
+            setUserData((prev) => ({
+                ...prev,
+                image: base64String,
+            }));
         };
         reader.readAsDataURL(file);
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
-        const currentUser = JSON.parse(localStorage.getItem('user')) || {};
+        const { day, month, year } = userData.birthDate;
+        const formattedBirthDay = `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-        const updatedUser = {
-            ...currentUser,
-            realName: userData.realName,
-            phone: userData.phone,
-            address: userData.address,
-            gender: userData.gender,
-            birthDate: userData.birthDate,
-            image: userData.image, // Lưu ảnh vào localStorage
+        const apiData = {
+            email: userData.email,
+            realName: userData.realName || null, // Nếu trống thì gửi null
+            numberPhone: userData.phone || null, // Nếu trống thì gửi null
+            address: userData.address || null,
+            sex: userData.gender || null,
+            birthDay: formattedBirthDay || null, // Gửi null nếu không nhập đủ ngày
         };
+        console.log(apiData);
+        try {
+            // 2. Gọi API từ AuthService
+            const response = await AuthService.updateProfile(apiData);
 
-        localStorage.setItem('user', JSON.stringify(updatedUser));
+            if (response.status === 200 || response.data) {
+                // 3. Cập nhật thành công
+                const currentUser = JSON.parse(localStorage.getItem('user')) || {};
+                const updatedUser = {
+                    ...currentUser,
+                    ...userData, // Lưu lại thông tin mới vào local để hiển thị
+                };
+                localStorage.setItem('user', JSON.stringify(updatedUser));
 
-        setModalConfig({
-            isOpen: true,
-            message: 'Cập nhật thành công!',
-            isSuccess: true,
-        });
+                setModalConfig({
+                    isOpen: true,
+                    message: 'Cập nhật thông tin thành công!',
+                    isSuccess: true,
+                });
+            }
+        } catch (error) {
+            // 4. Xử lý lỗi
+            console.error('Update profile error:', error);
+            setModalConfig({
+                isOpen: true,
+                message: error.response?.data?.message || 'Có lỗi xảy ra khi cập nhật!',
+                isSuccess: false,
+            });
+        }
     };
 
     return (
@@ -275,11 +288,7 @@ function Profile() {
                         {/* Upload ảnh */}
                         <div className="w-[280px] border-l border-gray-100 flex flex-col items-center pt-4">
                             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden border border-gray-100 mb-4">
-                                {userData.image ? (
-                                    <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" />
-                                ) : (
-                                    <i className="fa-solid fa-user text-5xl text-gray-300"></i>
-                                )}
+                                <img src={userData.image} alt="Avatar" className="w-full h-full object-cover" />
                             </div>
 
                             {/* Input file ẩn */}

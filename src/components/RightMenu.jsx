@@ -87,7 +87,7 @@ function Profile() {
                 <div className="flex items-center hover:text-white/70 cursor-pointer">
                     {user ? (
                         <img
-                            src={userData.image}
+                            src={userData.imagePreview}
                             className="w-5 h-5 rounded-full mr-2 border border-white"
                             alt="avatar"
                         />

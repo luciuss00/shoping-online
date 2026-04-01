@@ -10,6 +10,11 @@ const AuthService = {
         const url = '/loginRes';
         return apiClient.post(url, credentials);
     },
+
+    updateProfile(userData) {
+        const url = '/addInforUser';
+        return apiClient.post(url, userData);
+    },
 };
 
 export default AuthService;
