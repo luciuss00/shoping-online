@@ -92,12 +92,12 @@ function Pay() {
             return;
         }
 
-        const vnf_regex = /^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b$/;
+        // const vnf_regex = /^(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b$/;
 
-        if (!vnf_regex.test(tempAddress.phone)) {
-            setAddressError('Số điện thoại không đúng định dạng');
-            return;
-        }
+        // if (!vnf_regex.test(tempAddress.phone)) {
+        //     setAddressError('Số điện thoại không đúng định dạng');
+        //     return;
+        // }
 
         const newAddressData = {
             realName: tempAddress.name,
