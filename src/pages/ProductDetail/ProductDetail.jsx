@@ -67,6 +67,10 @@ function ProductDetail() {
             }
             const user = JSON.parse(userStore);
 
+            if (user.status == 'block') {
+                navigate('/blocked-account');
+            }
+
             // 1. Kiểm tra nhập liệu cơ bản
             if (isNaN(quantityToAdd) || quantityToAdd <= 0) {
                 showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false);

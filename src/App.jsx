@@ -17,6 +17,7 @@ import Careers from './pages/Career';
 import TermsOfService from './pages/TermOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Order from './pages/Order';
+import BlockedAccount from './pages/BlockedAccount';
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -64,6 +65,7 @@ function App() {
                             <Route path="/" element={<Home />} />
                             <Route path="/help" element={<Help />} />
                             <Route path="/search" element={<Search />} />
+                            <Route path="/blocked-account" element={<BlockedAccount />} />
 
                             <Route path="/purchase-guide" element={<PurchaseGuide />} />
                             <Route path="/warranty-policy" element={<WarrantyPolicy />} />

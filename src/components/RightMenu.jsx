@@ -125,7 +125,7 @@ function Profile() {
                                             </Link>
                                             <button
                                                 onClick={handleLogout}
-                                                className="w-full text-left px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors border-t border-gray-50"
+                                                className="cursor-pointer w-full text-left px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors border-t border-gray-50"
                                             >
                                                 <i className="fa-solid fa-right-from-bracket mr-2 w-5"></i>
                                                 Đăng xuất
@@ -134,18 +134,18 @@ function Profile() {
                                     ) : (
                                         <>
                                             <Link
-                                                to="/signup"
-                                                className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
-                                            >
-                                                <i className="fa-solid fa-user-plus mr-2 w-5"></i>
-                                                Đăng ký
-                                            </Link>
-                                            <Link
                                                 to="/signin"
                                                 className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
                                             >
                                                 <i className="fa-solid fa-arrow-right-to-bracket mr-2 w-5"></i>
                                                 Đăng nhập
+                                            </Link>
+                                            <Link
+                                                to="/signup"
+                                                className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
+                                            >
+                                                <i className="fa-solid fa-user-plus mr-2 w-5"></i>
+                                                Đăng ký
                                             </Link>
                                         </>
                                     )}
