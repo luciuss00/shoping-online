@@ -22,13 +22,14 @@ function Cart() {
             setLocalCart(cartProducts);
         }
     }, [cartProducts]);
+    console.log(localCart);
 
     // TÍNH TỔNG TIỀN: Đơn giá * Số lượng
     const totalPrice = useMemo(() => {
         return selectedIds.reduce((sum, idx) => {
             const product = localCart[idx];
             // Sử dụng trực tiếp product.quantity
-            return sum + (product ? product.priceProduct * product.quantity : 0);
+            return sum + (product ? product.priceProduct * product.quantityProduct : 0);
         }, 0);
     }, [selectedIds, localCart]);
 
@@ -39,7 +40,7 @@ function Cart() {
                 id: item.id,
                 name: item.nameProduct,
                 cost: item.priceProduct,
-                quantityPurchased: item.quantity, // Lấy trực tiếp số lượng trong giỏ
+                quantityPurchased: item.quantityProduct, // Lấy trực tiếp số lượng trong giỏ
                 img: item.imageLink,
                 descriptionProduct: item.descriptionProduct,
                 categoryProduct: item.categoryProduct,
@@ -143,12 +144,14 @@ function Cart() {
                             </div>
 
                             <div className="col-span-2 text-center">
-                                <div className="flex items-center justify-center w-fit mx-auto">{product.quantity}</div>
+                                <div className="flex items-center justify-center w-fit mx-auto">
+                                    {product.quantityProduct}
+                                </div>
                             </div>
 
                             {/* HIỂN THỊ SỐ TIỀN: Luôn bằng Đơn giá * Số lượng */}
                             <div className="col-span-2 text-center text-red-500 font-medium">
-                                {(product.priceProduct * product.quantity).toLocaleString()}₫
+                                {(product.priceProduct * product.quantityProduct).toLocaleString()}₫
                             </div>
 
                             <div className="col-span-1 text-center">

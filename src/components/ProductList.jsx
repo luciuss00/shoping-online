@@ -33,7 +33,7 @@ function ProductList({ filterType, name = '' }) {
                             type={product.categoryProduct}
                             subType={product.subCategoryProduct}
                             cost={product.priceProduct}
-                            quantity={product.quantity}
+                            quantity={product.quantityProduct}
                             img={product.imageLink}
                         />
                     ))

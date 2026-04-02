@@ -61,9 +61,30 @@ function SignIn() {
 
         try {
             const response = await AuthService.login(loginData);
+            const userData = response.data;
+
             if (response.status === 200) {
-                localStorage.setItem('user', JSON.stringify(response.data));
-                // Gọi với true khi thành công
+                // Khởi tạo object user với đúng các key từ JSON của bạn
+                const user = {
+                    email: userData.email,
+                    fullName: userData.fullName,
+                    status: userData.status,
+                    role: userData.role,
+                    realName: userData.realName,
+                    address: userData.address,
+                    numberPhone: userData.numberPhone,
+                    birthday: userData.birthDay, // Lưu ý: Ảnh là 'birthDay', code cũ là 'birthday'
+                    sex: userData.sex,
+                    image: userData.image,
+                };
+
+                const token = {
+                    accessToken: userData.token,
+                };
+
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('token', JSON.stringify(token));
+
                 showModal('Đăng nhập thành công!', true);
             }
         } catch (error) {

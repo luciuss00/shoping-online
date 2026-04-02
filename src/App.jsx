@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import UserProtectedRoute from './components/Protected/UseProtectedRoute';
+
 import Home from './pages/Home';
 import Help from './pages/Help';
 import Search from './pages/Search';
@@ -52,13 +54,17 @@ function App() {
                 <Router>
                     <div className="App">
                         <Routes>
+                            <Route element={<UserProtectedRoute />}>
+                                <Route path="/cart" element={<Cart />} />
+                                <Route path="/pay" element={<Pay />} />
+                                <Route path="/profile" element={<Profile />} />
+                                <Route path="/order" element={<Order />} />
+                            </Route>
+
                             <Route path="/" element={<Home />} />
                             <Route path="/help" element={<Help />} />
                             <Route path="/search" element={<Search />} />
-                            <Route path="/profile" element={<Profile />} />
-                            <Route path="/order" element={<Order />} />
-                            <Route path="/cart" element={<Cart />} />
-                            <Route path="/pay" element={<Pay />} />
+
                             <Route path="/purchase-guide" element={<PurchaseGuide />} />
                             <Route path="/warranty-policy" element={<WarrantyPolicy />} />
                             <Route path="/return-policy" element={<ReturnPolicy />} />

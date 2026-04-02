@@ -11,6 +11,8 @@ export const ProductProvider = ({ children }) => {
         try {
             const response = await ProductService.getAllProduct();
             setProducts(response.data);
+            console.log(response.data);
+
             setIsLoaded(true);
         } catch (error) {
             console.error('Lỗi khi tải sản phẩm:', error);

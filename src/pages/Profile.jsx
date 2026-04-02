@@ -16,7 +16,7 @@ function Profile() {
         phone: '',
         address: '',
         gender: '',
-        birthDate: { day: '', month: '', year: '' },
+        birthday: { day: '', month: '', year: '' },
         image: '',
     });
 
@@ -29,17 +29,30 @@ function Profile() {
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
-            setUserData((prev) => ({
-                ...prev,
-                name: user.name || '',
+            // Tách ngày sinh YYYY-MM-DD thành object {day, month, year}
+            let birthObj = { day: '', month: '', year: '' };
+            if (user.birthday) {
+                // Lưu ý: khớp với key 'birthday' bạn lưu ở SignIn
+                const parts = user.birthday.split('-');
+                if (parts.length === 3) {
+                    birthObj = {
+                        year: parseInt(parts[0]),
+                        month: parseInt(parts[1]),
+                        day: parseInt(parts[2]),
+                    };
+                }
+            }
+
+            setUserData({
+                name: user.fullName || '', // Khớp với key 'fullName'
                 realName: user.realName || '',
                 email: user.email || '',
-                phone: user.phone || '',
+                phone: user.numberPhone || '', // Khớp với key 'numberPhone'
                 address: user.address || '',
-                gender: user.gender || '',
-                birthDate: user.birthDate || { day: '', month: '', year: '' },
-                image: user.image || '', // Lấy ảnh từ local (nếu có)
-            }));
+                gender: user.sex || '', // Khớp với key 'sex'
+                birthday: birthObj, // Object đã tách
+                image: user.image || '',
+            });
         }
     }, []);
 
@@ -52,8 +65,8 @@ function Profile() {
         const { name, value } = e.target;
         setUserData((prev) => ({
             ...prev,
-            birthDate: {
-                ...prev.birthDate,
+            birthday: {
+                ...prev.birthday,
                 [name]: value,
             },
         }));
@@ -82,29 +95,36 @@ function Profile() {
 
     const handleSave = async (e) => {
         e.preventDefault();
-        const { day, month, year } = userData.birthDate;
-        const formattedBirthDay = `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const { day, month, year } = userData.birthday;
+        const formattedBirthDay =
+            year && month && day ? `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` : null;
 
         const apiData = {
             email: userData.email,
-            realName: userData.realName || null, // Nếu trống thì gửi null
-            numberPhone: userData.phone || null, // Nếu trống thì gửi null
+            realName: userData.realName || null,
+            numberPhone: userData.phone || null,
             address: userData.address || null,
             sex: userData.gender || null,
-            birthDay: formattedBirthDay || null, // Gửi null nếu không nhập đủ ngày
+            birthDay: formattedBirthDay,
         };
-        console.log(apiData);
+
         try {
-            // 2. Gọi API từ AuthService
             const response = await AuthService.updateProfile(apiData);
 
-            if (response.status === 200 || response.data) {
-                // 3. Cập nhật thành công
+            if (response.status === 200) {
                 const currentUser = JSON.parse(localStorage.getItem('user')) || {};
+
+                // Cập nhật object với các key đồng nhất với trang SignIn
                 const updatedUser = {
                     ...currentUser,
-                    ...userData, // Lưu lại thông tin mới vào local để hiển thị
+                    realName: userData.realName,
+                    numberPhone: userData.phone,
+                    address: userData.address,
+                    sex: userData.gender,
+                    birthday: formattedBirthDay, // Đồng nhất với key 'birthday'
+                    image: userData.image,
                 };
+
                 localStorage.setItem('user', JSON.stringify(updatedUser));
 
                 setModalConfig({
@@ -229,7 +249,7 @@ function Profile() {
                                     {/* Chọn Ngày */}
                                     <select
                                         name="day"
-                                        value={userData.birthDate.day}
+                                        value={userData.birthday.day}
                                         onChange={handleBirthDateChange}
                                         className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none bg-white"
                                     >
@@ -244,7 +264,7 @@ function Profile() {
                                     {/* Chọn Tháng */}
                                     <select
                                         name="month"
-                                        value={userData.birthDate.month}
+                                        value={userData.birthday.month}
                                         onChange={handleBirthDateChange}
                                         className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none bg-white"
                                     >
@@ -259,7 +279,7 @@ function Profile() {
                                     {/* Chọn Năm */}
                                     <select
                                         name="year"
-                                        value={userData.birthDate.year}
+                                        value={userData.birthday.year}
                                         onChange={handleBirthDateChange}
                                         className="h-10 w-full border border-gray-300 px-3 rounded-sm outline-none bg-white"
                                     >

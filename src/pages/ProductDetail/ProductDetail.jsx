@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext'; //
-import { useProducts } from '../../context/ProductContext';
 import Header from '../../components/Header';
 import CartService from '../../services/cartService';
 import Footer from '../../components/Footer';
@@ -10,7 +9,6 @@ import Notification from '../../components/Notification';
 function ProductDetail() {
     const navigate = useNavigate();
     const { cartProducts, refreshCart } = useCart();
-    const { refreshProduct } = useProducts();
     const location = useLocation();
     const product = location.state;
 
@@ -62,6 +60,13 @@ function ProductDetail() {
         try {
             const quantityToAdd = parseInt(quantityPurchased, 10);
 
+            const userStore = localStorage.getItem('user');
+            if (!userStore) {
+                showModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng', false);
+                return;
+            }
+            const user = JSON.parse(userStore);
+
             // 1. Kiểm tra nhập liệu cơ bản
             if (isNaN(quantityToAdd) || quantityToAdd <= 0) {
                 showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false);
@@ -69,12 +74,6 @@ function ProductDetail() {
             }
 
             // 2. Kiểm tra đăng nhập
-            const userStore = localStorage.getItem('user');
-            if (!userStore) {
-                showModal('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng', false);
-                return;
-            }
-            const user = JSON.parse(userStore);
 
             // 3. LOGIC KIỂM TRA TỔNG SỐ LƯỢNG VỚI KHO
             // Tìm sản phẩm này trong giỏ hàng hiện tại
@@ -111,6 +110,12 @@ function ProductDetail() {
     };
 
     const handleBuyNow = () => {
+        const userStore = localStorage.getItem('user');
+        if (!userStore) {
+            showModal('Vui lòng đăng nhập để mua hàng', false); // Thất bại
+            return;
+        }
+
         if (!quantityPurchased || quantityPurchased <= 0) {
             showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false); // Thất bại
             return;
@@ -118,12 +123,6 @@ function ProductDetail() {
 
         if (Number(quantityPurchased) > product.quantity) {
             showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false); // Thất bại
-            return;
-        }
-
-        const userStore = localStorage.getItem('user');
-        if (!userStore) {
-            showModal('Vui lòng đăng nhập để mua hàng', false); // Thất bại
             return;
         }
 

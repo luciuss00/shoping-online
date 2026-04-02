@@ -24,6 +24,7 @@ function Profile() {
 
     const handleLogout = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         setUser(null);
         navigate('/signin');
         window.location.reload(); // Đảm bảo trạng thái được làm mới hoàn toàn
@@ -87,14 +88,14 @@ function Profile() {
                 <div className="flex items-center hover:text-white/70 cursor-pointer">
                     {user ? (
                         <img
-                            src={userData.imagePreview}
+                            src={userData.image}
                             className="w-5 h-5 rounded-full mr-2 border border-white"
                             alt="avatar"
                         />
                     ) : (
                         <i className="fa-regular fa-user text-[18px] mr-2"></i>
                     )}
-                    <span className="max-w-[100px] truncate">{user && user.name}</span>
+                    <span className="max-w-[100px] truncate">{user && user.fullName}</span>
                     <i className="fa-solid fa-chevron-down ml-1 text-[10px]"></i>
                 </div>
 

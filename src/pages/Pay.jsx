@@ -14,6 +14,7 @@ function Pay() {
     const navigate = useNavigate();
     const location = useLocation();
     const { checkoutItems } = location.state || { checkoutItems: [] };
+    console.log(checkoutItems);
 
     const [modalConfig, setModalConfig] = useState({
         isOpen: false,
