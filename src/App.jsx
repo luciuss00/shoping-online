@@ -16,8 +16,14 @@ import AboutUs from './pages/AboutUs';
 import Careers from './pages/Career';
 import TermsOfService from './pages/TermOfService';
 import PrivacyPolicy from './pages/PrivacyPolicy';
-import Order from './pages/Order';
+
 import BlockedAccount from './pages/BlockedAccount';
+import All from './pages/Order/All';
+import Access from './pages/Order/Access';
+import Ship from './pages/Order/Ship';
+import Finish from './pages/Order/Finish';
+import Cancel from './pages/Order/Cancel';
+
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
 import Speaker from './pages/CatalogItem/Speaker';
@@ -59,7 +65,12 @@ function App() {
                                 <Route path="/cart" element={<Cart />} />
                                 <Route path="/pay" element={<Pay />} />
                                 <Route path="/profile" element={<Profile />} />
-                                <Route path="/order" element={<Order />} />
+
+                                <Route path="/order/all" element={<All />} />
+                                <Route path="/order/access" element={<Access />} />
+                                <Route path="/order/ship" element={<Ship />} />
+                                <Route path="/order/finish" element={<Finish />} />
+                                <Route path="/order/cancel" element={<Cancel />} />
                             </Route>
 
                             <Route path="/" element={<Home />} />

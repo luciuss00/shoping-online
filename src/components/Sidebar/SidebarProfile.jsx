@@ -31,7 +31,7 @@ function SideBarProfile() {
                     <span>Tài Khoản Của Tôi</span>
                 </NavLink>
 
-                <NavLink to="/order" className={linkStyle}>
+                <NavLink to="/order/all" className={linkStyle}>
                     <i className="fa-regular fa-clipboard text-blue-700 w-4"></i>
                     <span>Đơn Mua</span>
                 </NavLink>
