@@ -14,7 +14,6 @@ function Pay() {
     const navigate = useNavigate();
     const location = useLocation();
     const { checkoutItems } = location.state || { checkoutItems: [] };
-    console.log(checkoutItems);
 
     const [modalConfig, setModalConfig] = useState({
         isOpen: false,
@@ -73,7 +72,7 @@ function Pay() {
             });
 
             // Chuyển hướng về trang chủ sau khi thành công
-            setTimeout(() => navigate('/'), 2000);
+            setTimeout(() => navigate('/'), 1500);
         } catch (error) {
             console.error('Order failed:', error);
             setModalConfig({

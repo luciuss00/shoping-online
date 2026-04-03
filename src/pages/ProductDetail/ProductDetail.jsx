@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext'; //
 import Header from '../../components/Header';
@@ -11,29 +11,10 @@ function ProductDetail() {
     const { cartProducts, refreshCart } = useCart();
     const location = useLocation();
     const product = location.state;
+    console.log(product);
 
     const [quantityPurchased, setQuantityPurchased] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
-
-    const [ratingData, setRatingData] = useState({ stars: 5, reviews: 0 });
-
-    useEffect(() => {
-        if (product?.id) {
-            const storageKey = `product_rating_${product.id}`;
-            const savedData = localStorage.getItem(storageKey);
-
-            if (savedData) {
-                setRatingData(JSON.parse(savedData));
-            } else {
-                const newStars = Math.floor(Math.random() * 2) + 3;
-                const newReviews = Math.floor(Math.random() * 400) + 50;
-                const newData = { stars: newStars, reviews: newReviews };
-
-                localStorage.setItem(storageKey, JSON.stringify(newData));
-                setRatingData(newData);
-            }
-        }
-    }, [product?.id]);
 
     const [modalConfig, setModalConfig] = useState({
         isOpen: false,
@@ -129,15 +110,10 @@ function ProductDetail() {
             showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false); // Thất bại
             return;
         }
-
+        console.log(product);
         navigate('/pay', {
             state: {
-                checkoutItems: [
-                    {
-                        ...product,
-                        quantityPurchased: Number(quantityPurchased),
-                    },
-                ],
+                categoryProduct: product.categoryProduct,
             },
         });
     };
@@ -156,14 +132,6 @@ function ProductDetail() {
 
                     <div className="flex-1">
                         <h1 className="text-[26px] font-semibold">{product.name}</h1>
-
-                        <div className="flex items-center gap-4 mt-2 text-sm">
-                            <span className="text-yellow-500">
-                                {'★'.repeat(ratingData.stars)}
-                                {'☆'.repeat(5 - ratingData.stars)}
-                            </span>
-                            <span className="text-gray-500">{ratingData.reviews} Đánh giá</span>
-                        </div>
 
                         <p className="mt-2 text-[14px] text-gray-500">
                             Thể loại: <span>{product.type}</span>
