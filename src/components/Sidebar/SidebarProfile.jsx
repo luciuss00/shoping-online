@@ -21,11 +21,6 @@ function SideBarProfile() {
             </div>
 
             <nav className="space-y-4">
-                <NavLink to="/notifications" className={linkStyle}>
-                    <i className="fa-regular fa-bell text-orange-600 w-4"></i>
-                    <span>Thông Báo</span>
-                </NavLink>
-
                 <NavLink to="/profile" className={linkStyle}>
                     <i className="fa-regular fa-user text-blue-800 w-4"></i>
                     <span>Tài Khoản Của Tôi</span>
@@ -34,11 +29,6 @@ function SideBarProfile() {
                 <NavLink to="/order/all" className={linkStyle}>
                     <i className="fa-regular fa-clipboard text-blue-700 w-4"></i>
                     <span>Đơn Mua</span>
-                </NavLink>
-
-                <NavLink to="/vouchers" className={linkStyle}>
-                    <i className="fa-solid fa-ticket text-orange-500 w-4"></i>
-                    <span>Kho Voucher</span>
                 </NavLink>
             </nav>
         </div>

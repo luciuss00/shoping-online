@@ -4,7 +4,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Profile() {
     const [user, setUser] = useState(null);
-    const [language, setLanguage] = useState('Tiếng Việt');
     const [view, setView] = useState('main');
     const navigate = useNavigate();
 
@@ -15,12 +14,6 @@ function Profile() {
             setUser(JSON.parse(savedUser));
         }
     }, []);
-
-    const languages = [
-        { label: 'Tiếng Việt', value: 'Tiếng Việt' },
-        { label: 'English', value: 'English' },
-        { label: 'Japan', value: 'Japan' },
-    ];
 
     const handleLogout = () => {
         localStorage.removeItem('user');
@@ -117,7 +110,7 @@ function Profile() {
                                                 Thông tin tài khoản
                                             </Link>
                                             <Link
-                                                to="/order"
+                                                to="/order/all"
                                                 className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
                                             >
                                                 <i className="fa-solid fa-box-archive mr-2 w-5"></i>
@@ -150,43 +143,6 @@ function Profile() {
                                         </>
                                     )}
                                 </div>
-
-                                <div
-                                    onClick={() => setView('language')}
-                                    className="flex items-center justify-between px-4 py-3 hover:bg-gray-50 hover:text-red-500 cursor-pointer transition-colors"
-                                >
-                                    <div className="flex items-center">
-                                        <i className="fa-solid fa-earth-americas mr-2 w-5"></i>
-                                        <span>{language}</span>
-                                    </div>
-                                    <i className="fa-solid fa-chevron-right text-[10px] text-gray-400"></i>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* VIEW NGÔN NGỮ (Giữ nguyên logic của bạn) */}
-                        {view === 'language' && (
-                            <div className="animate-in fade-in slide-in-from-left-1 duration-200">
-                                <div className="flex items-center px-4 py-3 border-b border-gray-100 font-medium">
-                                    <i
-                                        className="fa-solid fa-arrow-left mr-3 cursor-pointer hover:text-red-500"
-                                        onClick={() => setView('main')}
-                                    ></i>
-                                    Chọn ngôn ngữ
-                                </div>
-                                {languages.map((lang) => (
-                                    <div
-                                        key={lang.value}
-                                        onClick={() => {
-                                            setLanguage(lang.value);
-                                            setView('main');
-                                        }}
-                                        className={`px-4 py-3 flex justify-between items-center hover:bg-gray-50 cursor-pointer ${language === lang.value ? 'text-red-500 font-medium' : ''}`}
-                                    >
-                                        {lang.label}
-                                        {language === lang.value && <i className="fa-solid fa-check"></i>}
-                                    </div>
-                                ))}
                             </div>
                         )}
                     </div>

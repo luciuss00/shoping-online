@@ -101,7 +101,7 @@ function SignIn() {
     return (
         <>
             <SignLayout name="Đăng nhập">
-                <div className="w-[500px] h-[477px] bg-white rounded-[5px] shadow-xl border-t-3 border-gray-100">
+                <div className="w-[500px] h-[387px] bg-white rounded-[5px] shadow-xl border-t-3 border-gray-100">
                     <div className="flex items-center justify-between px-[30px] py-[22px] w-[500px] h-[102.8px]">
                         <div className=" text-[22px] mx-auto">
                             <h2>Đăng nhập</h2>
@@ -189,25 +189,7 @@ function SignIn() {
                     </div>
 
                     {/* API FB và GG */}
-                    <div className="mt-0 px-[50px]">
-                        <div className="flex items-center gap-2 mt-7 text-gray-400 text-sm">
-                            <div className="flex-1 h-[1px] ml-[30px] bg-gray-300"></div>
-                            <span className="px-2">HOẶC ĐĂNG NHẬP BẰNG</span>
-                            <div className="flex-1 h-[1px] mr-[30px] bg-gray-300"></div>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-3 mt-5">
-                            <button className="flex items-center justify-center gap-2 ml-[30px] border border-gray-300 rounded-sm py-2 hover:bg-gray-50">
-                                <i className="fa-brands fa-facebook text-blue-600 text-xl"></i>
-                                <span>Facebook</span>
-                            </button>
-
-                            <button className="flex items-center justify-center gap-2 mr-[30px] border border-gray-300 rounded-sm py-2 hover:bg-gray-50">
-                                <img src="https://www.google.com/favicon.ico" className="w-5 h-5" alt="google" />
-                                <span>Google</span>
-                            </button>
-                        </div>
-
+                    <div className="mt-5 px-[50px]">
                         <div className="flex justify-center mt-6">
                             <p className="text-center mt-0 mr-1 text-[15px] text-[#00000042]">Bạn là người mới?</p>
                             <Link to="/signup" className="text-[#ee4d2d] mt-0 text-[15px]">

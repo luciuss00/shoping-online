@@ -6,7 +6,7 @@ function All() {
     return (
         <div className="bg-[#f5f5f5] min-h-screen">
             <Header />
-            <div className="flex ml-[130px] ">
+            <div className="max-w-[1200px] mx-auto py-10 flex gap-5">
                 <SideBarProfile />
                 <div>
                     <HeaderOrder activeTab="all" />

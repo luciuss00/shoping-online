@@ -11,7 +11,6 @@ function ProductDetail() {
     const { cartProducts, refreshCart } = useCart();
     const location = useLocation();
     const product = location.state;
-    console.log(product);
 
     const [quantityPurchased, setQuantityPurchased] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
@@ -97,23 +96,35 @@ function ProductDetail() {
     const handleBuyNow = () => {
         const userStore = localStorage.getItem('user');
         if (!userStore) {
-            showModal('Vui lòng đăng nhập để mua hàng', false); // Thất bại
+            showModal('Vui lòng đăng nhập để mua hàng', false);
             return;
         }
 
-        if (!quantityPurchased || quantityPurchased <= 0) {
-            showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false); // Thất bại
+        const qty = parseInt(quantityPurchased, 10);
+
+        if (isNaN(qty) || qty <= 0) {
+            showModal('Vui lòng nhập số lượng sản phẩm hợp lệ', false);
             return;
         }
 
-        if (Number(quantityPurchased) > product.quantity) {
-            showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false); // Thất bại
+        if (qty > product.quantity) {
+            showModal(`Rất tiếc, chỉ còn ${product.quantity} sản phẩm trong kho`, false);
             return;
         }
-        console.log(product);
+
+        // Tạo object sản phẩm theo đúng cấu trúc mà trang Pay.jsx đang dùng
+        const itemToPay = {
+            name: product.name,
+            img: product.img,
+            cost: product.cost,
+            quantityPurchased: qty, // Truyền số lượng người dùng đã nhập
+            isDirect: true,
+        };
+
+        // Truyền state dưới dạng một mảng checkoutItems để khớp với trang Pay.jsx
         navigate('/pay', {
             state: {
-                categoryProduct: product.categoryProduct,
+                checkoutItems: [itemToPay],
             },
         });
     };

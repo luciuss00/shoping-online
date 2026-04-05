@@ -32,6 +32,15 @@ const CartService = {
             listProduct,
         });
     },
+
+    orderDirect(email, listProduct, quantity) {
+        const url = '/userOrder';
+        return apiClient.post(url, {
+            email,
+            listProduct,
+            quantity,
+        });
+    },
 };
 
 export default CartService;

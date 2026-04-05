@@ -11,11 +11,11 @@ const TABS = [
 function HeaderOrder({ activeTab }) {
     return (
         <div>
-            <div className="mt-10 max-w-[1200px] ml-12 bg-white shadow-sm sticky top-0 z-10 w-250">
+            <div className="max-w-[1200px]  bg-white shadow-sm sticky top-0 z-10 w-250">
                 {TABS.map((tab) => (
                     <Link to={tab.link} key={tab.id}>
                         <button
-                            className={`px-[87px] py-4 text-center text-sm transition-colors duration-200 border-b-2 cursor-pointer 
+                            className={`px-[67px] py-4 text-center text-sm transition-colors duration-200 border-b-2 cursor-pointer 
                         ${
                             activeTab === tab.name
                                 ? 'text-red-500 border-red-500'
