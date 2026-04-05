@@ -53,70 +53,73 @@ import ResetPassword from './pages/ResetPassword';
 // Context
 import { ProductProvider } from './context/ProductContext';
 import { CartProvider } from './context/CartContext';
+import { OrderProvider } from './context/OrderContext';
 
 function App() {
     return (
-        <ProductProvider>
-            <CartProvider>
-                <Router>
-                    <div className="App">
-                        <Routes>
-                            <Route element={<UserProtectedRoute />}>
-                                <Route path="/cart" element={<Cart />} />
-                                <Route path="/pay" element={<Pay />} />
-                                <Route path="/profile" element={<Profile />} />
+        <OrderProvider>
+            <ProductProvider>
+                <CartProvider>
+                    <Router>
+                        <div className="App">
+                            <Routes>
+                                <Route element={<UserProtectedRoute />}>
+                                    <Route path="/cart" element={<Cart />} />
+                                    <Route path="/pay" element={<Pay />} />
+                                    <Route path="/profile" element={<Profile />} />
 
-                                <Route path="/order/all" element={<All />} />
-                                <Route path="/order/access" element={<Access />} />
-                                <Route path="/order/ship" element={<Ship />} />
-                                <Route path="/order/finish" element={<Finish />} />
-                                <Route path="/order/cancel" element={<Cancel />} />
-                            </Route>
+                                    <Route path="/order/all" element={<All />} />
+                                    <Route path="/order/access" element={<Access />} />
+                                    <Route path="/order/ship" element={<Ship />} />
+                                    <Route path="/order/finish" element={<Finish />} />
+                                    <Route path="/order/cancel" element={<Cancel />} />
+                                </Route>
 
-                            <Route path="/" element={<Home />} />
-                            <Route path="/help" element={<Help />} />
-                            <Route path="/search" element={<Search />} />
-                            <Route path="/blocked-account" element={<BlockedAccount />} />
+                                <Route path="/" element={<Home />} />
+                                <Route path="/help" element={<Help />} />
+                                <Route path="/search" element={<Search />} />
+                                <Route path="/blocked-account" element={<BlockedAccount />} />
 
-                            <Route path="/purchase-guide" element={<PurchaseGuide />} />
-                            <Route path="/warranty-policy" element={<WarrantyPolicy />} />
-                            <Route path="/return-policy" element={<ReturnPolicy />} />
-                            <Route path="/shipping-policy" element={<ShippingPolicy />} />
-                            <Route path="/about-us" element={<AboutUs />} />
-                            <Route path="/career" element={<Careers />} />
-                            <Route path="/term-of-service" element={<TermsOfService />} />
-                            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                                <Route path="/purchase-guide" element={<PurchaseGuide />} />
+                                <Route path="/warranty-policy" element={<WarrantyPolicy />} />
+                                <Route path="/return-policy" element={<ReturnPolicy />} />
+                                <Route path="/shipping-policy" element={<ShippingPolicy />} />
+                                <Route path="/about-us" element={<AboutUs />} />
+                                <Route path="/career" element={<Careers />} />
+                                <Route path="/term-of-service" element={<TermsOfService />} />
+                                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-                            <Route path="/catalog/shirt" element={<Shirt />} />
-                            <Route path="/catalog/speaker" element={<Speaker />} />
-                            <Route path="/catalog/technology" element={<Technology />} />
-                            <Route path="/catalog/school-supply" element={<SchoolSupply />} />
-                            <Route path="/catalog/food" element={<Food />} />
-                            <Route path="/catalog/belonging" element={<Belonging />} />
-                            <Route path="/catalog/gaming" element={<Gaming />} />
-                            <Route path="/catalog/household" element={<Household />} />
-                            <Route path="/catalog/shoe" element={<Shoe />} />
-                            <Route path="/catalog/hat" element={<Hat />} />
-                            <Route path="/catalog/interior" element={<Interior />} />
-                            <Route path="/catalog/accessory" element={<Accessory />} />
-                            <Route path="/catalog/trouser" element={<Trouser />} />
-                            <Route path="/catalog/sport" element={<Sport />} />
-                            <Route path="/catalog/device" element={<Device />} />
-                            <Route path="/catalog/ultity" element={<Ultity />} />
-                            <Route path="/catalog/jewelry" element={<Jewelry />} />
-                            <Route path="/catalog/decoration" element={<Decoration />} />
-                            <Route path="/catalog/office" element={<Office />} />
+                                <Route path="/catalog/shirt" element={<Shirt />} />
+                                <Route path="/catalog/speaker" element={<Speaker />} />
+                                <Route path="/catalog/technology" element={<Technology />} />
+                                <Route path="/catalog/school-supply" element={<SchoolSupply />} />
+                                <Route path="/catalog/food" element={<Food />} />
+                                <Route path="/catalog/belonging" element={<Belonging />} />
+                                <Route path="/catalog/gaming" element={<Gaming />} />
+                                <Route path="/catalog/household" element={<Household />} />
+                                <Route path="/catalog/shoe" element={<Shoe />} />
+                                <Route path="/catalog/hat" element={<Hat />} />
+                                <Route path="/catalog/interior" element={<Interior />} />
+                                <Route path="/catalog/accessory" element={<Accessory />} />
+                                <Route path="/catalog/trouser" element={<Trouser />} />
+                                <Route path="/catalog/sport" element={<Sport />} />
+                                <Route path="/catalog/device" element={<Device />} />
+                                <Route path="/catalog/ultity" element={<Ultity />} />
+                                <Route path="/catalog/jewelry" element={<Jewelry />} />
+                                <Route path="/catalog/decoration" element={<Decoration />} />
+                                <Route path="/catalog/office" element={<Office />} />
 
-                            <Route path="/detail" element={<ProductDetail />} />
-                            <Route path="/cart/detail" element={<ProductDetailInCart />} />
-                            <Route path="/signup" element={<SignUp />} />
-                            <Route path="/signin" element={<SignIn />} />
-                            <Route path="/reset-password" element={<ResetPassword />} />
-                        </Routes>
-                    </div>
-                </Router>
-            </CartProvider>
-        </ProductProvider>
+                                <Route path="/detail" element={<ProductDetail />} />
+                                <Route path="/cart/detail" element={<ProductDetailInCart />} />
+                                <Route path="/signup" element={<SignUp />} />
+                                <Route path="/signin" element={<SignIn />} />
+                                <Route path="/reset-password" element={<ResetPassword />} />
+                            </Routes>
+                        </div>
+                    </Router>
+                </CartProvider>
+            </ProductProvider>
+        </OrderProvider>
     );
 }
 
