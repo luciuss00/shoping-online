@@ -40,7 +40,9 @@ function Pay() {
 
     // Tính tổng tiền hàng bằng useMemo để tối ưu
     const totalOrderAmount = useMemo(() => {
-        if (!Array.isArray(checkoutItems)) return 0; // Nếu không phải mảng thì trả về 0
+        if (!Array.isArray(checkoutItems)) {
+            return checkoutItems.cost * checkoutItems.quantityPurchased;
+        }
         return checkoutItems.reduce((sum, item) => {
             const cost = item.cost || 0;
             const qty = item.quantityPurchased || 0;
@@ -61,34 +63,43 @@ function Pay() {
             });
             return;
         }
-
         try {
             let response;
 
-            // Kiểm tra xem đây là mua trực tiếp (thường chỉ có 1 item và có quantityPurchased)
-            // Hoặc dựa vào một flag bạn truyền từ ProductDetail (ví dụ: isDirectBuy)
+            // Kiểm tra xem checkoutItems có phải là một object (mua ngay) hay mảng (giỏ hàng)
+            // Cách an toàn nhất: Kiểm tra xem nó có phải mảng không
+            const isCartCheckout = Array.isArray(checkoutItems);
 
-            if (checkoutItems.isDirect) {
-                // Trường hợp Mua Ngay (Dùng API orderDirect)
-                const product = [];
-                product.push(checkoutItems.name);
-                console.log(product);
-                response = await CartService.orderDirect(user.email, product, checkoutItems.quantityPurchased);
+            if (!isCartCheckout || checkoutItems.isDirect) {
+                response = await CartService.orderDirect(
+                    user.email,
+                    checkoutItems.nameProduct || checkoutItems.name, // Kiểm tra kỹ tên field trả về từ API
+                    checkoutItems.quantityPurchased,
+                );
+
+                setModalConfig({
+                    isOpen: true,
+                    message: `Đặt hàng thành công! Đơn hàng đang được xử lý.`,
+                    check: true,
+                });
+
+                setTimeout(() => navigate('/'), 1500);
             } else {
-                // Trường hợp Thanh toán giỏ hàng (Dùng API orderSomeItemInCart)
                 const listProductName = checkoutItems.map((product) => product.name);
+
                 response = await CartService.orderSomeItemInCart(user.email, listProductName);
+
+                setModalConfig({
+                    isOpen: true,
+                    message: `Đặt hàng thành công! Đơn hàng đang được xử lý.`,
+                    check: true,
+                });
+
+                setTimeout(() => navigate('/'), 1500);
             }
 
-            setModalConfig({
-                isOpen: true,
-                message: `Đặt hàng thành công! Đơn hàng đang được xử lý.`,
-                check: true,
-            });
-
-            setTimeout(() => navigate('/'), 1500);
+            // ... (phần thông báo thành công)
         } catch (error) {
-            console.error('Order failed:', error);
             setModalConfig({
                 isOpen: true,
                 message: error.response?.data?.message || 'Đặt hàng thất bại. Vui lòng thử lại sau.',
@@ -171,10 +182,9 @@ function Pay() {
                         </div>
                     </div>
 
-                    {Array.isArray(checkoutItems) &&
+                    {Array.isArray(checkoutItems) ? (
                         checkoutItems.map((item, index) => (
                             <div key={index} className="flex p-6 border-b last:border-0 gap-6">
-                                {/* Ảnh to bên trái - Giữ nguyên hoặc điều chỉnh kích thước nếu cần */}
                                 <div className="w-40 h-40 flex-shrink-0">
                                     <img
                                         src={item.img}
@@ -183,12 +193,9 @@ function Pay() {
                                     />
                                 </div>
 
-                                {/* Thông tin bên phải - CĂN CHỈNH SANG TRÁI (text-left) */}
                                 <div className="flex-1 flex flex-col gap-2 text-left">
-                                    {/* Tên sản phẩm - To hơn và đậm hơn */}
                                     <h3 className="text-2xl font-semibold line-clamp-2 text-gray-800">{item.name}</h3>
 
-                                    {/* Thông tin bảo hành - Giữ nguyên hoặc ẩn đi tùy nhu cầu */}
                                     <div className="flex items-center gap-4 text-xs text-green-600">
                                         <span className="flex items-center gap-1">
                                             <i className="fa-solid fa-shield-halved"></i> Hoàn trả sản phẩm trong 1 tuần
@@ -201,26 +208,75 @@ function Pay() {
                                         </span>
                                     </div>
 
-                                    {/* Khối Giá và Số lượng - Sắp xếp lại giống ảnh */}
                                     <div className="mt-2 flex flex-col gap-1">
-                                        {/* Giá tiền của 1 sản phẩm */}
                                         <div className="text-sm text-gray-600">
                                             Đơn giá: {item.cost?.toLocaleString('vi-VN')}₫
                                         </div>
 
-                                        {/* Số lượng mua */}
                                         <div className="text-sm text-gray-600">
                                             Số lượng: <span className="font-medium">{item.quantityPurchased}</span>
                                         </div>
 
-                                        {/* Thành tiền của sản phẩm này - Làm nổi bật */}
                                         <div className="text-lg font-bold text-red-500 mt-1 pt-1 border-t border-dashed border-gray-200">
                                             Thành tiền: {(item.cost * item.quantityPurchased).toLocaleString('vi-VN')}₫
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        ))
+                    ) : (
+                        <div className="flex p-6 border-b last:border-0 gap-6">
+                            {/* Ảnh to bên trái - Giữ nguyên hoặc điều chỉnh kích thước nếu cần */}
+                            <div className="w-40 h-40 flex-shrink-0">
+                                <img
+                                    src={checkoutItems.img}
+                                    alt={checkoutItems.name}
+                                    className="w-full h-full object-cover border rounded-sm"
+                                />
+                            </div>
+
+                            {/* Thông tin bên phải - CĂN CHỈNH SANG TRÁI (text-left) */}
+                            <div className="flex-1 flex flex-col gap-2 text-left">
+                                {/* Tên sản phẩm - To hơn và đậm hơn */}
+                                <h3 className="text-2xl font-semibold line-clamp-2 text-gray-800">
+                                    {checkoutItems.name}
+                                </h3>
+
+                                {/* Thông tin bảo hành - Giữ nguyên hoặc ẩn đi tùy nhu cầu */}
+                                <div className="flex items-center gap-4 text-xs text-green-600">
+                                    <span className="flex items-center gap-1">
+                                        <i className="fa-solid fa-shield-halved"></i> Hoàn trả sản phẩm trong 1 tuần
+                                    </span>
+                                </div>
+
+                                <div className="flex items-center gap-4 text-xs text-green-600">
+                                    <span className="flex items-center gap-1">
+                                        <i className="fa-solid fa-shield-halved"></i> Bảo hành 12 tháng
+                                    </span>
+                                </div>
+
+                                {/* Khối Giá và Số lượng - Sắp xếp lại giống ảnh */}
+                                <div className="mt-2 flex flex-col gap-1">
+                                    {/* Giá tiền của 1 sản phẩm */}
+                                    <div className="text-sm text-gray-600">
+                                        Đơn giá: {checkoutItems.cost?.toLocaleString('vi-VN')}₫
+                                    </div>
+
+                                    {/* Số lượng mua */}
+                                    <div className="text-sm text-gray-600">
+                                        Số lượng: <span className="font-medium">{checkoutItems.quantityPurchased}</span>
+                                    </div>
+
+                                    {/* Thành tiền của sản phẩm này - Làm nổi bật */}
+                                    <div className="text-lg font-bold text-red-500 mt-1 pt-1 border-t border-dashed border-gray-200">
+                                        Thành tiền:{' '}
+                                        {(checkoutItems.cost * checkoutItems.quantityPurchased).toLocaleString('vi-VN')}
+                                        ₫
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Tổng kết và Đặt hàng */}

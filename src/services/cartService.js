@@ -25,19 +25,19 @@ const CartService = {
         return apiClient.post(url, { email: email });
     },
 
-    orderSomeItemInCart(email, listProduct) {
+    orderSomeItemInCart(email, productNames) {
         const url = '/orderSomeItemInCart';
         return apiClient.post(url, {
             email,
-            listProduct,
+            productNames,
         });
     },
 
-    orderDirect(email, listProduct, quantity) {
+    orderDirect(email, productName, quantity) {
         const url = '/userOrder';
         return apiClient.post(url, {
             email,
-            listProduct,
+            productName,
             quantity,
         });
     },

@@ -128,7 +128,7 @@ function Profile() {
                                         <>
                                             <Link
                                                 to="/signin"
-                                                className="px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
+                                                className="mt-2 px-4 py-3 hover:bg-gray-50 hover:text-red-500 transition-colors"
                                             >
                                                 <i className="fa-solid fa-arrow-right-to-bracket mr-2 w-5"></i>
                                                 Đăng nhập

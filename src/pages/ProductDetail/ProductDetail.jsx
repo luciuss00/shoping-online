@@ -124,7 +124,7 @@ function ProductDetail() {
         // Truyền state dưới dạng một mảng checkoutItems để khớp với trang Pay.jsx
         navigate('/pay', {
             state: {
-                checkoutItems: [itemToPay],
+                checkoutItems: itemToPay,
             },
         });
     };
