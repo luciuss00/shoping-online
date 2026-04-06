@@ -75,7 +75,7 @@ function Header() {
                 </Link>
 
                 {/* Container Thanh Tìm Kiếm */}
-                <div className="mx-20 w-150 flex flex-col justify-center relative">
+                <div className="mx-20 w-150 mb-3 flex flex-col justify-center relative">
                     <form onSubmit={handleSubmit} className="flex bg-white p-1 rounded-full shadow-sm h-[36px]">
                         <input
                             type="text"

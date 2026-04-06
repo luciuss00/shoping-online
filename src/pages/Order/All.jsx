@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import Header from '../../components/Header';
 import HeaderOrder from '../../components/HeaderOrder';
 import SideBarProfile from '../../components/Sidebar/SidebarProfile';
+import { useOrder } from '../../context/OrderContext';
 
 function All() {
     const { orders, fetchOrders } = useOrder();
@@ -21,7 +22,7 @@ function All() {
                 <SideBarProfile />
                 <div>
                     <HeaderOrder activeTab="all" />
-                    <div className="container mx-auto p-6 ml-24 w-312">
+                    <div className="container pt-5 w-250">
                         <h2 className="text-2xl font-bold mb-6 text-gray-800">Danh Sách Đơn Hàng</h2>
 
                         <div className="overflow-x-auto bg-white shadow-md rounded-lg">
@@ -30,7 +31,7 @@ function All() {
                                     <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                         <th className="py-3 px-6 text-left">STT</th>
                                         <th className="py-3 px-6 text-left">Mô tả</th>
-                                        <th className="py-3 px-6 text-right">Tổng tiền</th>
+                                        <th className="py-3 px-20 text-right">Tổng tiền</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-gray-600 text-sm font-light">

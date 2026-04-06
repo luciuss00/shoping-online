@@ -22,7 +22,6 @@ import All from './pages/Order/All';
 import Access from './pages/Order/Access';
 import Ship from './pages/Order/Ship';
 import Finish from './pages/Order/Finish';
-import Cancel from './pages/Order/Cancel';
 
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
@@ -72,7 +71,6 @@ function App() {
                                     <Route path="/order/access" element={<Access />} />
                                     <Route path="/order/ship" element={<Ship />} />
                                     <Route path="/order/finish" element={<Finish />} />
-                                    <Route path="/order/cancel" element={<Cancel />} />
                                 </Route>
 
                                 <Route path="/" element={<Home />} />
