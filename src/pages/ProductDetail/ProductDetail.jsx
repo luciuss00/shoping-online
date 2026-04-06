@@ -64,7 +64,7 @@ function ProductDetail() {
             const productInCart = cartProducts.find((item) => item.nameProduct === product.name);
 
             // Số lượng hiện có trong giỏ (nếu chưa có thì là 0)
-            const currentCartQuantity = productInCart ? productInCart.quantity : 0;
+            const currentCartQuantity = productInCart ? productInCart.quantityProduct : 0;
 
             // Tổng số lượng sau khi thêm
             const totalAfterAdding = currentCartQuantity + quantityToAdd;

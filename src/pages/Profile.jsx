@@ -76,19 +76,18 @@ function Profile() {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Kiểm tra dung lượng (1MB)
         if (file.size > 1024 * 1024) {
             alert('Ảnh quá nặng!');
             return;
         }
 
+        // Lưu file vào state để gửi API
+        setUserData((prev) => ({ ...prev, rawFile: file }));
+
+        // Vẫn dùng FileReader để hiển thị preview (local)
         const reader = new FileReader();
         reader.onloadend = () => {
-            const base64String = reader.result; // Đây là chuỗi "data:image/png;base64,..."
-            setUserData((prev) => ({
-                ...prev,
-                image: base64String,
-            }));
+            setUserData((prev) => ({ ...prev, image: reader.result }));
         };
         reader.readAsDataURL(file);
     };
@@ -99,6 +98,8 @@ function Profile() {
         const formattedBirthDay =
             year && month && day ? `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}` : null;
 
+        // const base64Image = userData.image.includes(',') ? userData.image.split(',')[1] : userData.image;
+
         const apiData = {
             email: userData.email,
             realName: userData.realName || null,
@@ -106,6 +107,7 @@ function Profile() {
             address: userData.address || null,
             sex: userData.gender || null,
             birthDay: formattedBirthDay,
+            image: userData.image,
         };
 
         try {
