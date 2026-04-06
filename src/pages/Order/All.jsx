@@ -1,18 +1,21 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import HeaderOrder from '../../components/HeaderOrder';
 import SideBarProfile from '../../components/Sidebar/SidebarProfile';
 import { useOrder } from '../../context/OrderContext';
 
 function All() {
+    const navigate = useNavigate();
     const { orders, fetchOrders } = useOrder();
 
     useEffect(() => {
         fetchOrders();
     }, [fetchOrders]);
 
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    const handleRowClick = (order) => {
+        navigate(`/order/detail/${order.idOrder}`, { state: { order } });
+        console.log(order);
     };
 
     return (
@@ -30,8 +33,8 @@ function All() {
                                 <thead>
                                     <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                         <th className="py-3 px-6 text-left">STT</th>
+                                        <th className="py-3 px-6 text-left">Sản phẩm</th>
                                         <th className="py-3 px-6 text-left">Mô tả</th>
-                                        <th className="py-3 px-20 text-right">Tổng tiền</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-gray-600 text-sm font-light">
@@ -39,16 +42,14 @@ function All() {
                                         orders.map((order, index) => (
                                             <tr
                                                 key={order.idOrder}
-                                                className="border-b border-gray-200 hover:bg-gray-50 transition duration-300"
+                                                onClick={() => handleRowClick(order)}
+                                                className="border-b cursor-pointer border-gray-200 hover:bg-gray-50 transition duration-300"
                                             >
                                                 <td className="py-3 px-6 whitespace-nowrap  font-medium">
                                                     {index + 1}
                                                 </td>
                                                 <td className="py-3 px-6 text-left text-[16px]">{order.des}</td>
-
-                                                <td className="py-3 px-6 text-right text-[16px] font-semibold text-blue-600">
-                                                    {formatCurrency(order.total_amount)}
-                                                </td>
+                                                <td className="py-3 px-6 text-left text-[16px]">{order.des}</td>
                                             </tr>
                                         ))
                                     ) : (

@@ -28,7 +28,9 @@ function Pay() {
     // Đảm bảo user được lấy ra đúng cách, xử lý trường hợp null
     const user = useMemo(() => {
         const storedUser = localStorage.getItem('user');
-        return storedUser ? JSON.parse(storedUser) : {};
+        const userOrder = localStorage.getItem('userOrder');
+        if (userOrder) return userOrder ? JSON.parse(userOrder) : {};
+        else return storedUser ? JSON.parse(storedUser) : {};
     }, []);
 
     const [addressInfo, setAddressInfo] = useState({
@@ -125,14 +127,14 @@ function Pay() {
 
         const newAddressData = {
             realName: tempAddress.name,
-            phone: tempAddress.phone,
+            numberPhone: tempAddress.phone,
             address: tempAddress.address,
         };
 
         setAddressInfo(newAddressData);
 
-        const currentUser = JSON.parse(localStorage.getItem('user')) || {};
-        localStorage.setItem('user', JSON.stringify({ ...currentUser, ...newAddressData }));
+        const currentUser = JSON.parse(localStorage.getItem('userOrder')) || {};
+        localStorage.setItem('userOrder ', JSON.stringify({ ...currentUser, ...newAddressData }));
 
         setPopupOpen(false);
     };

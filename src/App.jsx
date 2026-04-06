@@ -22,6 +22,7 @@ import All from './pages/Order/All';
 import Access from './pages/Order/Access';
 import Ship from './pages/Order/Ship';
 import Finish from './pages/Order/Finish';
+import OrderDetail from './pages/OrderDetail';
 
 // CatalogItem
 import Shirt from './pages/CatalogItem/Shirt';
@@ -71,6 +72,7 @@ function App() {
                                     <Route path="/order/access" element={<Access />} />
                                     <Route path="/order/ship" element={<Ship />} />
                                     <Route path="/order/finish" element={<Finish />} />
+                                    <Route path="/order/detail/:id" element={<OrderDetail />} />
                                 </Route>
 
                                 <Route path="/" element={<Home />} />

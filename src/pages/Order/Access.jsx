@@ -22,7 +22,7 @@ function Access() {
     }, [orders]);
 
     const handleRowClick = (order) => {
-        navigate(`/order/${order.idOrder}`, { state: { order } });
+        navigate(`/order/detail/${order.idOrder}`, { state: { order } });
     };
 
     return (
