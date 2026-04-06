@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import HeaderOrder from '../../components/HeaderOrder';
 import SideBarProfile from '../../components/Sidebar/SidebarProfile';
 import { useOrder } from '../../context/OrderContext';
 
 function Ship() {
+    const navigate = useNavigate();
     const { orders, fetchOrders } = useOrder();
 
     useEffect(() => {
@@ -13,6 +15,14 @@ function Ship() {
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    };
+
+    const deliveringOrders = useMemo(() => {
+        return orders.filter((order) => order.status === 'DELIVERING');
+    }, [orders]);
+
+    const handleRowClick = (order) => {
+        navigate(`/order/${order.idOrder}`, { state: { order } });
     };
 
     return (
@@ -35,10 +45,11 @@ function Ship() {
                                     </tr>
                                 </thead>
                                 <tbody className="text-gray-600 text-sm font-light">
-                                    {orders.length > 0 ? (
-                                        orders.map((order, index) => (
+                                    {deliveringOrders.length > 0 ? (
+                                        deliveringOrders.map((order, index) => (
                                             <tr
                                                 key={order.idOrder}
+                                                onClick={() => handleRowClick(order)}
                                                 className="border-b border-gray-200 hover:bg-gray-50 transition duration-300"
                                             >
                                                 <td className="py-3 px-6 whitespace-nowrap  font-medium">
