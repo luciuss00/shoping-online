@@ -5,6 +5,7 @@ const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
     const [orders, setOrders] = useState([]);
+    console.log(orders);
 
     const fetchOrders = async () => {
         try {

@@ -8,14 +8,33 @@ import { useOrder } from '../../context/OrderContext';
 function All() {
     const navigate = useNavigate();
     const { orders, fetchOrders } = useOrder();
-
+    console.log(orders);
     useEffect(() => {
         fetchOrders();
     }, [fetchOrders]);
 
+    const renderStatus = (status) => {
+        const statusStyles = {
+            PENDING: 'bg-yellow-100 text-yellow-800',
+            DELIVERING: 'bg-blue-100 text-blue-800',
+            COMPLETED: 'bg-green-100 text-green-800',
+        };
+        return (
+            <span
+                className={`px-3 py-1 rounded-full text-xs font-medium ${statusStyles[status] || 'bg-gray-100 text-gray-800'}`}
+            >
+                {status}
+            </span>
+        );
+    };
+
     const handleRowClick = (order) => {
         navigate(`/order/detail/${order.idOrder}`, { state: { order } });
         console.log(order);
+    };
+
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
     };
 
     return (
@@ -35,6 +54,8 @@ function All() {
                                         <th className="py-3 px-6 text-left">STT</th>
                                         <th className="py-3 px-6 text-left">Sản phẩm</th>
                                         <th className="py-3 px-6 text-left">Mô tả</th>
+                                        <th className="py-3  pl-10 text-left">Tổng tiền</th>
+                                        <th className="py-3 pl-9 text-left">Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-gray-600 text-sm font-light">
@@ -48,8 +69,22 @@ function All() {
                                                 <td className="py-3 px-6 whitespace-nowrap  font-medium">
                                                     {index + 1}
                                                 </td>
+                                                <td
+                                                    className="py-3 px-6 text-left text-[16px] max-w-[200px] truncate"
+                                                    title={order.orderItermList.map((p) => p.nameProduct).join(', ')}
+                                                >
+                                                    {order.orderItermList.map((product, index) => (
+                                                        <span key={index}>
+                                                            {product.nameProduct}
+                                                            {index < order.orderItermList.length - 1 ? ', ' : ''}
+                                                        </span>
+                                                    ))}
+                                                </td>
                                                 <td className="py-3 px-6 text-left text-[16px]">{order.des}</td>
-                                                <td className="py-3 px-6 text-left text-[16px]">{order.des}</td>
+                                                <td className="py-3 pr-20 text-right text-[16px] font-semibold text-blue-600">
+                                                    {formatCurrency(order.total_amount)}
+                                                </td>
+                                                <td className="py-3 px-6 text-center">{renderStatus(order.status)}</td>
                                             </tr>
                                         ))
                                     ) : (

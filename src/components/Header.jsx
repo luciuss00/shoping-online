@@ -109,7 +109,7 @@ function Header() {
                                                 description: product.descriptionProduct,
                                                 type: product.categoryProduct,
                                                 cost: product.priceProduct,
-                                                quantity: product.quantity,
+                                                quantity: product.quantityProduct,
                                                 img: product.imageLink,
                                             }}
                                             to={`/detail?name=${encodeURIComponent(product.nameProduct)}`}

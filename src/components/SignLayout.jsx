@@ -8,7 +8,7 @@ function SignLayout({ children }) {
                 <div className="flex items-center w-full h-[28px]">
                     <div className="flex items-center">
                         <Link to="/" className="text-white text-[30px] pb-1">
-                            Shoping Online
+                            Shopping Online
                         </Link>
                     </div>
                     <div className="ml-auto">

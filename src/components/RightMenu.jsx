@@ -18,6 +18,7 @@ function Profile() {
     const handleLogout = () => {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
+        localStorage.removeItem('userOrder');
         setUser(null);
         navigate('/signin');
         window.location.reload(); // Đảm bảo trạng thái được làm mới hoàn toàn

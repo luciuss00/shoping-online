@@ -175,15 +175,6 @@ function SignIn() {
                                 >
                                     ĐĂNG NHẬP
                                 </button>
-                                <div className="flex justify-end mt-2">
-                                    <Link
-                                        to="/reset-password"
-                                        alt="forgot password"
-                                        className="text-[12px] text-blue-700"
-                                    >
-                                        Quên mật khẩu?
-                                    </Link>
-                                </div>
                             </form>
                         </div>
                     </div>
